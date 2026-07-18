@@ -29,7 +29,7 @@ from fetch_master_riders import fetch_master_riders
 ROSTER_URL_TEMPLATE = "https://nexus-app-fantasy.holdet.dk/da/tour-de-france-2026/cycling/fantasyteams/{team_id}"
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(REPO_ROOT, "data")
+DATA_DIR = os.path.join(REPO_ROOT, "docs", "data")
 DEBUG_DIR = os.path.join(REPO_ROOT, "debug")
 TEAMS_CONFIG_PATH = os.path.join(os.path.dirname(__file__), "teams.json")
 
