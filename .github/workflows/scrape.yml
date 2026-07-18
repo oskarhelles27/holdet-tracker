@@ -27,6 +27,8 @@ jobs:
         run: pip install -r scraper/requirements.txt
 
       - name: Run scraper
+        env:
+          HOLDET_COOKIE: ${{ secrets.HOLDET_COOKIE }}
         run: python scraper/scrape.py
 
       - name: Commit and push new snapshot

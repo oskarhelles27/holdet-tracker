@@ -37,6 +37,15 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; holdet-tracker/1.0; personal use)"
 }
 
+# Team roster pages only server-render the actual roster HTML for an
+# authenticated session -- without a valid Holdet login cookie, the
+# data-testid="listviewitem" section stays a loading skeleton. Any logged-in
+# session works for fetching any team's roster (not just your own). Grab the
+# Cookie header value from devtools while browsing nexus-app-fantasy.holdet.dk
+# (Network tab -> a request to that host -> Headers -> Cookie), and pass it
+# via the HOLDET_COOKIE env var / GitHub secret.
+SESSION_COOKIE = os.environ.get("HOLDET_COOKIE")
+
 
 def load_team_config():
     with open(TEAMS_CONFIG_PATH, encoding="utf-8") as f:
@@ -46,8 +55,11 @@ def load_team_config():
 
 def fetch_team_roster(team_id, label):
     url = ROSTER_URL_TEMPLATE.format(team_id=team_id)
+    headers = dict(HEADERS)
+    if SESSION_COOKIE:
+        headers["Cookie"] = SESSION_COOKIE
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=30)
+        resp = requests.get(url, headers=headers, timeout=30)
         resp.raise_for_status()
         html = resp.text
     except Exception as e:
@@ -91,6 +103,10 @@ def compute_group_popularity(teams_data):
 
 
 def main():
+    if not SESSION_COOKIE:
+        print("  [WARN] HOLDET_COOKIE is not set - team roster pages will "
+              "return a loading skeleton instead of real data.")
+
     print("Fetching master rider list...")
     try:
         master_riders = fetch_master_riders()

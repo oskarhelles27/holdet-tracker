@@ -29,22 +29,44 @@ team IDs (the number at the end of each team's URL, e.g.
 }
 ```
 
-## 2. Run the scraper locally (optional, to test)
+## 2. Get a Holdet session cookie
+
+Team roster pages (`nexus-app-fantasy.holdet.dk/.../cycling/fantasyteams/{id}`)
+only server-render the real roster HTML for an authenticated session —
+without a valid cookie, the roster section stays a client-side loading
+skeleton, so the scraper has nothing to parse. Any logged-in session works
+for fetching any team's roster, not just your own.
+
+1. Log into holdet.dk in your browser, then open one of your team roster
+   pages at `nexus-app-fantasy.holdet.dk/.../cycling/fantasyteams/{id}`.
+2. Open devtools → Network tab, find the document request to
+   `nexus-app-fantasy.holdet.dk`, and copy the full `Cookie:` request header
+   value (all `name=value` pairs, semicolon separated).
+3. Set it as the `HOLDET_COOKIE` environment variable when running the
+   scraper locally, and add it as a repo secret
+   (**Settings → Secrets and variables → Actions → New repository secret**,
+   name `HOLDET_COOKIE`) so the daily GitHub Action can use it too.
+
+Session cookies expire, so you'll need to refresh this secret periodically
+if scrapes start failing again. Treat this cookie like a password — it's
+equivalent to your Holdet login. Never commit it to the repo.
+
+## 3. Run the scraper locally (optional, to test)
 
 ```bash
 cd scraper
 pip install -r requirements.txt
-python scrape.py
+HOLDET_COOKIE='paste-your-cookie-here' python scrape.py
 ```
 
-This writes `data/latest.json`. Open `docs/index.html` directly in a browser
-to preview (or run a local server: `python -m http.server` from the repo root,
-then visit `http://localhost:8000/docs/`).
+This writes `docs/data/latest.json`. Open `docs/index.html` directly in a
+browser to preview (or run a local server: `python -m http.server` from the
+repo root, then visit `http://localhost:8000/docs/`).
 
-A sample `data/latest.json` is already included so you can see the site
+A sample `docs/data/latest.json` is already included so you can see the site
 working before you plug in your real team IDs.
 
-## 3. Put this on GitHub (personal account, free)
+## 4. Put this on GitHub (personal account, free)
 
 You don't need GitHub Copilot or any paid tooling for this part — just a
 free personal GitHub account and either the web UI or plain `git`.
@@ -65,7 +87,7 @@ git remote add origin https://github.com/YOUR_USERNAME/holdet-tracker.git
 git push -u origin main
 ```
 
-## 4. Turn on GitHub Pages
+## 5. Turn on GitHub Pages
 
 1. In your repo on GitHub: **Settings → Pages**
 2. Under "Build and deployment", set **Source** to "Deploy from a branch"
@@ -73,11 +95,12 @@ git push -u origin main
 4. Save. Your site will be live at `https://YOUR_USERNAME.github.io/holdet-tracker/`
    within a minute or two.
 
-## 5. Turn on the scraper automation
+## 6. Turn on the scraper automation
 
 The GitHub Action in `.github/workflows/scrape.yml` runs automatically once a
-day (20:00 UTC) once it's on GitHub — no extra setup needed, since it uses the
-built-in `GITHUB_TOKEN` to commit back to your repo.
+day (20:00 UTC) once it's on GitHub and the `HOLDET_COOKIE` secret is
+set (step 2) — no extra setup needed beyond that, since it uses the built-in
+`GITHUB_TOKEN` to commit back to your repo.
 
 To run it manually (e.g. right after setup, to get real data immediately):
 1. Go to your repo's **Actions** tab

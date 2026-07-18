@@ -33,15 +33,24 @@ def _danish_number_to_int(text):
 
 
 def parse_roster(soup):
-    """Extract the current rider roster from the listview section."""
-    riders = []
-    listview = soup.find("ul", attrs={"data-testid": "listview"})
-    if listview is None:
-        return riders
+    """Extract the current rider roster from the listview section.
 
-    items = listview.find_all("li", attrs={"data-testid": "listviewitem"})
+    The page can render more than one `data-testid="listview"` block (e.g. an
+    unrelated market/skeleton section that never hydrates for a plain fetch),
+    so we scan all of them and keep only items that have real rider markup
+    rather than trusting the first one found.
+    """
+    riders = []
+    listviews = soup.find_all("ul", attrs={"data-testid": "listview"})
+
+    items = []
+    for listview in listviews:
+        items.extend(listview.find_all("li", attrs={"data-testid": "listviewitem"}))
+
     for item in items:
         try:
+            if item.find(attrs={"data-testid": "skeleton"}) is not None:
+                continue
             name_div = item.find("div", title=True)
             if name_div is None:
                 continue
@@ -106,14 +115,19 @@ def parse_team_header(soup):
             header["owner_username"] = text
             break
 
+    # team name lives in this div regardless of whether the team has a tier
+    # badge (basic/free teams have no badge at all). "md:text-lg" only shows
+    # up on this element -- plain "font-bold"/"items-center" also match the
+    # per-rider jersey badges elsewhere on the page.
+    for div in soup.find_all("div", class_=True):
+        classes = div.get("class", [])
+        if "md:text-lg" in classes and "font-bold" in classes:
+            header["team_name"] = div.get_text(strip=True) or None
+            break
+
     tier_img = soup.find("img", alt=re.compile(r"Guld|Sølv|Bronze", re.IGNORECASE))
     if tier_img is not None:
         header["tier"] = tier_img["alt"]
-        name_container = tier_img.find_parent("div")
-        if name_container is not None:
-            # the team name is the text content of this div; the tier badge
-            # is an <img> so it contributes no text of its own
-            header["team_name"] = name_container.get_text(strip=True) or None
 
     return header
 
