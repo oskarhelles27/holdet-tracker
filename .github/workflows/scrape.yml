@@ -1,0 +1,38 @@
+name: Scrape Holdet data
+
+on:
+  schedule:
+    # Runs once a day at 20:00 UTC (after most Tour stages have finished
+    # and results have settled). Adjust as needed - see /api/schedules/618
+    # for exact stage end times if you want to fine-tune this.
+    - cron: '0 20 * * *'
+  workflow_dispatch: {}  # lets you trigger a run manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r scraper/requirements.txt
+
+      - name: Run scraper
+        run: python scraper/scrape.py
+
+      - name: Commit and push new snapshot
+        run: |
+          git config user.name "holdet-tracker-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/ debug/
+          git diff --quiet --cached || git commit -m "Update Holdet snapshot ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+          git push
