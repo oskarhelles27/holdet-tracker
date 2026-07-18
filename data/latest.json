@@ -1,0 +1,236 @@
+{
+  "scraped_at": "2026-07-18T21:00:21.733613+00:00",
+  "master_riders": {},
+  "teams": [
+    {
+      "team_id": "7159885",
+      "header": {
+        "team_name": "Wheelie Wonka",
+        "owner_username": "marcusbennett",
+        "owner_user_id": 443135,
+        "tier": "Guld"
+      },
+      "value_summary": {
+        "player_values": 64493000,
+        "bank": 892318,
+        "total": 65385318
+      },
+      "roster": [
+        {
+          "name": "Tadej Pogacar",
+          "pro_team": "UAE Team Emirates - XRG",
+          "is_captain": true,
+          "value": 20865000
+        },
+        {
+          "name": "Juan Ayuso",
+          "pro_team": "Lidl - Trek",
+          "is_captain": false,
+          "value": 10524000
+        },
+        {
+          "name": "Florian Lipowitz",
+          "pro_team": "Red Bull - BORA - hansgrohe",
+          "is_captain": false,
+          "value": 10593000
+        },
+        {
+          "name": "Richard Carapaz",
+          "pro_team": "EF Education - EasyPost",
+          "is_captain": false,
+          "value": 8569000
+        },
+        {
+          "name": "Nicolas Prodhomme",
+          "pro_team": "Decathlon CMA CGM Team",
+          "is_captain": false,
+          "value": 3051000
+        },
+        {
+          "name": "Yannis Voisard",
+          "pro_team": "Tudor Pro Cycling Team",
+          "is_captain": false,
+          "value": 3944000
+        },
+        {
+          "name": "Valentin Paret-Peintre",
+          "pro_team": "Soudal Quick-Step",
+          "is_captain": false,
+          "value": 4999000
+        },
+        {
+          "name": "Joel Nicolau",
+          "pro_team": "Caja Rural - Seguros RGA",
+          "is_captain": false,
+          "value": 1948000
+        }
+      ],
+      "history": [
+        {
+          "round": 1,
+          "round_points": 1315000,
+          "round_rank": 3784,
+          "total_value": 51315000,
+          "overall_rank": 3784
+        },
+        {
+          "round": 13,
+          "round_points": 272826,
+          "round_rank": 4450,
+          "total_value": 63917269,
+          "overall_rank": 5136
+        },
+        {
+          "round": 14,
+          "round_points": 1468049,
+          "round_rank": 3736,
+          "total_value": 65385318,
+          "overall_rank": 4721
+        }
+      ],
+      "label": "Marcus"
+    },
+    {
+      "team_id": "7212424",
+      "header": {
+        "team_name": "Demo Team 2",
+        "owner_username": "marcusbennett",
+        "owner_user_id": 443135,
+        "tier": "Guld"
+      },
+      "value_summary": {
+        "player_values": 64493000,
+        "bank": 892318,
+        "total": 61000000
+      },
+      "roster": [
+        {
+          "name": "Tadej Pogacar",
+          "pro_team": "UAE Team Emirates - XRG",
+          "is_captain": true,
+          "value": 20865000
+        },
+        {
+          "name": "Juan Ayuso",
+          "pro_team": "Lidl - Trek",
+          "is_captain": false,
+          "value": 10524000
+        },
+        {
+          "name": "Florian Lipowitz",
+          "pro_team": "Red Bull - BORA - hansgrohe",
+          "is_captain": false,
+          "value": 10593000
+        },
+        {
+          "name": "Richard Carapaz",
+          "pro_team": "EF Education - EasyPost",
+          "is_captain": false,
+          "value": 8569000
+        },
+        {
+          "name": "Nicolas Prodhomme",
+          "pro_team": "Decathlon CMA CGM Team",
+          "is_captain": false,
+          "value": 3051000
+        }
+      ],
+      "history": [
+        {
+          "round": 1,
+          "round_points": 1315000,
+          "round_rank": 3784,
+          "total_value": 51315000,
+          "overall_rank": 3784
+        },
+        {
+          "round": 13,
+          "round_points": 272826,
+          "round_rank": 4450,
+          "total_value": 63917269,
+          "overall_rank": 5136
+        },
+        {
+          "round": 14,
+          "round_points": 1468049,
+          "round_rank": 3736,
+          "total_value": 65385318,
+          "overall_rank": 4721
+        }
+      ],
+      "label": "You"
+    }
+  ],
+  "failed_team_ids": [],
+  "group_popularity": [
+    {
+      "name": "Tadej Pogacar",
+      "pro_team": "UAE Team Emirates - XRG",
+      "owned_by_count": 2,
+      "owned_by_teams": [
+        "Marcus",
+        "You"
+      ]
+    },
+    {
+      "name": "Juan Ayuso",
+      "pro_team": "Lidl - Trek",
+      "owned_by_count": 2,
+      "owned_by_teams": [
+        "Marcus",
+        "You"
+      ]
+    },
+    {
+      "name": "Florian Lipowitz",
+      "pro_team": "Red Bull - BORA - hansgrohe",
+      "owned_by_count": 2,
+      "owned_by_teams": [
+        "Marcus",
+        "You"
+      ]
+    },
+    {
+      "name": "Richard Carapaz",
+      "pro_team": "EF Education - EasyPost",
+      "owned_by_count": 2,
+      "owned_by_teams": [
+        "Marcus",
+        "You"
+      ]
+    },
+    {
+      "name": "Nicolas Prodhomme",
+      "pro_team": "Decathlon CMA CGM Team",
+      "owned_by_count": 2,
+      "owned_by_teams": [
+        "Marcus",
+        "You"
+      ]
+    },
+    {
+      "name": "Yannis Voisard",
+      "pro_team": "Tudor Pro Cycling Team",
+      "owned_by_count": 1,
+      "owned_by_teams": [
+        "Marcus"
+      ]
+    },
+    {
+      "name": "Valentin Paret-Peintre",
+      "pro_team": "Soudal Quick-Step",
+      "owned_by_count": 1,
+      "owned_by_teams": [
+        "Marcus"
+      ]
+    },
+    {
+      "name": "Joel Nicolau",
+      "pro_team": "Caja Rural - Seguros RGA",
+      "owned_by_count": 1,
+      "owned_by_teams": [
+        "Marcus"
+      ]
+    }
+  ]
+}

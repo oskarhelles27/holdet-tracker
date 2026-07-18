@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Holdet league tracker</title>
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --border: #e5e5e0;
+    --text: #1a1a1a;
+    --text-muted: #6b6b66;
+    --accent: #1D9E75;
+    --accent-bg: #E1F5EE;
+    --negative: #D85A30;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0; }
+  .subtitle { color: var(--text-muted); font-size: 13px; }
+  select#round-select { font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 32px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+  .stat-value { font-size: 22px; font-weight: 600; }
+
+  h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
+  section { margin-bottom: 36px; }
+
+  .popularity-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
+  .popularity-row .rider-name { font-weight: 500; font-size: 14px; }
+  .popularity-row .pro-team { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
+  .bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .bar-track { width: 120px; height: 6px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--accent); }
+  .bar-count { font-size: 13px; color: var(--text-muted); width: 40px; text-align: right; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--text-muted); font-weight: 500; font-size: 12px; }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; }
+
+  .team-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; }
+  .team-card summary { cursor: pointer; font-weight: 500; font-size: 14px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  .team-card summary::-webkit-details-marker { display: none; }
+  .team-card ul { list-style: none; padding: 0; margin: 12px 0 0; }
+  .team-card li { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .team-card li:last-child { border-bottom: none; }
+  .captain-tag { font-size: 11px; background: #FAEEDA; color: #854F0B; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+
+  .error { background: #FCEBEB; color: #791F1F; padding: 12px 16px; border-radius: 8px; }
+  .loading { color: var(--text-muted); padding: 24px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Holdet league tracker</h1>
+      <div class="subtitle" id="scraped-at">Loading...</div>
+    </div>
+  </header>
+
+  <div id="content">
+    <div class="loading">Loading data...</div>
+  </div>
+</div>
+
+<script>
+async function loadData() {
+  const contentEl = document.getElementById('content');
+  try {
+    const res = await fetch('data/latest.json?_=' + Date.now());
+    if (!res.ok) throw new Error('No data yet - run the scraper at least once (see README).');
+    const data = await res.json();
+    render(data);
+  } catch (err) {
+    contentEl.innerHTML = `<div class="error">Couldn't load data: ${err.message}</div>`;
+  }
+}
+
+function formatDkk(n) {
+  if (n === null || n === undefined) return '-';
+  return n.toLocaleString('da-DK');
+}
+
+function render(data) {
+  const scrapedDate = new Date(data.scraped_at);
+  document.getElementById('scraped-at').textContent =
+    'Last updated ' + scrapedDate.toLocaleString('da-DK');
+
+  const teams = data.teams || [];
+  const popularity = data.group_popularity || [];
+  const maxCount = Math.max(1, ...popularity.map(p => p.owned_by_count));
+
+  const totalRiders = new Set(popularity.map(p => p.name)).size;
+  const mostOwned = popularity[0];
+  const avgValue = teams.length
+    ? Math.round(teams.reduce((s, t) => s + (t.value_summary.total || 0), 0) / teams.length)
+    : 0;
+
+  const statsHtml = `
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">Teams tracked</div><div class="stat-value">${teams.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Unique riders owned</div><div class="stat-value">${totalRiders}</div></div>
+      <div class="stat-card"><div class="stat-label">Most owned rider</div><div class="stat-value">${mostOwned ? mostOwned.owned_by_count + '/' + teams.length : '-'}</div></div>
+      <div class="stat-card"><div class="stat-label">Avg team value</div><div class="stat-value">${formatDkk(avgValue)}</div></div>
+    </div>
+  `;
+
+  const popularityHtml = popularity.slice(0, 15).map(p => `
+    <div class="popularity-row">
+      <div><span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span></div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill" style="width:${(p.owned_by_count / maxCount * 100).toFixed(0)}%"></div></div>
+        <div class="bar-count">${p.owned_by_count}/${teams.length}</div>
+      </div>
+    </div>
+  `).join('');
+
+  const standings = [...teams].sort((a, b) => (b.value_summary.total || 0) - (a.value_summary.total || 0));
+  const standingsHtml = `
+    <table>
+      <thead><tr>
+        <th>#</th><th>Team</th><th class="num">Latest round pts</th><th class="num">Total value</th><th class="num">Riders</th>
+      </tr></thead>
+      <tbody>
+        ${standings.map((t, i) => {
+          const latest = t.history && t.history.length ? t.history[t.history.length - 1] : null;
+          return `<tr>
+            <td>${i + 1}</td>
+            <td>${t.header.team_name || t.label} <span style="color:var(--text-muted)">(${t.label})</span></td>
+            <td class="num">${latest ? formatDkk(latest.round_points) : '-'}</td>
+            <td class="num">${formatDkk(t.value_summary.total)}</td>
+            <td class="num">${t.roster.length}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+
+  const rosterHtml = teams.map(t => `
+    <details class="team-card">
+      <summary>
+        <span>${t.header.team_name || t.label} <span style="color:var(--text-muted); font-weight:400;">(${t.label})</span></span>
+        <span style="color:var(--text-muted); font-weight:400;">${formatDkk(t.value_summary.total)}</span>
+      </summary>
+      <ul>
+        ${t.roster.map(r => `
+          <li>
+            <span>${r.name}${r.is_captain ? '<span class="captain-tag">Kaptajn</span>' : ''}
+              <span style="color:var(--text-muted); font-size:12px;">${r.pro_team || ''}</span>
+            </span>
+            <span>${formatDkk(r.value)}</span>
+          </li>
+        `).join('')}
+      </ul>
+    </details>
+  `).join('');
+
+  const failedHtml = (data.failed_team_ids && data.failed_team_ids.length)
+    ? `<div class="error" style="margin-bottom:24px;">Failed to fetch ${data.failed_team_ids.length} team(s): ${data.failed_team_ids.join(', ')}. Check the scraper logs.</div>`
+    : '';
+
+  document.getElementById('content').innerHTML = `
+    ${failedHtml}
+    ${statsHtml}
+    <section>
+      <h2>Most popular riders in our group</h2>
+      ${popularityHtml || '<p style="color:var(--text-muted)">No data yet.</p>'}
+    </section>
+    <section>
+      <h2>Team standings</h2>
+      ${standingsHtml}
+    </section>
+    <section>
+      <h2>Team rosters</h2>
+      ${rosterHtml}
+    </section>
+  `;
+}
+
+loadData();
+</script>
+</body>
+</html>
