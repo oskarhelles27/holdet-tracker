@@ -93,19 +93,21 @@ def load_previous_snapshot(latest_path):
         return None
 
 
-def compute_transfers_in(teams_data, previous_snapshot):
-    """For each rider, count how many teams added them since the last
-    snapshot (present in a team's current roster but not that same team's
-    previous one). Teams whose previous roster was empty (e.g. this is the
-    first successful scrape for them) are skipped entirely, since an empty
-    baseline would make every current rider look like a fresh transfer.
+def compute_roster_diffs(teams_data, previous_snapshot):
+    """Diff each team's current roster against its own previous snapshot
+    roster. Returns (transfers_in, transfers_out), each a dict keyed by
+    "name|pro_team" -> {"name", "pro_team", "count", "teams"}. Teams whose
+    previous roster was empty (e.g. this is the first successful scrape for
+    them) are skipped entirely, since an empty baseline would make every
+    current rider look like a fresh transfer in.
     """
-    transfers = {}
+    transfers_in = {}
+    transfers_out = {}
     if not previous_snapshot:
-        return transfers
+        return transfers_in, transfers_out
 
     prev_rosters_by_team = {
-        t["team_id"]: {f"{r['name']}|{r['pro_team']}" for r in t["roster"]}
+        t["team_id"]: {f"{r['name']}|{r['pro_team']}": r for r in t["roster"]}
         for t in (previous_snapshot.get("teams") or [])
         if t and t.get("roster")
     }
@@ -116,14 +118,26 @@ def compute_transfers_in(teams_data, previous_snapshot):
         prev_roster = prev_rosters_by_team.get(team["team_id"])
         if prev_roster is None:
             continue
-        for rider in team["roster"]:
-            key = f"{rider['name']}|{rider['pro_team']}"
+        current_roster = {f"{r['name']}|{r['pro_team']}": r for r in team["roster"]}
+        label = team.get("label") or team["team_id"]
+
+        for key, rider in current_roster.items():
             if key in prev_roster:
                 continue
-            entry = transfers.setdefault(key, {"count": 0, "teams": []})
+            entry = transfers_in.setdefault(
+                key, {"name": rider["name"], "pro_team": rider["pro_team"], "count": 0, "teams": []})
             entry["count"] += 1
-            entry["teams"].append(team.get("label") or team["team_id"])
-    return transfers
+            entry["teams"].append(label)
+
+        for key, rider in prev_roster.items():
+            if key in current_roster:
+                continue
+            entry = transfers_out.setdefault(
+                key, {"name": rider["name"], "pro_team": rider["pro_team"], "count": 0, "teams": []})
+            entry["count"] += 1
+            entry["teams"].append(label)
+
+    return transfers_in, transfers_out
 
 
 def compute_group_popularity(teams_data, transfers_in=None):
@@ -215,8 +229,9 @@ def main():
     if failed:
         print(f"  Failed team IDs: {failed}")
 
-    transfers_in = compute_transfers_in(successful, previous_snapshot)
+    transfers_in, transfers_out = compute_roster_diffs(successful, previous_snapshot)
     group_popularity = compute_group_popularity(successful, transfers_in)
+    transfers_out_list = sorted(transfers_out.values(), key=lambda r: -r["count"])
     current_round = determine_current_round(successful, schedule)
 
     snapshot = {
@@ -225,6 +240,7 @@ def main():
         "teams": successful,
         "failed_team_ids": failed,
         "group_popularity": group_popularity,
+        "transfers_out": transfers_out_list,
         "current_round": current_round,
     }
 

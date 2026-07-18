@@ -31,8 +31,12 @@
   select#round-select { font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); }
 
   .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 32px; }
-  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
-  .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; border-left: 3px solid transparent; }
+  .stat-card--in { border-left-color: var(--accent); }
+  .stat-card--out { border-left-color: var(--negative); }
+  .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+  .stat-arrow-in::before { content: "↑"; color: var(--accent); font-weight: 700; }
+  .stat-arrow-out::before { content: "↓"; color: var(--negative); font-weight: 700; }
   .stat-value { font-size: 22px; font-weight: 600; }
   .stat-sublabel { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
@@ -139,19 +143,23 @@ function render(data) {
   const popularity = data.group_popularity || [];
   const maxCount = Math.max(1, ...popularity.map(p => p.owned_by_count));
 
-  const totalRiders = new Set(popularity.map(p => p.name)).size;
   const mostOwned = popularity[0];
 
-  const maxTransferCount = Math.max(0, ...popularity.map(p => p.transferred_in_count || 0));
-  const topTransfers = maxTransferCount > 0
-    ? popularity.filter(p => p.transferred_in_count === maxTransferCount)
+  const transfersOut = data.transfers_out || [];
+  const maxTransferInCount = Math.max(0, ...popularity.map(p => p.transferred_in_count || 0));
+  const topTransfersIn = maxTransferInCount > 0
+    ? popularity.filter(p => p.transferred_in_count === maxTransferInCount)
+    : [];
+  const maxTransferOutCount = Math.max(0, ...transfersOut.map(p => p.count || 0));
+  const topTransfersOut = maxTransferOutCount > 0
+    ? transfersOut.filter(p => p.count === maxTransferOutCount)
     : [];
 
   const statsHtml = `
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-label">Unique riders owned</div><div class="stat-value">${totalRiders}</div></div>
+      <div class="stat-card stat-card--in"><div class="stat-label stat-arrow-in">Most transferred in this round</div><div class="stat-value">${topTransfersIn.length ? topTransfersIn.map(p => p.name).join(', ') : '-'}</div><div class="stat-sublabel">${topTransfersIn.length ? maxTransferInCount + ' team' + (maxTransferInCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
+      <div class="stat-card stat-card--out"><div class="stat-label stat-arrow-out">Most transferred out this round</div><div class="stat-value">${topTransfersOut.length ? topTransfersOut.map(p => p.name).join(', ') : '-'}</div><div class="stat-sublabel">${topTransfersOut.length ? maxTransferOutCount + ' team' + (maxTransferOutCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
       <div class="stat-card"><div class="stat-label">Most owned rider</div><div class="stat-value">${mostOwned ? mostOwned.name : '-'}</div>${mostOwned ? `<div class="stat-sublabel">${mostOwned.owned_by_count}/${teams.length} teams</div>` : ''}</div>
-      <div class="stat-card"><div class="stat-label">Most transferred in this round</div><div class="stat-value">${topTransfers.length ? topTransfers.map(p => p.name).join(', ') : '-'}</div><div class="stat-sublabel">${topTransfers.length ? maxTransferCount + ' team' + (maxTransferCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
     </div>
   `;
 
@@ -176,7 +184,7 @@ function render(data) {
           const latest = t.history && t.history.length ? t.history[t.history.length - 1] : null;
           return `<tr>
             <td>${i + 1}</td>
-            <td>${t.header.team_name || t.label} <span style="color:var(--text-muted)">(${t.label})</span></td>
+            <td>${t.header.team_name || t.label}</td>
             <td class="num">${latest ? formatSignedPts(latest.round_points) : '-'}</td>
             <td class="num">${formatDkk(t.value_summary.total)}</td>
           </tr>`;
@@ -188,7 +196,7 @@ function render(data) {
   const rosterHtml = teams.map(t => `
     <details class="team-card">
       <summary>
-        <span>${t.header.team_name || t.label} <span style="color:var(--text-muted); font-weight:400;">(${t.label})</span></span>
+        <span>${t.header.team_name || t.label}</span>
         <span style="color:var(--text-muted); font-weight:400;">${formatDkk(t.value_summary.total)}</span>
       </summary>
       <ul>
