@@ -110,6 +110,52 @@ To run it manually (e.g. right after setup, to get real data immediately):
 Each successful run commits an updated `data/latest.json`, which the site
 picks up automatically (just refresh the page).
 
+## 7. Add pro team jersey icons (optional)
+
+The site shows a small jersey icon next to each rider's pro team, if one is
+available. Holdet's own pages/API don't provide these images, so they're not
+fetched automatically — drop your own square icon files (e.g. 40x40px PNG)
+into `docs/assets/jerseys/`, named by the team's abbreviation:
+
+```
+docs/assets/jerseys/UAD.png   (UAE Team Emirates - XRG)
+docs/assets/jerseys/TVL.png   (Team Visma | Lease a Bike)
+docs/assets/jerseys/SOQ.png   (Soudal Quick-Step)
+...
+```
+
+The current Tour de France 2026 pro teams and their abbreviations (from
+`master_riders` in the scraped data):
+
+| Abbr | Team |
+|------|------|
+| APT | Alpecin-Premier Tech |
+| TBV | Bahrain - Victorious |
+| CJR | Caja Rural - Seguros RGA |
+| COF | Cofidis |
+| DAT | Decathlon CMA CGM Team |
+| EFE | EF Education - EasyPost |
+| GFC | Groupama - FDJ United |
+| LIT | Lidl - Trek |
+| LOI | Lotto Intermarché |
+| MOV | Movistar Team |
+| NSN | NSN Cycling Team |
+| IGD | Netcompany INEOS Cycling Team |
+| Q36 | Pinarello Q36.5 Pro Cycling Team |
+| RBH | Red Bull - BORA - hansgrohe |
+| SOQ | Soudal Quick-Step |
+| JAY | Team Jayco AlUla |
+| DFP | Team Picnic PostNL |
+| TVL | Team Visma \| Lease a Bike |
+| TEN | TotalEnergies |
+| TUD | Tudor Pro Cycling Team |
+| UAD | UAE Team Emirates - XRG |
+| UXM | Uno-X Mobility |
+| XAT | XDS Astana Team |
+
+Any team without a matching file just shows no icon (no broken-image
+placeholder) — you don't need all 23 before this works.
+
 ## Notes on fragility
 
 The roster parser (`scraper/parse_team.py`) depends on Holdet's current page

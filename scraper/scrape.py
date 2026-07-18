@@ -25,6 +25,7 @@ import requests
 sys.path.insert(0, os.path.dirname(__file__))
 from parse_team import parse_team_page
 from fetch_master_riders import fetch_master_riders
+from fetch_schedule import fetch_schedule
 
 ROSTER_URL_TEMPLATE = "https://nexus-app-fantasy.holdet.dk/da/tour-de-france-2026/cycling/fantasyteams/{team_id}"
 
@@ -149,6 +150,28 @@ def compute_group_popularity(teams_data, transfers_in=None):
     return sorted(counts.values(), key=lambda r: -r["owned_by_count"])
 
 
+def determine_current_round(teams_data, schedule):
+    """The most recent round number with recorded history across our teams,
+    plus its date window from the schedule. Holdet's schedule array is
+    0-indexed starting at round 1 (schedule[0] is round 1's window), so
+    round N's dates live at schedule[N - 1]. Holdet's own API doesn't expose
+    stage names/locations, only the round's start/close/end timestamps.
+    """
+    max_round = 0
+    for team in teams_data:
+        if not team or not team.get("history"):
+            continue
+        max_round = max(max_round, team["history"][-1]["round"])
+    if max_round == 0:
+        return None
+
+    round_info = {"round": max_round}
+    idx = max_round - 1
+    if schedule and 0 <= idx < len(schedule):
+        round_info.update(schedule[idx])
+    return round_info
+
+
 def main():
     if not SESSION_COOKIE:
         print("  [WARN] HOLDET_COOKIE is not set - team roster pages will "
@@ -161,6 +184,14 @@ def main():
     except Exception as e:
         print(f"  [ERROR] Failed to fetch master rider list: {e}")
         master_riders = {}
+
+    print("Fetching round schedule...")
+    try:
+        schedule = fetch_schedule()
+        print(f"  Got {len(schedule)} rounds")
+    except Exception as e:
+        print(f"  [ERROR] Failed to fetch schedule: {e}")
+        schedule = []
 
     latest_path = os.path.join(DATA_DIR, "latest.json")
     previous_snapshot = load_previous_snapshot(latest_path)
@@ -186,6 +217,7 @@ def main():
 
     transfers_in = compute_transfers_in(successful, previous_snapshot)
     group_popularity = compute_group_popularity(successful, transfers_in)
+    current_round = determine_current_round(successful, schedule)
 
     snapshot = {
         "scraped_at": datetime.now(timezone.utc).isoformat(),
@@ -193,6 +225,7 @@ def main():
         "teams": successful,
         "failed_team_ids": failed,
         "group_popularity": group_popularity,
+        "current_round": current_round,
     }
 
     os.makedirs(DATA_DIR, exist_ok=True)

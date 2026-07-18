@@ -27,6 +27,7 @@
   header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
   h1 { font-size: 22px; font-weight: 600; margin: 0; }
   .subtitle { color: var(--text-muted); font-size: 13px; }
+  .round-badge { display: inline-block; background: var(--accent-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; margin-top: 6px; }
   select#round-select { font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); }
 
   .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 32px; }
@@ -41,6 +42,7 @@
   .popularity-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
   .popularity-row .rider-name { font-weight: 500; font-size: 14px; }
   .popularity-row .pro-team { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
+  .jersey-icon { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; vertical-align: middle; margin-right: 6px; background: var(--bg); }
   .bar-wrap { display: flex; align-items: center; gap: 8px; }
   .bar-track { width: 120px; height: 6px; background: var(--bg); border-radius: 4px; overflow: hidden; }
   .bar-fill { height: 100%; background: var(--accent); }
@@ -74,6 +76,7 @@
     <div>
       <h1>Fuentes Bagmænd tracker</h1>
       <div class="subtitle" id="scraped-at">Loading...</div>
+      <div id="round-badge"></div>
     </div>
   </header>
 
@@ -107,11 +110,31 @@ function formatSignedPts(n) {
   return `<span class="${cls}">${sign}${Math.abs(n).toLocaleString('da-DK')}</span>`;
 }
 
+function buildProTeamAbbrMap(masterRiders) {
+  const map = {};
+  for (const rider of Object.values(masterRiders || {})) {
+    if (rider.pro_team && rider.pro_team_abbr) map[rider.pro_team] = rider.pro_team_abbr;
+  }
+  return map;
+}
+
+function jerseyIcon(proTeam, abbrMap) {
+  const abbr = abbrMap[proTeam];
+  if (!abbr) return '';
+  return `<img class="jersey-icon" src="assets/jerseys/${abbr}.png" alt="" onerror="this.remove()">`;
+}
+
 function render(data) {
   const scrapedDate = new Date(data.scraped_at);
   document.getElementById('scraped-at').textContent =
     'Last updated ' + scrapedDate.toLocaleString('da-DK');
 
+  const round = data.current_round;
+  document.getElementById('round-badge').innerHTML = round
+    ? `<span class="round-badge">Round ${round.round}${round.end ? ' · ended ' + new Date(round.end).toLocaleDateString('da-DK') : ''}</span>`
+    : '';
+
+  const proTeamAbbr = buildProTeamAbbrMap(data.master_riders);
   const teams = data.teams || [];
   const popularity = data.group_popularity || [];
   const maxCount = Math.max(1, ...popularity.map(p => p.owned_by_count));
@@ -119,16 +142,22 @@ function render(data) {
   const totalRiders = new Set(popularity.map(p => p.name)).size;
   const mostOwned = popularity[0];
 
+  const maxTransferCount = Math.max(0, ...popularity.map(p => p.transferred_in_count || 0));
+  const topTransfers = maxTransferCount > 0
+    ? popularity.filter(p => p.transferred_in_count === maxTransferCount)
+    : [];
+
   const statsHtml = `
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-label">Unique riders owned</div><div class="stat-value">${totalRiders}</div></div>
       <div class="stat-card"><div class="stat-label">Most owned rider</div><div class="stat-value">${mostOwned ? mostOwned.name : '-'}</div>${mostOwned ? `<div class="stat-sublabel">${mostOwned.owned_by_count}/${teams.length} teams</div>` : ''}</div>
+      <div class="stat-card"><div class="stat-label">Most transferred in this round</div><div class="stat-value">${topTransfers.length ? topTransfers.map(p => p.name).join(', ') : '-'}</div><div class="stat-sublabel">${topTransfers.length ? maxTransferCount + ' team' + (maxTransferCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
     </div>
   `;
 
   const popularityHtml = popularity.slice(0, 15).map(p => `
     <div class="popularity-row">
-      <div><span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span>${p.transferred_in_count ? `<span class="transfer-tag">+${p.transferred_in_count} this round</span>` : ''}</div>
+      <div>${jerseyIcon(p.pro_team, proTeamAbbr)}<span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span>${p.transferred_in_count ? `<span class="transfer-tag">+${p.transferred_in_count} this round</span>` : ''}</div>
       <div class="bar-wrap">
         <div class="bar-track"><div class="bar-fill" style="width:${(p.owned_by_count / maxCount * 100).toFixed(0)}%"></div></div>
         <div class="bar-count">${p.owned_by_count}/${teams.length}</div>
@@ -165,7 +194,7 @@ function render(data) {
       <ul>
         ${t.roster.map(r => `
           <li>
-            <span>${r.name}${r.is_captain ? '<span class="captain-tag">Kaptajn</span>' : ''}
+            <span>${jerseyIcon(r.pro_team, proTeamAbbr)}${r.name}${r.is_captain ? '<span class="captain-tag">Kaptajn</span>' : ''}
               <span style="color:var(--text-muted); font-size:12px;">${r.pro_team || ''}</span>
             </span>
             <span>${formatDkk(r.value)}</span>
