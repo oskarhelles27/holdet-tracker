@@ -82,8 +82,52 @@ def fetch_team_roster(team_id, label):
         return None
 
 
-def compute_group_popularity(teams_data):
+def load_previous_snapshot(latest_path):
+    if not os.path.exists(latest_path):
+        return None
+    try:
+        with open(latest_path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def compute_transfers_in(teams_data, previous_snapshot):
+    """For each rider, count how many teams added them since the last
+    snapshot (present in a team's current roster but not that same team's
+    previous one). Teams whose previous roster was empty (e.g. this is the
+    first successful scrape for them) are skipped entirely, since an empty
+    baseline would make every current rider look like a fresh transfer.
+    """
+    transfers = {}
+    if not previous_snapshot:
+        return transfers
+
+    prev_rosters_by_team = {
+        t["team_id"]: {f"{r['name']}|{r['pro_team']}" for r in t["roster"]}
+        for t in (previous_snapshot.get("teams") or [])
+        if t and t.get("roster")
+    }
+
+    for team in teams_data:
+        if team is None:
+            continue
+        prev_roster = prev_rosters_by_team.get(team["team_id"])
+        if prev_roster is None:
+            continue
+        for rider in team["roster"]:
+            key = f"{rider['name']}|{rider['pro_team']}"
+            if key in prev_roster:
+                continue
+            entry = transfers.setdefault(key, {"count": 0, "teams": []})
+            entry["count"] += 1
+            entry["teams"].append(team.get("label") or team["team_id"])
+    return transfers
+
+
+def compute_group_popularity(teams_data, transfers_in=None):
     """Count how many of our tracked teams own each rider (by name+pro_team)."""
+    transfers_in = transfers_in or {}
     counts = {}
     for team in teams_data:
         if team is None:
@@ -91,11 +135,14 @@ def compute_group_popularity(teams_data):
         for rider in team["roster"]:
             key = f"{rider['name']}|{rider['pro_team']}"
             if key not in counts:
+                transfer = transfers_in.get(key, {"count": 0, "teams": []})
                 counts[key] = {
                     "name": rider["name"],
                     "pro_team": rider["pro_team"],
                     "owned_by_count": 0,
                     "owned_by_teams": [],
+                    "transferred_in_count": transfer["count"],
+                    "transferred_in_by_teams": transfer["teams"],
                 }
             counts[key]["owned_by_count"] += 1
             counts[key]["owned_by_teams"].append(team.get("label") or team["team_id"])
@@ -114,6 +161,9 @@ def main():
     except Exception as e:
         print(f"  [ERROR] Failed to fetch master rider list: {e}")
         master_riders = {}
+
+    latest_path = os.path.join(DATA_DIR, "latest.json")
+    previous_snapshot = load_previous_snapshot(latest_path)
 
     team_configs = load_team_config()
     print(f"Fetching {len(team_configs)} team rosters...")
@@ -134,7 +184,8 @@ def main():
     if failed:
         print(f"  Failed team IDs: {failed}")
 
-    group_popularity = compute_group_popularity(successful)
+    transfers_in = compute_transfers_in(successful, previous_snapshot)
+    group_popularity = compute_group_popularity(successful, transfers_in)
 
     snapshot = {
         "scraped_at": datetime.now(timezone.utc).isoformat(),
@@ -153,7 +204,6 @@ def main():
 
     # also write a "latest.json" that always points to the most recent snapshot,
     # so the frontend doesn't need to know today's date
-    latest_path = os.path.join(DATA_DIR, "latest.json")
     with open(latest_path, "w", encoding="utf-8") as f:
         json.dump(snapshot, f, ensure_ascii=False, indent=2)
     print(f"Latest snapshot also written to {latest_path}")

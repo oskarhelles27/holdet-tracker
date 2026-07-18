@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Holdet league tracker</title>
+<title>Fuentes Bagmænd tracker</title>
 <style>
   :root {
     --bg: #f7f7f5;
@@ -33,6 +33,7 @@
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
   .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
   .stat-value { font-size: 22px; font-weight: 600; }
+  .stat-sublabel { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
   h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
   section { margin-bottom: 36px; }
@@ -58,6 +59,10 @@
   .team-card li { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
   .team-card li:last-child { border-bottom: none; }
   .captain-tag { font-size: 11px; background: #FAEEDA; color: #854F0B; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+  .transfer-tag { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 1px 6px; border-radius: 4px; margin-left: 6px; white-space: nowrap; }
+
+  .pts-positive { color: var(--accent); font-weight: 500; }
+  .pts-negative { color: var(--negative); font-weight: 500; }
 
   .error { background: #FCEBEB; color: #791F1F; padding: 12px 16px; border-radius: 8px; }
   .loading { color: var(--text-muted); padding: 24px 0; }
@@ -67,7 +72,7 @@
 <div class="wrap">
   <header>
     <div>
-      <h1>Holdet league tracker</h1>
+      <h1>Fuentes Bagmænd tracker</h1>
       <div class="subtitle" id="scraped-at">Loading...</div>
     </div>
   </header>
@@ -95,6 +100,13 @@ function formatDkk(n) {
   return n.toLocaleString('da-DK');
 }
 
+function formatSignedPts(n) {
+  if (n === null || n === undefined) return '-';
+  const cls = n < 0 ? 'pts-negative' : 'pts-positive';
+  const sign = n < 0 ? '-' : '+';
+  return `<span class="${cls}">${sign}${Math.abs(n).toLocaleString('da-DK')}</span>`;
+}
+
 function render(data) {
   const scrapedDate = new Date(data.scraped_at);
   document.getElementById('scraped-at').textContent =
@@ -106,22 +118,17 @@ function render(data) {
 
   const totalRiders = new Set(popularity.map(p => p.name)).size;
   const mostOwned = popularity[0];
-  const avgValue = teams.length
-    ? Math.round(teams.reduce((s, t) => s + (t.value_summary.total || 0), 0) / teams.length)
-    : 0;
 
   const statsHtml = `
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-label">Teams tracked</div><div class="stat-value">${teams.length}</div></div>
       <div class="stat-card"><div class="stat-label">Unique riders owned</div><div class="stat-value">${totalRiders}</div></div>
-      <div class="stat-card"><div class="stat-label">Most owned rider</div><div class="stat-value">${mostOwned ? mostOwned.owned_by_count + '/' + teams.length : '-'}</div></div>
-      <div class="stat-card"><div class="stat-label">Avg team value</div><div class="stat-value">${formatDkk(avgValue)}</div></div>
+      <div class="stat-card"><div class="stat-label">Most owned rider</div><div class="stat-value">${mostOwned ? mostOwned.name : '-'}</div>${mostOwned ? `<div class="stat-sublabel">${mostOwned.owned_by_count}/${teams.length} teams</div>` : ''}</div>
     </div>
   `;
 
   const popularityHtml = popularity.slice(0, 15).map(p => `
     <div class="popularity-row">
-      <div><span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span></div>
+      <div><span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span>${p.transferred_in_count ? `<span class="transfer-tag">+${p.transferred_in_count} this round</span>` : ''}</div>
       <div class="bar-wrap">
         <div class="bar-track"><div class="bar-fill" style="width:${(p.owned_by_count / maxCount * 100).toFixed(0)}%"></div></div>
         <div class="bar-count">${p.owned_by_count}/${teams.length}</div>
@@ -133,7 +140,7 @@ function render(data) {
   const standingsHtml = `
     <table>
       <thead><tr>
-        <th>#</th><th>Team</th><th class="num">Latest round pts</th><th class="num">Total value</th><th class="num">Riders</th>
+        <th>#</th><th>Team</th><th class="num">Latest round pts</th><th class="num">Total value</th>
       </tr></thead>
       <tbody>
         ${standings.map((t, i) => {
@@ -141,9 +148,8 @@ function render(data) {
           return `<tr>
             <td>${i + 1}</td>
             <td>${t.header.team_name || t.label} <span style="color:var(--text-muted)">(${t.label})</span></td>
-            <td class="num">${latest ? formatDkk(latest.round_points) : '-'}</td>
+            <td class="num">${latest ? formatSignedPts(latest.round_points) : '-'}</td>
             <td class="num">${formatDkk(t.value_summary.total)}</td>
-            <td class="num">${t.roster.length}</td>
           </tr>`;
         }).join('')}
       </tbody>
