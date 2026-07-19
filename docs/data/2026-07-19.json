@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-07-19T11:39:59.300269+00:00",
+  "scraped_at": "2026-07-19T15:33:41.595051+00:00",
   "master_riders": {
     "50638": {
       "rider_id": 50638,
@@ -10,7 +10,7 @@
       "price": 3625000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.008264760429983614,
+      "global_popularity": 0.008263867634085303,
       "is_out": false
     },
     "50699": {
@@ -22,7 +22,7 @@
       "price": 11310000,
       "start_price": 10500000,
       "points": 0,
-      "global_popularity": 0.012712245890127302,
+      "global_popularity": 0.012710872657220531,
       "is_out": false
     },
     "50702": {
@@ -34,7 +34,7 @@
       "price": 13137000,
       "start_price": 11500000,
       "points": 0,
-      "global_popularity": 0.11961395105965393,
+      "global_popularity": 0.11961903390166177,
       "is_out": false
     },
     "50714": {
@@ -46,7 +46,7 @@
       "price": 1600000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.002790932171345229,
+      "global_popularity": 0.0027906306825342527,
       "is_out": true
     },
     "50719": {
@@ -58,7 +58,7 @@
       "price": 4006000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.03689432270378307,
+      "global_popularity": 0.036890337216210864,
       "is_out": false
     },
     "51454": {
@@ -70,7 +70,7 @@
       "price": 3266000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.02749518339125268,
+      "global_popularity": 0.027492213240192284,
       "is_out": false
     },
     "51456": {
@@ -82,7 +82,7 @@
       "price": 4550000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.0028989682553973027,
+      "global_popularity": 0.002898655096051708,
       "is_out": false
     },
     "51493": {
@@ -94,7 +94,7 @@
       "price": 3051000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.2786070547562886,
+      "global_popularity": 0.2785769583925967,
       "is_out": false
     },
     "51491": {
@@ -106,7 +106,7 @@
       "price": 6817000,
       "start_price": 7000000,
       "points": 0,
-      "global_popularity": 0.003565190773718422,
+      "global_popularity": 0.0035648056460760133,
       "is_out": false
     },
     "50695": {
@@ -118,7 +118,7 @@
       "price": 4068000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.002682896087293156,
+      "global_popularity": 0.0026826062690167977,
       "is_out": false
     },
     "50711": {
@@ -130,7 +130,7 @@
       "price": 4718000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.005743918468768569,
+      "global_popularity": 0.005743297985344688,
       "is_out": false
     },
     "51390": {
@@ -142,7 +142,7 @@
       "price": 6178000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.03451752885463745,
+      "global_popularity": 0.034513800118826855,
       "is_out": false
     },
     "51439": {
@@ -154,7 +154,7 @@
       "price": 3017000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0038352809838486054,
+      "global_popularity": 0.0038348666798696507,
       "is_out": false
     },
     "51444": {
@@ -166,7 +166,7 @@
       "price": 3547000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0023227758071195778,
+      "global_popularity": 0.0023225248906252813,
       "is_out": false
     },
     "51445": {
@@ -178,7 +178,7 @@
       "price": 3535000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0036552208437618163,
+      "global_popularity": 0.0036548259906738923,
       "is_out": false
     },
     "51446": {
@@ -190,7 +190,7 @@
       "price": 4020000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.001242414966598844,
+      "global_popularity": 0.0012422807554507318,
       "is_out": false
     },
     "50655": {
@@ -202,7 +202,7 @@
       "price": 5142000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.01750184561643589,
+      "global_popularity": 0.0174999549898277,
       "is_out": false
     },
     "50677": {
@@ -214,7 +214,7 @@
       "price": 4100000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.0002520841961215046,
+      "global_popularity": 0.0002520569648740615,
       "is_out": true
     },
     "50658": {
@@ -226,7 +226,7 @@
       "price": 4670000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.005743918468768569,
+      "global_popularity": 0.005743297985344688,
       "is_out": false
     },
     "50656": {
@@ -238,7 +238,7 @@
       "price": 2963000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.003691232871779174,
+      "global_popularity": 0.003690834128513044,
       "is_out": false
     },
     "50644": {
@@ -250,7 +250,7 @@
       "price": 2100000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0007562525883645137,
+      "global_popularity": 0.0007561708946221846,
       "is_out": true
     },
     "50623": {
@@ -262,7 +262,7 @@
       "price": 3631000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.022165403244683725,
+      "global_popularity": 0.02216300883999784,
       "is_out": false
     },
     "50625": {
@@ -274,7 +274,7 @@
       "price": 1966000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.17852962889605128,
+      "global_popularity": 0.1785823596132726,
       "is_out": false
     },
     "50739": {
@@ -286,7 +286,7 @@
       "price": 1903000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.03979329095918037,
+      "global_popularity": 0.039806996381182146,
       "is_out": false
     },
     "51379": {
@@ -298,7 +298,7 @@
       "price": 2499000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.017249761420314386,
+      "global_popularity": 0.01724789802495364,
       "is_out": false
     },
     "50712": {
@@ -310,7 +310,7 @@
       "price": 1600000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.000522174406251688,
+      "global_popularity": 0.0005221179986676989,
       "is_out": true
     },
     "50697": {
@@ -322,7 +322,7 @@
       "price": 7176000,
       "start_price": 7000000,
       "points": 0,
-      "global_popularity": 0.006842285323297981,
+      "global_popularity": 0.006841546189438813,
       "is_out": false
     },
     "50737": {
@@ -334,7 +334,7 @@
       "price": 3500000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0017105713308244953,
+      "global_popularity": 0.0017103865473597033,
       "is_out": false
     },
     "50640": {
@@ -346,7 +346,7 @@
       "price": 3600000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.0011883969245728074,
+      "global_popularity": 0.0011882685486920043,
       "is_out": true
     },
     "50654": {
@@ -358,7 +358,7 @@
       "price": 3661000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.01357653456254389,
+      "global_popularity": 0.013575067965360172,
       "is_out": false
     },
     "51522": {
@@ -370,7 +370,7 @@
       "price": 2200000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.00028809622413886236,
+      "global_popularity": 0.0002880651027132132,
       "is_out": true
     },
     "51442": {
@@ -382,7 +382,7 @@
       "price": 6290000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.02241748744080523,
+      "global_popularity": 0.0224150658048719,
       "is_out": false
     },
     "51524": {
@@ -394,7 +394,7 @@
       "price": 4058000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.004969659866395376,
+      "global_popularity": 0.004969123021802927,
       "is_out": false
     },
     "51525": {
@@ -406,7 +406,7 @@
       "price": 3778000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.003781262941822569,
+      "global_popularity": 0.003780854473110923,
       "is_out": false
     },
     "51526": {
@@ -418,7 +418,7 @@
       "price": 2544000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.005185732034499523,
+      "global_popularity": 0.005185171848837837,
       "is_out": false
     },
     "51530": {
@@ -430,7 +430,7 @@
       "price": 2044000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.013360462394439743,
+      "global_popularity": 0.01335901913832526,
       "is_out": false
     },
     "51542": {
@@ -442,7 +442,7 @@
       "price": 2565000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.005095701964456128,
+      "global_popularity": 0.005095151504239958,
       "is_out": false
     },
     "51545": {
@@ -454,7 +454,7 @@
       "price": 3264000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.14084304157588634,
+      "global_popularity": 0.14084583115784166,
       "is_out": false
     },
     "51531": {
@@ -466,7 +466,7 @@
       "price": 1995000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.028665574301816807,
+      "global_popularity": 0.02866247771996471,
       "is_out": false
     },
     "51532": {
@@ -478,7 +478,7 @@
       "price": 3658000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.06231881448403767,
+      "global_popularity": 0.06234809066849108,
       "is_out": false
     },
     "51527": {
@@ -490,7 +490,7 @@
       "price": 3450000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.006734249239245908,
+      "global_popularity": 0.0067335217759213585,
       "is_out": false
     },
     "50624": {
@@ -502,7 +502,7 @@
       "price": 5582000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.03381529430829897,
+      "global_popularity": 0.0338116414309634,
       "is_out": false
     },
     "50630": {
@@ -514,7 +514,7 @@
       "price": 5633000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.10331850838179953,
+      "global_popularity": 0.10332535152944565,
       "is_out": false
     },
     "50673": {
@@ -526,7 +526,7 @@
       "price": 3067000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.10688369915551794,
+      "global_popularity": 0.10692616531336081,
       "is_out": false
     },
     "50707": {
@@ -538,7 +538,7 @@
       "price": 8569000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.14125717989808595,
+      "global_popularity": 0.14125992474299193,
       "is_out": false
     },
     "50704": {
@@ -550,7 +550,7 @@
       "price": 3600000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.0005761924482777247,
+      "global_popularity": 0.0005761302054264264,
       "is_out": true
     },
     "51440": {
@@ -562,7 +562,7 @@
       "price": 5581000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.004609539586221798,
+      "global_popularity": 0.004609041643411411,
       "is_out": false
     },
     "51441": {
@@ -574,7 +574,7 @@
       "price": 1969000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.016331454705871763,
+      "global_popularity": 0.016329690510055273,
       "is_out": false
     },
     "51438": {
@@ -586,7 +586,7 @@
       "price": 1864000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.04915641824369339,
+      "global_popularity": 0.04918711628828115,
       "is_out": false
     },
     "51435": {
@@ -598,7 +598,7 @@
       "price": 5541000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.0019266434989286421,
+      "global_popularity": 0.0019264353743946132,
       "is_out": false
     },
     "50676": {
@@ -610,7 +610,7 @@
       "price": 8687000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.0366062264796442,
+      "global_popularity": 0.036602272113497654,
       "is_out": false
     },
     "50683": {
@@ -622,7 +622,7 @@
       "price": 3014000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.032572879341700126,
+      "global_popularity": 0.03258736474443224,
       "is_out": false
     },
     "50628": {
@@ -634,7 +634,7 @@
       "price": 7149000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.0028089381853539084,
+      "global_popularity": 0.0028086347514538284,
       "is_out": false
     },
     "51443": {
@@ -646,7 +646,7 @@
       "price": 2578000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.007094369519419486,
+      "global_popularity": 0.0070936031543128745,
       "is_out": false
     },
     "51541": {
@@ -658,7 +658,7 @@
       "price": 2124000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.0693771719754398,
+      "global_popularity": 0.06936967754712565,
       "is_out": false
     },
     "50657": {
@@ -670,7 +670,7 @@
       "price": 4888000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.23332192952446118,
+      "global_popularity": 0.23329672505986354,
       "is_out": false
     },
     "50678": {
@@ -682,7 +682,7 @@
       "price": 2747000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.017141725336262313,
+      "global_popularity": 0.017139873611436183,
       "is_out": false
     },
     "50665": {
@@ -694,7 +694,7 @@
       "price": 3804000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.039523200749050184,
+      "global_popularity": 0.039518931278468936,
       "is_out": false
     },
     "50696": {
@@ -706,7 +706,7 @@
       "price": 5100000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.00045015035021697247,
+      "global_popularity": 0.0004501017229893956,
       "is_out": true
     },
     "50735": {
@@ -718,7 +718,7 @@
       "price": 1457000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.028053369825521726,
+      "global_popularity": 0.028050339376699134,
       "is_out": true
     },
     "50736": {
@@ -730,7 +730,7 @@
       "price": 3121000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.01651151484595855,
+      "global_popularity": 0.016509731199251032,
       "is_out": false
     },
     "50723": {
@@ -742,7 +742,7 @@
       "price": 4999000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.17964600176458936,
+      "global_popularity": 0.17964459967952756,
       "is_out": false
     },
     "50720": {
@@ -754,7 +754,7 @@
       "price": 13751000,
       "start_price": 12500000,
       "points": 0,
-      "global_popularity": 0.022543529538865983,
+      "global_popularity": 0.02254109428730893,
       "is_out": false
     },
     "50724": {
@@ -766,7 +766,7 @@
       "price": 3861000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.08090102094099429,
+      "global_popularity": 0.08089228165565418,
       "is_out": false
     },
     "50710": {
@@ -778,7 +778,7 @@
       "price": 6744000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.05996002664890073,
+      "global_popularity": 0.059953549502187495,
       "is_out": false
     },
     "51393": {
@@ -790,7 +790,7 @@
       "price": 6262000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.027693249545348145,
+      "global_popularity": 0.027690257998307616,
       "is_out": false
     },
     "51395": {
@@ -802,7 +802,7 @@
       "price": 3271000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0441147343212633,
+      "global_popularity": 0.04410996885296077,
       "is_out": false
     },
     "50726": {
@@ -814,7 +814,7 @@
       "price": 7600000,
       "start_price": 9000000,
       "points": 0,
-      "global_popularity": 0.0003061022381475413,
+      "global_popularity": 0.000306069171632789,
       "is_out": true
     },
     "50667": {
@@ -826,7 +826,7 @@
       "price": 16456000,
       "start_price": 14000000,
       "points": 0,
-      "global_popularity": 0.3674307218611016,
+      "global_popularity": 0.367445042579623,
       "is_out": false
     },
     "50686": {
@@ -838,7 +838,7 @@
       "price": 7481000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.024470173037794623,
+      "global_popularity": 0.024467529661703544,
       "is_out": false
     },
     "50642": {
@@ -850,7 +850,7 @@
       "price": 3184000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.09870896879557772,
+      "global_popularity": 0.09869830581711467,
       "is_out": false
     },
     "50635": {
@@ -862,7 +862,7 @@
       "price": 4786000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.011127716657363559,
+      "global_popularity": 0.011126514592297859,
       "is_out": false
     },
     "50632": {
@@ -874,7 +874,7 @@
       "price": 3600000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.0005761924482777247,
+      "global_popularity": 0.0005761302054264264,
       "is_out": true
     },
     "50629": {
@@ -886,7 +886,7 @@
       "price": 6296000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.0024128058771629725,
+      "global_popularity": 0.0024125452352231603,
       "is_out": true
     },
     "50651": {
@@ -898,7 +898,7 @@
       "price": 3023000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.01584529232763743,
+      "global_popularity": 0.015843580649226724,
       "is_out": false
     },
     "50675": {
@@ -910,7 +910,7 @@
       "price": 6478000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.01244215567999712,
+      "global_popularity": 0.012440811623426895,
       "is_out": false
     },
     "51437": {
@@ -922,7 +922,7 @@
       "price": 3156000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.03509372130291517,
+      "global_popularity": 0.03508993032425328,
       "is_out": false
     },
     "51455": {
@@ -934,7 +934,7 @@
       "price": 2793000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.015323117921385743,
+      "global_popularity": 0.015321462650559026,
       "is_out": false
     },
     "51460": {
@@ -946,7 +946,7 @@
       "price": 3161000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.004105371193978789,
+      "global_popularity": 0.004104927713663288,
       "is_out": true
     },
     "51465": {
@@ -958,7 +958,7 @@
       "price": 2604000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.00900300700433945,
+      "global_popularity": 0.009002034459787912,
       "is_out": false
     },
     "51486": {
@@ -970,7 +970,7 @@
       "price": 3106000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.001962655526946,
+      "global_popularity": 0.001962443512233765,
       "is_out": false
     },
     "51461": {
@@ -982,7 +982,7 @@
       "price": 2400000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.011577867007580532,
+      "global_popularity": 0.011576616315287254,
       "is_out": false
     },
     "51494": {
@@ -994,7 +994,7 @@
       "price": 1915000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.008372796514035687,
+      "global_popularity": 0.00840790018544191,
       "is_out": false
     },
     "51495": {
@@ -1006,7 +1006,7 @@
       "price": 1960000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.010929650503268091,
+      "global_popularity": 0.010928469834182525,
       "is_out": false
     },
     "51458": {
@@ -1018,7 +1018,7 @@
       "price": 2889000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0008462826584079082,
+      "global_popularity": 0.0008461912392200637,
       "is_out": true
     },
     "51464": {
@@ -1030,7 +1030,7 @@
       "price": 1882000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.03205070493544844,
+      "global_popularity": 0.03208325081468412,
       "is_out": false
     },
     "50725": {
@@ -1042,7 +1042,7 @@
       "price": 2472000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.05212741055512541,
+      "global_popularity": 0.05213978359109159,
       "is_out": false
     },
     "50703": {
@@ -1054,7 +1054,7 @@
       "price": 5242000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.008696904766191909,
+      "global_popularity": 0.008695965288155123,
       "is_out": false
     },
     "50649": {
@@ -1066,7 +1066,7 @@
       "price": 2556000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.025388479752237247,
+      "global_popularity": 0.025385737176601912,
       "is_out": false
     },
     "50653": {
@@ -1078,7 +1078,7 @@
       "price": 5100000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.0018006014008678899,
+      "global_popularity": 0.0018004068919575825,
       "is_out": true
     },
     "50670": {
@@ -1090,7 +1090,7 @@
       "price": 10524000,
       "start_price": 9000000,
       "points": 0,
-      "global_popularity": 0.1721194879089616,
+      "global_popularity": 0.1721008948022253,
       "is_out": false
     },
     "50689": {
@@ -1102,7 +1102,7 @@
       "price": 8891000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.18717251562021714,
+      "global_popularity": 0.18718830455682983,
       "is_out": false
     },
     "50680": {
@@ -1114,7 +1114,7 @@
       "price": 11367000,
       "start_price": 9500000,
       "points": 0,
-      "global_popularity": 0.20166735689720366,
+      "global_popularity": 0.20171758817492752,
       "is_out": false
     },
     "50684": {
@@ -1126,7 +1126,7 @@
       "price": 4248000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.13722383276014188,
+      "global_popularity": 0.13722701330500695,
       "is_out": false
     },
     "50705": {
@@ -1138,7 +1138,7 @@
       "price": 4748000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.09568395844211967,
+      "global_popularity": 0.09567362223862592,
       "is_out": false
     },
     "50713": {
@@ -1150,7 +1150,7 @@
       "price": 1600000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.006104038748942147,
+      "global_popularity": 0.006103379363736204,
       "is_out": true
     },
     "51510": {
@@ -1162,7 +1162,7 @@
       "price": 3418000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.01962655526946,
+      "global_popularity": 0.01962443512233765,
       "is_out": false
     },
     "51511": {
@@ -1174,7 +1174,7 @@
       "price": 7403000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.004717575670273872,
+      "global_popularity": 0.004717066056928866,
       "is_out": false
     },
     "51512": {
@@ -1186,7 +1186,7 @@
       "price": 3142000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.014170733024830294,
+      "global_popularity": 0.014169202239706174,
       "is_out": false
     },
     "51569": {
@@ -1198,7 +1198,7 @@
       "price": 7240000,
       "start_price": 7000000,
       "points": 0,
-      "global_popularity": 0.023659902407404072,
+      "global_popularity": 0.02365734656032263,
       "is_out": false
     },
     "51570": {
@@ -1210,7 +1210,7 @@
       "price": 6556000,
       "start_price": 7000000,
       "points": 0,
-      "global_popularity": 0.002484829933197688,
+      "global_popularity": 0.0024845615109014636,
       "is_out": false
     },
     "51571": {
@@ -1222,7 +1222,7 @@
       "price": 3831000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.025874642130471578,
+      "global_popularity": 0.025871847037430458,
       "is_out": false
     },
     "50718": {
@@ -1234,7 +1234,7 @@
       "price": 7395000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.028521526189747376,
+      "global_popularity": 0.028518445168608107,
       "is_out": false
     },
     "50693": {
@@ -1246,7 +1246,7 @@
       "price": 3101000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.11471631524929327,
+      "global_popularity": 0.11470392308661757,
       "is_out": false
     },
     "50674": {
@@ -1258,7 +1258,7 @@
       "price": 7658000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.05576462538487855,
+      "global_popularity": 0.055758601443926324,
       "is_out": false
     },
     "50641": {
@@ -1270,7 +1270,7 @@
       "price": 7841000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.005527846300664422,
+      "global_popularity": 0.005527249158309778,
       "is_out": false
     },
     "50646": {
@@ -1282,7 +1282,7 @@
       "price": 8349000,
       "start_price": 8500000,
       "points": 0,
-      "global_popularity": 0.012946324072240127,
+      "global_popularity": 0.012944925553175017,
       "is_out": false
     },
     "50636": {
@@ -1294,7 +1294,7 @@
       "price": 4600000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.0009003007004339449,
+      "global_popularity": 0.0009002034459787913,
       "is_out": true
     },
     "50637": {
@@ -1306,7 +1306,7 @@
       "price": 6631000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.0025388479752237246,
+      "global_popularity": 0.0025385737176601914,
       "is_out": true
     },
     "50643": {
@@ -1318,7 +1318,7 @@
       "price": 5253000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.015701244215568,
+      "global_popularity": 0.01569954809787012,
       "is_out": false
     },
     "50660": {
@@ -1330,7 +1330,7 @@
       "price": 3100000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.0005581864342690459,
+      "global_popularity": 0.0005581261365068506,
       "is_out": true
     },
     "50709": {
@@ -1342,7 +1342,7 @@
       "price": 2100000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0003061022381475413,
+      "global_popularity": 0.000306069171632789,
       "is_out": true
     },
     "50700": {
@@ -1354,7 +1354,7 @@
       "price": 3990000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.03471559500873292,
+      "global_popularity": 0.03471184487694219,
       "is_out": false
     },
     "51528": {
@@ -1366,7 +1366,7 @@
       "price": 4103000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.04226011487836938,
+      "global_popularity": 0.04225554975424446,
       "is_out": false
     },
     "51529": {
@@ -1378,7 +1378,7 @@
       "price": 3513000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.002088697625006752,
+      "global_popularity": 0.0020884719946707955,
       "is_out": false
     },
     "51533": {
@@ -1390,7 +1390,7 @@
       "price": 1995000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.012334119595945046,
+      "global_popularity": 0.01233278720990944,
       "is_out": false
     },
     "51540": {
@@ -1402,7 +1402,7 @@
       "price": 3172000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.004483497488161046,
+      "global_popularity": 0.004483013160974381,
       "is_out": false
     },
     "51544": {
@@ -1414,7 +1414,7 @@
       "price": 4468000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.006716243225237229,
+      "global_popularity": 0.0067155177070017825,
       "is_out": false
     },
     "51492": {
@@ -1426,7 +1426,7 @@
       "price": 2832000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.00833678448601833,
+      "global_popularity": 0.008335883909763607,
       "is_out": false
     },
     "51504": {
@@ -1438,7 +1438,7 @@
       "price": 2520000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.0025388479752237246,
+      "global_popularity": 0.0025385737176601914,
       "is_out": false
     },
     "51489": {
@@ -1450,7 +1450,7 @@
       "price": 2562000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.0025748600032410823,
+      "global_popularity": 0.0025745818554993426,
       "is_out": false
     },
     "51490": {
@@ -1462,7 +1462,7 @@
       "price": 2607000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.005293768118551596,
+      "global_popularity": 0.005293196262355292,
       "is_out": false
     },
     "51462": {
@@ -1474,7 +1474,7 @@
       "price": 2670000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.003007004339449376,
+      "global_popularity": 0.0030066795095691624,
       "is_out": false
     },
     "51451": {
@@ -1486,7 +1486,7 @@
       "price": 3141000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0032770945495795597,
+      "global_popularity": 0.0032767405433628,
       "is_out": false
     },
     "51452": {
@@ -1498,7 +1498,7 @@
       "price": 4633000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.01357653456254389,
+      "global_popularity": 0.013575067965360172,
       "is_out": false
     },
     "50668": {
@@ -1510,7 +1510,7 @@
       "price": 4756000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.12993139708662693,
+      "global_popularity": 0.12991736132365914,
       "is_out": false
     },
     "50691": {
@@ -1522,7 +1522,7 @@
       "price": 6546000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.009111043088391522,
+      "global_popularity": 0.009110058873305366,
       "is_out": false
     },
     "50679": {
@@ -1534,7 +1534,7 @@
       "price": 5268000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.01388263680069143,
+      "global_popularity": 0.01388113713699296,
       "is_out": false
     },
     "50631": {
@@ -1546,7 +1546,7 @@
       "price": 5736000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.02221942128670976,
+      "global_popularity": 0.022235025115676144,
       "is_out": false
     },
     "50701": {
@@ -1558,7 +1558,7 @@
       "price": 5500000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.008138718331922862,
+      "global_popularity": 0.008137839151648273,
       "is_out": false
     },
     "51408": {
@@ -1570,7 +1570,7 @@
       "price": 1309000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.0047715937122999085,
+      "global_popularity": 0.004771078263687593,
       "is_out": true
     },
     "51410": {
@@ -1582,7 +1582,7 @@
       "price": 2035000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.056484865945225705,
+      "global_popularity": 0.05649676826962893,
       "is_out": false
     },
     "51405": {
@@ -1594,7 +1594,7 @@
       "price": 2660000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.009705241550677927,
+      "global_popularity": 0.009704193147651368,
       "is_out": false
     },
     "50745": {
@@ -1606,7 +1606,7 @@
       "price": 5568000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.007238417631488917,
+      "global_popularity": 0.007237635705669481,
       "is_out": false
     },
     "51407": {
@@ -1618,7 +1618,7 @@
       "price": 1948000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.06228280245602031,
+      "global_popularity": 0.06229407846173235,
       "is_out": false
     },
     "51450": {
@@ -1630,7 +1630,7 @@
       "price": 3598000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0060500207069161096,
+      "global_popularity": 0.006049367156977477,
       "is_out": false
     },
     "50626": {
@@ -1642,7 +1642,7 @@
       "price": 2095000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.010515512181068477,
+      "global_popularity": 0.010514376249032282,
       "is_out": true
     },
     "51457": {
@@ -1654,7 +1654,7 @@
       "price": 5697000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.0016385472747897799,
+      "global_popularity": 0.0016383702716814,
       "is_out": true
     },
     "51463": {
@@ -1666,7 +1666,7 @@
       "price": 3661000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.003961323081909358,
+      "global_popularity": 0.003960895162306681,
       "is_out": false
     },
     "51459": {
@@ -1678,7 +1678,7 @@
       "price": 3083000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0012244089525901651,
+      "global_popularity": 0.001224276686531156,
       "is_out": false
     },
     "51502": {
@@ -1690,7 +1690,7 @@
       "price": 3469000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0015485172047463853,
+      "global_popularity": 0.001548349927083521,
       "is_out": false
     },
     "51503": {
@@ -1702,7 +1702,7 @@
       "price": 2523000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.005851954552820642,
+      "global_popularity": 0.005851322398862143,
       "is_out": false
     },
     "50639": {
@@ -1714,7 +1714,7 @@
       "price": 3100000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.0009543187424599816,
+      "global_popularity": 0.0009542156527375187,
       "is_out": true
     },
     "50647": {
@@ -1726,7 +1726,7 @@
       "price": 10593000,
       "start_price": 9500000,
       "points": 0,
-      "global_popularity": 0.22804616741991826,
+      "global_popularity": 0.22802153286642782,
       "is_out": false
     },
     "50652": {
@@ -1738,7 +1738,7 @@
       "price": 1100000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.003871293011865963,
+      "global_popularity": 0.003870874817708802,
       "is_out": true
     },
     "50694": {
@@ -1750,7 +1750,7 @@
       "price": 1600000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.0018366134288852476,
+      "global_popularity": 0.001836415029796734,
       "is_out": true
     },
     "50690": {
@@ -1762,7 +1762,7 @@
       "price": 6431000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.02304769793110899,
+      "global_popularity": 0.023045208217057054,
       "is_out": false
     },
     "50669": {
@@ -1774,7 +1774,7 @@
       "price": 6600000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.0002340781821128257,
+      "global_popularity": 0.0002340528959544857,
       "is_out": true
     },
     "50661": {
@@ -1786,7 +1786,7 @@
       "price": 7350000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.009669229522660569,
+      "global_popularity": 0.009668185009812218,
       "is_out": false
     },
     "50663": {
@@ -1798,7 +1798,7 @@
       "price": 3098000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.016889641140140806,
+      "global_popularity": 0.016887816646562123,
       "is_out": false
     },
     "51413": {
@@ -1810,7 +1810,7 @@
       "price": 3038000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.012622215820083908,
+      "global_popularity": 0.012620852312622654,
       "is_out": false
     },
     "50698": {
@@ -1822,7 +1822,7 @@
       "price": 2601000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.11262761762428651,
+      "global_popularity": 0.11261545109194677,
       "is_out": false
     },
     "50688": {
@@ -1834,7 +1834,7 @@
       "price": 3185000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.014818949529142735,
+      "global_popularity": 0.014817348720810903,
       "is_out": false
     },
     "50706": {
@@ -1846,7 +1846,7 @@
       "price": 12423000,
       "start_price": 10500000,
       "points": 0,
-      "global_popularity": 0.09147055116408881,
+      "global_popularity": 0.09146067011144518,
       "is_out": false
     },
     "50738": {
@@ -1858,7 +1858,7 @@
       "price": 2976000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.27034229432630497,
+      "global_popularity": 0.270331094827431,
       "is_out": false
     },
     "50721": {
@@ -1870,7 +1870,7 @@
       "price": 4765000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.05464825251634046,
+      "global_popularity": 0.054660353239832205,
       "is_out": false
     },
     "50716": {
@@ -1882,7 +1882,7 @@
       "price": 20865000,
       "start_price": 17000000,
       "points": 0,
-      "global_popularity": 0.6702378594450547,
+      "global_popularity": 0.6702014655312101,
       "is_out": false
     },
     "51436": {
@@ -1894,7 +1894,7 @@
       "price": 3665000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.11945189693357582,
+      "global_popularity": 0.11943899321246602,
       "is_out": false
     },
     "50659": {
@@ -1906,7 +1906,7 @@
       "price": 11829000,
       "start_price": 9500000,
       "points": 0,
-      "global_popularity": 0.14403010605542252,
+      "global_popularity": 0.1440325513566066,
       "is_out": false
     },
     "50682": {
@@ -1918,7 +1918,7 @@
       "price": 3100000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 5.4018042026036693e-05,
+      "global_popularity": 5.401220675872747e-05,
       "is_out": true
     },
     "50648": {
@@ -1930,7 +1930,7 @@
       "price": 3431000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.02450618506581198,
+      "global_popularity": 0.024503537799542698,
       "is_out": false
     },
     "50622": {
@@ -1942,7 +1942,7 @@
       "price": 6384000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.06435349406701839,
+      "global_popularity": 0.064346542318564,
       "is_out": false
     },
     "50634": {
@@ -1954,7 +1954,7 @@
       "price": 6015000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.02601869024254101,
+      "global_popularity": 0.026015879588787066,
       "is_out": false
     },
     "50633": {
@@ -1966,7 +1966,7 @@
       "price": 9115000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.034841637106793666,
+      "global_popularity": 0.03483787335937922,
       "is_out": false
     },
     "50662": {
@@ -1978,7 +1978,7 @@
       "price": 3561000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.002376793849145615,
+      "global_popularity": 0.0023765370973840086,
       "is_out": false
     },
     "51414": {
@@ -1990,7 +1990,7 @@
       "price": 2671000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.004879629796351982,
+      "global_popularity": 0.004879102677205049,
       "is_out": false
     },
     "51411": {
@@ -2002,7 +2002,7 @@
       "price": 3205000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.009777265606712642,
+      "global_popularity": 0.009776209423329673,
       "is_out": false
     },
     "51412": {
@@ -2014,7 +2014,7 @@
       "price": 1920000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.020724922123989412,
+      "global_popularity": 0.02074068739535135,
       "is_out": false
     },
     "51409": {
@@ -2026,7 +2026,7 @@
       "price": 2489000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.007958658191836073,
+      "global_popularity": 0.007957798462452514,
       "is_out": false
     },
     "51406": {
@@ -2038,7 +2038,7 @@
       "price": 3121000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.00898500099033077,
+      "global_popularity": 0.008984030390868336,
       "is_out": false
     },
     "51399": {
@@ -2050,7 +2050,7 @@
       "price": 2944000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0017465833588418533,
+      "global_popularity": 0.001746394685198855,
       "is_out": false
     },
     "50664": {
@@ -2062,7 +2062,7 @@
       "price": 12707000,
       "start_price": 11500000,
       "points": 0,
-      "global_popularity": 0.040513531519527524,
+      "global_popularity": 0.04050915506904561,
       "is_out": false
     },
     "50666": {
@@ -2074,7 +2074,7 @@
       "price": 2060000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.12514179736031836,
+      "global_popularity": 0.12512827899105197,
       "is_out": false
     },
     "50672": {
@@ -2086,7 +2086,7 @@
       "price": 6100000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 9.00300700433945e-05,
+      "global_popularity": 9.002034459787912e-05,
       "is_out": true
     },
     "50685": {
@@ -2098,7 +2098,7 @@
       "price": 11161000,
       "start_price": 11000000,
       "points": 0,
-      "global_popularity": 0.023443830239299926,
+      "global_popularity": 0.023441297733287722,
       "is_out": false
     },
     "50645": {
@@ -2110,7 +2110,7 @@
       "price": 3090000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.023011685903091633,
+      "global_popularity": 0.023009200079217904,
       "is_out": false
     },
     "51523": {
@@ -2122,7 +2122,7 @@
       "price": 3192000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.003043016367466734,
+      "global_popularity": 0.003042687647408314,
       "is_out": false
     },
     "51546": {
@@ -2134,7 +2134,7 @@
       "price": 2015000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.03644417235356609,
+      "global_popularity": 0.03647624363106062,
       "is_out": false
     },
     "51547": {
@@ -2146,7 +2146,7 @@
       "price": 2066000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.02830545402164323,
+      "global_popularity": 0.028302396341573194,
       "is_out": false
     },
     "51543": {
@@ -2158,7 +2158,7 @@
       "price": 4728000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.007184399589462881,
+      "global_popularity": 0.007183623498910754,
       "is_out": true
     },
     "50627": {
@@ -2170,7 +2170,7 @@
       "price": 2100000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0028269441993625873,
+      "global_popularity": 0.0028266388203734044,
       "is_out": true
     },
     "50681": {
@@ -2182,7 +2182,7 @@
       "price": 4167000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.13623350198966455,
+      "global_popularity": 0.13625479358334983,
       "is_out": false
     },
     "51404": {
@@ -2194,7 +2194,7 @@
       "price": 2685000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.10859427048634245,
+      "global_popularity": 0.10860054372288137,
       "is_out": false
     },
     "51396": {
@@ -2206,7 +2206,7 @@
       "price": 4480000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.00734645371554099,
+      "global_popularity": 0.007345660119186936,
       "is_out": true
     },
     "51389": {
@@ -2218,7 +2218,7 @@
       "price": 6021000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.030934332066910347,
+      "global_popularity": 0.030930990403831266,
       "is_out": false
     },
     "51394": {
@@ -2230,7 +2230,7 @@
       "price": 4128000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.05965392441075319,
+      "global_popularity": 0.059647480330554704,
       "is_out": false
     },
     "51391": {
@@ -2242,7 +2242,7 @@
       "price": 2206000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.09026414822550732,
+      "global_popularity": 0.09025439749383361,
       "is_out": false
     },
     "51392": {
@@ -2254,7 +2254,7 @@
       "price": 3233000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.04004537515530187,
+      "global_popularity": 0.040041049277136635,
       "is_out": true
     },
     "50722": {
@@ -2266,7 +2266,7 @@
       "price": 9229000,
       "start_price": 8500000,
       "points": 0,
-      "global_popularity": 0.07197003799268956,
+      "global_popularity": 0.07196226347154457,
       "is_out": false
     },
     "50715": {
@@ -2278,7 +2278,7 @@
       "price": 2600000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0012604209806075229,
+      "global_popularity": 0.0012602848243703077,
       "is_out": true
     },
     "50708": {
@@ -2290,7 +2290,7 @@
       "price": 4512000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.0034751607036750272,
+      "global_popularity": 0.003474785301478134,
       "is_out": false
     },
     "50687": {
@@ -2302,7 +2302,7 @@
       "price": 4161000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.003961323081909358,
+      "global_popularity": 0.003960895162306681,
       "is_out": true
     },
     "50692": {
@@ -2314,7 +2314,7 @@
       "price": 5499000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.010209409942920935,
+      "global_popularity": 0.010208307077399493,
       "is_out": false
     },
     "50671": {
@@ -2326,7 +2326,7 @@
       "price": 4478000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.02416407079964708,
+      "global_popularity": 0.024161460490070757,
       "is_out": false
     },
     "51505": {
@@ -2338,7 +2338,7 @@
       "price": 3944000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.18240092190791724,
+      "global_popularity": 0.1823812181553031,
       "is_out": false
     },
     "51487": {
@@ -2350,7 +2350,7 @@
       "price": 4185000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.0065541890991591195,
+      "global_popularity": 0.0065534810867256,
       "is_out": false
     },
     "51488": {
@@ -2362,7 +2362,7 @@
       "price": 2394000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.006878297351315339,
+      "global_popularity": 0.006877554327277964,
       "is_out": false
     },
     "51453": {
@@ -2374,7 +2374,7 @@
       "price": 4413000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.0012964330086248808,
+      "global_popularity": 0.0012962929622094593,
       "is_out": true
     },
     "51575": {
@@ -2386,7 +2386,7 @@
       "price": 3536000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0013144390226335597,
+      "global_popularity": 0.0013142970311290352,
       "is_out": false
     },
     "51576": {
@@ -2398,7 +2398,7 @@
       "price": 4389000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.0016385472747897799,
+      "global_popularity": 0.0016383702716814,
       "is_out": true
     },
     "51577": {
@@ -2410,7 +2410,7 @@
       "price": 2524000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.0018006014008678899,
+      "global_popularity": 0.0018004068919575825,
       "is_out": false
     },
     "51578": {
@@ -2422,7 +2422,7 @@
       "price": 3000000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.001242414966598844,
+      "global_popularity": 0.0012422807554507318,
       "is_out": false
     },
     "51579": {
@@ -2434,7 +2434,7 @@
       "price": 3165000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.003547184759709743,
+      "global_popularity": 0.0035468015771564373,
       "is_out": false
     },
     "50650": {
@@ -2446,7 +2446,7 @@
       "price": 3636000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.012010011343788825,
+      "global_popularity": 0.012008713969357074,
       "is_out": false
     },
     "50717": {
@@ -2458,7 +2458,7 @@
       "price": 9367000,
       "start_price": 8500000,
       "points": 0,
-      "global_popularity": 0.03316707780398653,
+      "global_popularity": 0.033181499018778246,
       "is_out": false
     },
     "51378": {
@@ -2470,7 +2470,7 @@
       "price": 3288000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.008444820570070403,
+      "global_popularity": 0.008443908323281062,
       "is_out": false
     }
   },
@@ -4310,10 +4310,8 @@
         "Nillermau CC",
         "ComeOnJonas!"
       ],
-      "transferred_in_count": 1,
-      "transferred_in_by_teams": [
-        "Nillermau CC"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Richard Carapaz",
@@ -4357,11 +4355,8 @@
         "Monster Gocks",
         "ComeOnJonas!"
       ],
-      "transferred_in_count": 2,
-      "transferred_in_by_teams": [
-        "Massis Heste",
-        "Monster Gocks"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Nicolas Prodhomme",
@@ -4385,10 +4380,8 @@
         "Massis Heste",
         "Marcus Ben O'Connor"
       ],
-      "transferred_in_count": 1,
-      "transferred_in_by_teams": [
-        "Marcus Ben O'Connor"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Ilan van Wilder",
@@ -4399,10 +4392,8 @@
         "Massis Heste",
         "Marcus Ben O'Connor"
       ],
-      "transferred_in_count": 1,
-      "transferred_in_by_teams": [
-        "Massis Heste"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Juan Ayuso",
@@ -4425,11 +4416,8 @@
         "De gule veste",
         "Hennings hunde"
       ],
-      "transferred_in_count": 2,
-      "transferred_in_by_teams": [
-        "Massis Heste",
-        "De gule veste"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Felix Grossschartner",
@@ -4461,10 +4449,8 @@
         "Marcus Ben O'Connor",
         "Nillermau CC"
       ],
-      "transferred_in_count": 1,
-      "transferred_in_by_teams": [
-        "Marcus Ben O'Connor"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Pablo Castrillo",
@@ -4515,10 +4501,8 @@
       "owned_by_teams": [
         "Monster Gocks"
       ],
-      "transferred_in_count": 1,
-      "transferred_in_by_teams": [
-        "Monster Gocks"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Louis Vervaeke",
@@ -4527,10 +4511,8 @@
       "owned_by_teams": [
         "Marcus Ben O'Connor"
       ],
-      "transferred_in_count": 1,
-      "transferred_in_by_teams": [
-        "Marcus Ben O'Connor"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Anders Halland Johannessen",
@@ -4539,10 +4521,8 @@
       "owned_by_teams": [
         "Marcus Ben O'Connor"
       ],
-      "transferred_in_count": 1,
-      "transferred_in_by_teams": [
-        "Marcus Ben O'Connor"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Alex Kirsch",
@@ -4581,10 +4561,8 @@
       "owned_by_teams": [
         "Nillermau CC"
       ],
-      "transferred_in_count": 1,
-      "transferred_in_by_teams": [
-        "Nillermau CC"
-      ]
+      "transferred_in_count": 0,
+      "transferred_in_by_teams": []
     },
     {
       "name": "Warren Barguil",
@@ -4687,97 +4665,7 @@
       "transferred_in_by_teams": []
     }
   ],
-  "transfers_out": [
-    {
-      "name": "Valentin Paret-Peintre",
-      "pro_team": "Soudal Quick-Step",
-      "count": 2,
-      "teams": [
-        "Massis Heste",
-        "Marcus Ben O'Connor"
-      ]
-    },
-    {
-      "name": "Richard Carapaz",
-      "pro_team": "EF Education - EasyPost",
-      "count": 1,
-      "teams": [
-        "Massis Heste"
-      ]
-    },
-    {
-      "name": "Javier Romo",
-      "pro_team": "Movistar Team",
-      "count": 1,
-      "teams": [
-        "Massis Heste"
-      ]
-    },
-    {
-      "name": "Thomas Pidcock",
-      "pro_team": "Pinarello Q36.5 Pro Cycling Team",
-      "count": 1,
-      "teams": [
-        "Monster Gocks"
-      ]
-    },
-    {
-      "name": "Nicolas Prodhomme",
-      "pro_team": "Decathlon CMA CGM Team",
-      "count": 1,
-      "teams": [
-        "Monster Gocks"
-      ]
-    },
-    {
-      "name": "Felix Grossschartner",
-      "pro_team": "UAE Team Emirates - XRG",
-      "count": 1,
-      "teams": [
-        "Marcus Ben O'Connor"
-      ]
-    },
-    {
-      "name": "Remco Evenepoel",
-      "pro_team": "Red Bull - BORA - hansgrohe",
-      "count": 1,
-      "teams": [
-        "Marcus Ben O'Connor"
-      ]
-    },
-    {
-      "name": "Tobias Halland Johannessen",
-      "pro_team": "Uno-X Mobility",
-      "count": 1,
-      "teams": [
-        "Marcus Ben O'Connor"
-      ]
-    },
-    {
-      "name": "Alex Baudin",
-      "pro_team": "EF Education - EasyPost",
-      "count": 1,
-      "teams": [
-        "Nillermau CC"
-      ]
-    },
-    {
-      "name": "Pablo Castrillo",
-      "pro_team": "Movistar Team",
-      "count": 1,
-      "teams": [
-        "Nillermau CC"
-      ]
-    },
-    {
-      "name": "Warren Barguil",
-      "pro_team": "Team Picnic PostNL",
-      "count": 1,
-      "teams": [
-        "De gule veste"
-      ]
-    }
-  ],
+  "transfers_out": [],
   "current_round": {
     "round": 15,
     "start": "2026-07-18T18:30:00Z",
