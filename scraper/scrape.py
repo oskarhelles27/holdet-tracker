@@ -252,10 +252,39 @@ def main():
     if failed:
         print(f"  Failed team IDs: {failed}")
 
-    transfers_in, transfers_out = compute_roster_diffs(successful, previous_snapshot)
+    current_round = determine_current_round(successful, schedule)
+
+    # "This round"'s transfers should stay visible for the whole round, not
+    # reset every time the scraper happens to run again. Trading locks for a
+    # round once it closes, so comparing against the immediately-previous
+    # scrape means every run after the first within a round sees identical
+    # rosters and reports zero *new* changes -- correct in isolation, but it
+    # makes real transfers "age out" of the UI after just one more scrape
+    # cycle. Instead, diff against a baseline that's only replaced when the
+    # round number actually advances, and carry it forward unchanged
+    # otherwise.
+    prev_round_num = (
+        previous_snapshot["current_round"]["round"]
+        if previous_snapshot and previous_snapshot.get("current_round")
+        else None
+    )
+    new_round_num = current_round["round"] if current_round else None
+
+    if (previous_snapshot and previous_snapshot.get("round_baseline")
+            and prev_round_num == new_round_num):
+        diff_baseline = {"teams": previous_snapshot["round_baseline"]}
+    else:
+        diff_baseline = previous_snapshot
+
+    transfers_in, transfers_out = compute_roster_diffs(successful, diff_baseline)
     group_popularity = compute_group_popularity(successful, transfers_in)
     transfers_out_list = sorted(transfers_out.values(), key=lambda r: -r["count"])
-    current_round = determine_current_round(successful, schedule)
+
+    round_baseline_teams = (diff_baseline or {}).get("teams") or successful
+    round_baseline = [
+        {"team_id": t["team_id"], "roster": t["roster"]}
+        for t in round_baseline_teams if t
+    ]
 
     if current_round:
         print(f"Fetching round {current_round['round']} rider points...")
@@ -275,6 +304,7 @@ def main():
         "group_popularity": group_popularity,
         "transfers_out": transfers_out_list,
         "current_round": current_round,
+        "round_baseline": round_baseline,
     }
 
     os.makedirs(DATA_DIR, exist_ok=True)
