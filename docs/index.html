@@ -50,7 +50,9 @@
   h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
   section { margin-bottom: 36px; }
 
-  .popularity-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
+  .popularity-row { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
+  .popularity-row summary { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; cursor: pointer; list-style: none; }
+  .popularity-row summary::-webkit-details-marker { display: none; }
   .popularity-row .rider-name { font-weight: 500; font-size: 14px; }
   .popularity-row .pro-team { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
   .jersey-icon { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; vertical-align: middle; margin-right: 6px; background: var(--bg); }
@@ -58,6 +60,10 @@
   .bar-track { width: 120px; height: 6px; background: var(--bg); border-radius: 4px; overflow: hidden; }
   .bar-fill { height: 100%; background: var(--accent); }
   .bar-count { font-size: 13px; color: var(--text-muted); width: 40px; text-align: right; }
+  .owner-list { list-style: none; margin: 0; padding: 4px 12px 10px 32px; }
+  .owner-list li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .owner-list li:last-child { border-bottom: none; }
+  .new-tag { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 1px 6px; border-radius: 4px; margin-left: 6px; white-space: nowrap; }
 
   .standings { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; font-size: 13px; }
   .standings-header, .standings-row summary { display: grid; grid-template-columns: 28px 1fr 110px 74px 120px; align-items: center; gap: 8px; padding: 10px 12px; }
@@ -69,7 +75,7 @@
   .standings-row summary::-webkit-details-marker { display: none; }
   .standings-row .team-name { display: flex; align-items: center; gap: 6px; font-weight: 500; }
   .chevron { display: inline-block; color: var(--text-muted); transition: transform 0.15s ease; font-size: 10px; }
-  .standings-row[open] .chevron { transform: rotate(90deg); }
+  details[open] .chevron { transform: rotate(90deg); }
   .roster-list { list-style: none; margin: 0; padding: 4px 12px 12px 46px; }
   .roster-list li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); }
   .roster-list li:last-child { border-bottom: none; }
@@ -394,6 +400,9 @@ function render(data) {
   const ownedByCount = {};
   for (const p of popularity) ownedByCount[`${p.name}|${p.pro_team}`] = p.owned_by_count;
 
+  const labelToTeamName = {};
+  for (const t of teams) labelToTeamName[t.label] = t.header.team_name || t.label;
+
   const mostOwned = popularity[0];
 
   const transfersOut = data.transfers_out || [];
@@ -424,13 +433,20 @@ function render(data) {
   `;
 
   const popularityHtml = popularity.slice(0, 15).map(p => `
-    <div class="popularity-row">
-      <div>${jerseyIcon(p.pro_team, proTeamAbbr)}<span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span>${p.transferred_in_count ? `<span class="transfer-tag">+${p.transferred_in_count} this round</span>` : ''}</div>
-      <div class="bar-wrap">
-        <div class="bar-track"><div class="bar-fill" style="width:${(p.owned_by_count / maxCount * 100).toFixed(0)}%"></div></div>
-        <div class="bar-count">${p.owned_by_count}/${teams.length}</div>
-      </div>
-    </div>
+    <details class="popularity-row">
+      <summary>
+        <div><span class="chevron">▸</span>${jerseyIcon(p.pro_team, proTeamAbbr)}<span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span>${p.transferred_in_count ? `<span class="transfer-tag">+${p.transferred_in_count} this round</span>` : ''}</div>
+        <div class="bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:${(p.owned_by_count / maxCount * 100).toFixed(0)}%"></div></div>
+          <div class="bar-count">${p.owned_by_count}/${teams.length}</div>
+        </div>
+      </summary>
+      <ul class="owner-list">
+        ${p.owned_by_teams.map(label => `
+          <li>${labelToTeamName[label] || label}${(p.transferred_in_by_teams || []).includes(label) ? '<span class="new-tag">New</span>' : ''}</li>
+        `).join('')}
+      </ul>
+    </details>
   `).join('');
 
   const standings = [...teams].sort((a, b) => (b.value_summary.total || 0) - (a.value_summary.total || 0));
