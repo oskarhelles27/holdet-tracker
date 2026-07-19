@@ -160,16 +160,15 @@ function jerseyIcon(proTeam, abbrMap) {
   return `<img class="jersey-icon" src="assets/jerseys/${abbr}.png" alt="" onerror="this.remove()">`;
 }
 
-function computeTeamTransferCounts(teams, groupPopularity, transfersOut) {
+function computeTeamTransferCounts(teams, groupPopularity) {
+  // Count riders newly added per team this round. Roster size is fixed, so
+  // the number dropped always equals the number added (|A\B| = |B\A| when
+  // |A| = |B|) - counting only the "in" side already gives the true number
+  // of swaps, without double-counting each swap as both an in and an out.
   const counts = {};
   for (const t of teams) counts[t.label] = 0;
   for (const p of groupPopularity) {
     for (const label of (p.transferred_in_by_teams || [])) {
-      counts[label] = (counts[label] || 0) + 1;
-    }
-  }
-  for (const p of transfersOut) {
-    for (const label of (p.teams || [])) {
       counts[label] = (counts[label] || 0) + 1;
     }
   }
@@ -415,7 +414,7 @@ function render(data) {
     ? transfersOut.filter(p => p.count === maxTransferOutCount)
     : [];
 
-  const teamTransferCounts = computeTeamTransferCounts(teams, popularity, transfersOut);
+  const teamTransferCounts = computeTeamTransferCounts(teams, popularity);
   const transferCountValues = Object.values(teamTransferCounts);
   const medianTransfers = median(transferCountValues);
   const avgTransfers = transferCountValues.length
@@ -432,7 +431,7 @@ function render(data) {
     </div>
   `;
 
-  const popularityHtml = popularity.slice(0, 15).map(p => `
+  const popularityHtml = popularity.map(p => `
     <details class="popularity-row">
       <summary>
         <div><span class="chevron">▸</span>${jerseyIcon(p.pro_team, proTeamAbbr)}<span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span>${p.transferred_in_count ? `<span class="transfer-tag">+${p.transferred_in_count} this round</span>` : ''}</div>
