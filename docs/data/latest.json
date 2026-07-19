@@ -4310,8 +4310,10 @@
         "Nillermau CC",
         "ComeOnJonas!"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 1,
+      "transferred_in_by_teams": [
+        "Nillermau CC"
+      ]
     },
     {
       "name": "Richard Carapaz",
@@ -4355,8 +4357,11 @@
         "Monster Gocks",
         "ComeOnJonas!"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 2,
+      "transferred_in_by_teams": [
+        "Massis Heste",
+        "Monster Gocks"
+      ]
     },
     {
       "name": "Nicolas Prodhomme",
@@ -4380,8 +4385,10 @@
         "Massis Heste",
         "Marcus Ben O'Connor"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 1,
+      "transferred_in_by_teams": [
+        "Marcus Ben O'Connor"
+      ]
     },
     {
       "name": "Ilan van Wilder",
@@ -4392,8 +4399,10 @@
         "Massis Heste",
         "Marcus Ben O'Connor"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 1,
+      "transferred_in_by_teams": [
+        "Massis Heste"
+      ]
     },
     {
       "name": "Juan Ayuso",
@@ -4416,8 +4425,11 @@
         "De gule veste",
         "Hennings hunde"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 2,
+      "transferred_in_by_teams": [
+        "Massis Heste",
+        "De gule veste"
+      ]
     },
     {
       "name": "Felix Grossschartner",
@@ -4449,8 +4461,10 @@
         "Marcus Ben O'Connor",
         "Nillermau CC"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 1,
+      "transferred_in_by_teams": [
+        "Marcus Ben O'Connor"
+      ]
     },
     {
       "name": "Pablo Castrillo",
@@ -4501,8 +4515,10 @@
       "owned_by_teams": [
         "Monster Gocks"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 1,
+      "transferred_in_by_teams": [
+        "Monster Gocks"
+      ]
     },
     {
       "name": "Louis Vervaeke",
@@ -4511,8 +4527,10 @@
       "owned_by_teams": [
         "Marcus Ben O'Connor"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 1,
+      "transferred_in_by_teams": [
+        "Marcus Ben O'Connor"
+      ]
     },
     {
       "name": "Anders Halland Johannessen",
@@ -4521,8 +4539,10 @@
       "owned_by_teams": [
         "Marcus Ben O'Connor"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 1,
+      "transferred_in_by_teams": [
+        "Marcus Ben O'Connor"
+      ]
     },
     {
       "name": "Alex Kirsch",
@@ -4561,8 +4581,10 @@
       "owned_by_teams": [
         "Nillermau CC"
       ],
-      "transferred_in_count": 0,
-      "transferred_in_by_teams": []
+      "transferred_in_count": 1,
+      "transferred_in_by_teams": [
+        "Nillermau CC"
+      ]
     },
     {
       "name": "Warren Barguil",
@@ -4665,7 +4687,97 @@
       "transferred_in_by_teams": []
     }
   ],
-  "transfers_out": [],
+  "transfers_out": [
+    {
+      "name": "Valentin Paret-Peintre",
+      "pro_team": "Soudal Quick-Step",
+      "count": 2,
+      "teams": [
+        "Massis Heste",
+        "Marcus Ben O'Connor"
+      ]
+    },
+    {
+      "name": "Richard Carapaz",
+      "pro_team": "EF Education - EasyPost",
+      "count": 1,
+      "teams": [
+        "Massis Heste"
+      ]
+    },
+    {
+      "name": "Javier Romo",
+      "pro_team": "Movistar Team",
+      "count": 1,
+      "teams": [
+        "Massis Heste"
+      ]
+    },
+    {
+      "name": "Thomas Pidcock",
+      "pro_team": "Pinarello Q36.5 Pro Cycling Team",
+      "count": 1,
+      "teams": [
+        "Monster Gocks"
+      ]
+    },
+    {
+      "name": "Nicolas Prodhomme",
+      "pro_team": "Decathlon CMA CGM Team",
+      "count": 1,
+      "teams": [
+        "Monster Gocks"
+      ]
+    },
+    {
+      "name": "Felix Grossschartner",
+      "pro_team": "UAE Team Emirates - XRG",
+      "count": 1,
+      "teams": [
+        "Marcus Ben O'Connor"
+      ]
+    },
+    {
+      "name": "Remco Evenepoel",
+      "pro_team": "Red Bull - BORA - hansgrohe",
+      "count": 1,
+      "teams": [
+        "Marcus Ben O'Connor"
+      ]
+    },
+    {
+      "name": "Tobias Halland Johannessen",
+      "pro_team": "Uno-X Mobility",
+      "count": 1,
+      "teams": [
+        "Marcus Ben O'Connor"
+      ]
+    },
+    {
+      "name": "Alex Baudin",
+      "pro_team": "EF Education - EasyPost",
+      "count": 1,
+      "teams": [
+        "Nillermau CC"
+      ]
+    },
+    {
+      "name": "Pablo Castrillo",
+      "pro_team": "Movistar Team",
+      "count": 1,
+      "teams": [
+        "Nillermau CC"
+      ]
+    },
+    {
+      "name": "Warren Barguil",
+      "pro_team": "Team Picnic PostNL",
+      "count": 1,
+      "teams": [
+        "De gule veste"
+      ]
+    }
+  ],
   "current_round": {
     "round": 15,
     "start": "2026-07-18T18:30:00Z",
@@ -4681,56 +4793,56 @@
           "pro_team": "Red Bull - BORA - hansgrohe",
           "is_captain": false,
           "value": 10593000,
-          "round_points": 0
+          "round_points": 172000
         },
         {
           "name": "Yannis Voisard",
           "pro_team": "Tudor Pro Cycling Team",
           "is_captain": false,
           "value": 3944000,
-          "round_points": 0
+          "round_points": 40000
         },
         {
           "name": "Felix Grossschartner",
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": false,
           "value": 3665000,
-          "round_points": 0
+          "round_points": 33000
         },
         {
           "name": "Valentin Paret-Peintre",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
           "value": 4999000,
-          "round_points": 0
+          "round_points": 39000
         },
         {
           "name": "Paul Seixas",
           "pro_team": "Decathlon CMA CGM Team",
           "is_captain": false,
           "value": 13137000,
-          "round_points": 0
+          "round_points": 298000
         },
         {
           "name": "Nicolas Prodhomme",
           "pro_team": "Decathlon CMA CGM Team",
           "is_captain": false,
           "value": 3051000,
-          "round_points": 0
+          "round_points": -7000
         },
         {
           "name": "Ilan van Wilder",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
           "value": 4888000,
-          "round_points": 0
+          "round_points": 58000
         },
         {
           "name": "Tadej Pogacar",
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         }
       ]
     },
@@ -4742,56 +4854,56 @@
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         },
         {
           "name": "Juan Ayuso",
           "pro_team": "Lidl - Trek",
           "is_captain": false,
           "value": 10524000,
-          "round_points": 0
+          "round_points": 193000
         },
         {
           "name": "Florian Lipowitz",
           "pro_team": "Red Bull - BORA - hansgrohe",
           "is_captain": false,
           "value": 10593000,
-          "round_points": 0
+          "round_points": 172000
         },
         {
           "name": "Richard Carapaz",
           "pro_team": "EF Education - EasyPost",
           "is_captain": false,
           "value": 8569000,
-          "round_points": 0
+          "round_points": 218000
         },
         {
           "name": "Nicolas Prodhomme",
           "pro_team": "Decathlon CMA CGM Team",
           "is_captain": false,
           "value": 3051000,
-          "round_points": 0
+          "round_points": -7000
         },
         {
           "name": "Yannis Voisard",
           "pro_team": "Tudor Pro Cycling Team",
           "is_captain": false,
           "value": 3944000,
-          "round_points": 0
+          "round_points": 40000
         },
         {
           "name": "Valentin Paret-Peintre",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
           "value": 4999000,
-          "round_points": 0
+          "round_points": 39000
         },
         {
           "name": "Joel Nicolau",
           "pro_team": "Caja Rural - Seguros RGA",
           "is_captain": false,
           "value": 1948000,
-          "round_points": 0
+          "round_points": -90000
         }
       ]
     },
@@ -4803,56 +4915,56 @@
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         },
         {
-          "name": "Florian Lipowitz",
-          "pro_team": "Red Bull - BORA - hansgrohe",
+          "name": "Richard Carapaz",
+          "pro_team": "EF Education - EasyPost",
           "is_captain": false,
-          "value": 10593000,
-          "round_points": 0
+          "value": 8569000,
+          "round_points": 218000
         },
         {
-          "name": "Ilan van Wilder",
+          "name": "Javier Romo",
+          "pro_team": "Movistar Team",
+          "is_captain": false,
+          "value": 4103000,
+          "round_points": -87000
+        },
+        {
+          "name": "Valentin Paret-Peintre",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
-          "value": 4888000,
-          "round_points": 0
-        },
-        {
-          "name": "Nils Politt",
-          "pro_team": "UAE Team Emirates - XRG",
-          "is_captain": false,
-          "value": 2976000,
-          "round_points": 0
+          "value": 4999000,
+          "round_points": 39000
         },
         {
           "name": "Nicolas Prodhomme",
           "pro_team": "Decathlon CMA CGM Team",
           "is_captain": false,
           "value": 3051000,
-          "round_points": 0
+          "round_points": -7000
         },
         {
           "name": "Yannis Voisard",
           "pro_team": "Tudor Pro Cycling Team",
           "is_captain": false,
           "value": 3944000,
-          "round_points": 0
+          "round_points": 40000
         },
         {
           "name": "Paul Seixas",
           "pro_team": "Decathlon CMA CGM Team",
           "is_captain": false,
           "value": 13137000,
-          "round_points": 0
+          "round_points": 298000
         },
         {
           "name": "Jordan Jegat",
           "pro_team": "TotalEnergies",
           "is_captain": false,
           "value": 4756000,
-          "round_points": 0
+          "round_points": -15000
         }
       ]
     },
@@ -4864,56 +4976,56 @@
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         },
         {
           "name": "Richard Carapaz",
           "pro_team": "EF Education - EasyPost",
           "is_captain": false,
           "value": 8569000,
-          "round_points": 0
-        },
-        {
-          "name": "Florian Lipowitz",
-          "pro_team": "Red Bull - BORA - hansgrohe",
-          "is_captain": false,
-          "value": 10593000,
-          "round_points": 0
-        },
-        {
-          "name": "Tobias Halland Johannessen",
-          "pro_team": "Uno-X Mobility",
-          "is_captain": false,
-          "value": 9229000,
-          "round_points": 0
+          "round_points": 218000
         },
         {
           "name": "Valentin Paret-Peintre",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
           "value": 4999000,
-          "round_points": 0
+          "round_points": 39000
+        },
+        {
+          "name": "Tobias Halland Johannessen",
+          "pro_team": "Uno-X Mobility",
+          "is_captain": false,
+          "value": 9229000,
+          "round_points": 139000
         },
         {
           "name": "Felix Grossschartner",
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": false,
           "value": 3665000,
-          "round_points": 0
+          "round_points": 33000
+        },
+        {
+          "name": "Thomas Pidcock",
+          "pro_team": "Pinarello Q36.5 Pro Cycling Team",
+          "is_captain": false,
+          "value": 9367000,
+          "round_points": 11000
         },
         {
           "name": "Yannis Voisard",
           "pro_team": "Tudor Pro Cycling Team",
           "is_captain": false,
           "value": 3944000,
-          "round_points": 0
+          "round_points": 40000
         },
         {
-          "name": "Max Walker",
-          "pro_team": "EF Education - EasyPost",
+          "name": "Nicolas Prodhomme",
+          "pro_team": "Decathlon CMA CGM Team",
           "is_captain": false,
-          "value": 1995000,
-          "round_points": 0
+          "value": 3051000,
+          "round_points": -7000
         }
       ]
     },
@@ -4921,60 +5033,60 @@
       "team_id": "7190347",
       "roster": [
         {
-          "name": "Paul Seixas",
-          "pro_team": "Decathlon CMA CGM Team",
+          "name": "Felix Grossschartner",
+          "pro_team": "UAE Team Emirates - XRG",
           "is_captain": false,
-          "value": 13137000,
-          "round_points": 0
+          "value": 3665000,
+          "round_points": 33000
         },
         {
-          "name": "Louis Vervaeke",
+          "name": "Valentin Paret-Peintre",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
-          "value": 2747000,
-          "round_points": 0
+          "value": 4999000,
+          "round_points": 39000
         },
         {
           "name": "Yannis Voisard",
           "pro_team": "Tudor Pro Cycling Team",
           "is_captain": false,
           "value": 3944000,
-          "round_points": 0
+          "round_points": 40000
         },
         {
           "name": "Nicolas Prodhomme",
           "pro_team": "Decathlon CMA CGM Team",
           "is_captain": false,
           "value": 3051000,
-          "round_points": 0
+          "round_points": -7000
         },
         {
           "name": "Ilan van Wilder",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
           "value": 4888000,
-          "round_points": 0
+          "round_points": 58000
         },
         {
-          "name": "Anders Halland Johannessen",
+          "name": "Remco Evenepoel",
+          "pro_team": "Red Bull - BORA - hansgrohe",
+          "is_captain": false,
+          "value": 12423000,
+          "round_points": 229000
+        },
+        {
+          "name": "Tobias Halland Johannessen",
           "pro_team": "Uno-X Mobility",
           "is_captain": false,
-          "value": 2685000,
-          "round_points": 0
-        },
-        {
-          "name": "Isaac Del Toro",
-          "pro_team": "UAE Team Emirates - XRG",
-          "is_captain": false,
-          "value": 11829000,
-          "round_points": 0
+          "value": 9229000,
+          "round_points": 139000
         },
         {
           "name": "Tadej Pogacar",
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         }
       ]
     },
@@ -4986,56 +5098,56 @@
           "pro_team": "Cofidis",
           "is_captain": false,
           "value": 1966000,
-          "round_points": 0
+          "round_points": -90000
         },
         {
           "name": "Pablo Castrillo",
           "pro_team": "Movistar Team",
           "is_captain": false,
           "value": 3990000,
-          "round_points": 0
+          "round_points": -90000
         },
         {
           "name": "Romain Gregoire",
           "pro_team": "Groupama - FDJ United",
           "is_captain": false,
           "value": 6290000,
-          "round_points": 0
+          "round_points": -87000
         },
         {
           "name": "Alex Baudin",
           "pro_team": "EF Education - EasyPost",
           "is_captain": false,
           "value": 5582000,
-          "round_points": 0
+          "round_points": -90000
         },
         {
           "name": "Richard Carapaz",
           "pro_team": "EF Education - EasyPost",
           "is_captain": false,
           "value": 8569000,
-          "round_points": 0
+          "round_points": 218000
         },
         {
           "name": "Tadej Pogacar",
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         },
         {
           "name": "Valentin Paret-Peintre",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
           "value": 4999000,
-          "round_points": 0
+          "round_points": 39000
         },
         {
           "name": "Juan Ayuso",
           "pro_team": "Lidl - Trek",
           "is_captain": false,
           "value": 10524000,
-          "round_points": 0
+          "round_points": 193000
         }
       ]
     },
@@ -5047,56 +5159,56 @@
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         },
         {
           "name": "Richard Carapaz",
           "pro_team": "EF Education - EasyPost",
           "is_captain": false,
           "value": 8569000,
-          "round_points": 0
+          "round_points": 218000
         },
         {
           "name": "Isaac Del Toro",
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": false,
           "value": 11829000,
-          "round_points": 0
+          "round_points": 343000
         },
         {
           "name": "Valentin Paret-Peintre",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
           "value": 4999000,
-          "round_points": 0
+          "round_points": 39000
         },
         {
           "name": "Javier Romo",
           "pro_team": "Movistar Team",
           "is_captain": false,
           "value": 4103000,
-          "round_points": 0
+          "round_points": -87000
         },
         {
-          "name": "Einer Augusto Rubio",
+          "name": "Alex Baudin",
+          "pro_team": "EF Education - EasyPost",
+          "is_captain": false,
+          "value": 5582000,
+          "round_points": -90000
+        },
+        {
+          "name": "Pablo Castrillo",
           "pro_team": "Movistar Team",
           "is_captain": false,
-          "value": 5253000,
-          "round_points": 0
-        },
-        {
-          "name": "Yannis Voisard",
-          "pro_team": "Tudor Pro Cycling Team",
-          "is_captain": false,
-          "value": 3944000,
-          "round_points": 0
+          "value": 3990000,
+          "round_points": -90000
         },
         {
           "name": "Warren Barguil",
           "pro_team": "Team Picnic PostNL",
           "is_captain": false,
           "value": 2472000,
-          "round_points": 0
+          "round_points": -90000
         }
       ]
     },
@@ -5108,56 +5220,56 @@
           "pro_team": "Uno-X Mobility",
           "is_captain": false,
           "value": 9229000,
-          "round_points": 0
+          "round_points": 139000
         },
         {
           "name": "Thymen Arensman",
           "pro_team": "Netcompany INEOS Cycling Team",
           "is_captain": false,
           "value": 7395000,
-          "round_points": 0
+          "round_points": -63000
         },
         {
           "name": "Javier Romo",
           "pro_team": "Movistar Team",
           "is_captain": false,
           "value": 4103000,
-          "round_points": 0
+          "round_points": -87000
         },
         {
           "name": "Valentin Paret-Peintre",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
           "value": 4999000,
-          "round_points": 0
+          "round_points": 39000
         },
         {
           "name": "Pablo Castrillo",
           "pro_team": "Movistar Team",
           "is_captain": false,
           "value": 3990000,
-          "round_points": 0
+          "round_points": -90000
         },
         {
           "name": "Richard Carapaz",
           "pro_team": "EF Education - EasyPost",
           "is_captain": false,
           "value": 8569000,
-          "round_points": 0
+          "round_points": 218000
         },
         {
-          "name": "Nils Politt",
-          "pro_team": "UAE Team Emirates - XRG",
+          "name": "Warren Barguil",
+          "pro_team": "Team Picnic PostNL",
           "is_captain": false,
-          "value": 2976000,
-          "round_points": 0
+          "value": 2472000,
+          "round_points": -90000
         },
         {
           "name": "Tadej Pogacar",
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         }
       ]
     },
@@ -5169,56 +5281,56 @@
           "pro_team": "EF Education - EasyPost",
           "is_captain": false,
           "value": 8569000,
-          "round_points": 0
+          "round_points": 218000
         },
         {
           "name": "Kamil Gradek",
           "pro_team": "Bahrain - Victorious",
           "is_captain": false,
           "value": 1864000,
-          "round_points": 0
+          "round_points": -90000
         },
         {
           "name": "Juan Ayuso",
           "pro_team": "Lidl - Trek",
           "is_captain": false,
           "value": 10524000,
-          "round_points": 0
+          "round_points": 193000
         },
         {
           "name": "Florian Lipowitz",
           "pro_team": "Red Bull - BORA - hansgrohe",
           "is_captain": false,
           "value": 10593000,
-          "round_points": 0
+          "round_points": 172000
         },
         {
           "name": "Tadej Pogacar",
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         },
         {
           "name": "Julius van den Berg",
           "pro_team": "Team Picnic PostNL",
           "is_captain": false,
           "value": 1882000,
-          "round_points": 0
+          "round_points": -90000
         },
         {
           "name": "Yannis Voisard",
           "pro_team": "Tudor Pro Cycling Team",
           "is_captain": false,
           "value": 3944000,
-          "round_points": 0
+          "round_points": 40000
         },
         {
           "name": "Piet Allegaert",
           "pro_team": "Cofidis",
           "is_captain": false,
           "value": 1903000,
-          "round_points": 0
+          "round_points": -90000
         }
       ]
     },
@@ -5230,35 +5342,35 @@
           "pro_team": "EF Education - EasyPost",
           "is_captain": false,
           "value": 8569000,
-          "round_points": 0
+          "round_points": 218000
         },
         {
           "name": "Dylan Van Baarle",
           "pro_team": "Soudal Quick-Step",
           "is_captain": false,
           "value": 3121000,
-          "round_points": 0
+          "round_points": -90000
         },
         {
           "name": "Carlos Verona",
           "pro_team": "Lidl - Trek",
           "is_captain": false,
           "value": 3418000,
-          "round_points": 0
+          "round_points": -51000
         },
         {
           "name": "Anders Skaarseth",
           "pro_team": "Uno-X Mobility",
           "is_captain": false,
           "value": 2206000,
-          "round_points": 0
+          "round_points": -78000
         },
         {
           "name": "Mattia Cattaneo",
           "pro_team": "Red Bull - BORA - hansgrohe",
           "is_captain": false,
           "value": 3185000,
-          "round_points": 0
+          "round_points": -51000
         },
         {
           "name": "Nils Politt",
@@ -5272,14 +5384,14 @@
           "pro_team": "Lidl - Trek",
           "is_captain": false,
           "value": 11367000,
-          "round_points": 0
+          "round_points": -5000
         },
         {
           "name": "Tadej Pogacar",
           "pro_team": "UAE Team Emirates - XRG",
           "is_captain": true,
           "value": 20865000,
-          "round_points": 0
+          "round_points": 530000
         }
       ]
     }
