@@ -202,7 +202,10 @@ function render(data) {
                   <span>${jerseyIcon(r.pro_team, proTeamAbbr)}${r.name}${r.is_captain ? '<span class="captain-tag">Kaptajn</span>' : ''}${ownedByCount[`${r.name}|${r.pro_team}`] === 1 ? '<span class="unique-tag">Unique</span>' : ''}
                     <span style="color:var(--text-muted); font-size:12px;">${r.pro_team || ''}</span>
                   </span>
-                  <span>${formatDkk(r.value)}</span>
+                  <span style="display:flex; align-items:center; gap:10px;">
+                    ${r.round_points !== null && r.round_points !== undefined ? `<span style="font-size:12px;">${formatSignedPts(r.round_points)}</span>` : ''}
+                    <span>${formatDkk(r.value)}</span>
+                  </span>
                 </li>
               `).join('')}
             </ul>

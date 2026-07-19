@@ -26,6 +26,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from parse_team import parse_team_page
 from fetch_master_riders import fetch_master_riders
 from fetch_schedule import fetch_schedule
+from fetch_round_players import fetch_round_players
 
 ROSTER_URL_TEMPLATE = "https://nexus-app-fantasy.holdet.dk/da/tour-de-france-2026/cycling/fantasyteams/{team_id}"
 
@@ -186,6 +187,28 @@ def determine_current_round(teams_data, schedule):
     return round_info
 
 
+def attach_round_points(teams_data, master_riders, round_players):
+    """Stamp each roster rider with their points for the given round (a
+    rider's price change that round is how this game scores points -- same
+    numbers that make up a team's round_points total). Riders who were
+    transferred onto a team after the round in question won't have earned
+    those points *for this team*, but we have no way to know past roster
+    membership without extra snapshot history, so this is just "how many
+    points did this rider score in the round", not "for this team" --
+    left null if we can't find the rider or there's no round data yet.
+    """
+    if not round_players:
+        return
+    name_to_id = {f"{r['name']}|{r['pro_team']}": rid for rid, r in master_riders.items()}
+    for team in teams_data:
+        if not team:
+            continue
+        for rider in team["roster"]:
+            rider_id = name_to_id.get(f"{rider['name']}|{rider['pro_team']}")
+            entry = round_players.get(rider_id) if rider_id else None
+            rider["round_points"] = entry["price_change"] if entry else None
+
+
 def main():
     if not SESSION_COOKIE:
         print("  [WARN] HOLDET_COOKIE is not set - team roster pages will "
@@ -233,6 +256,16 @@ def main():
     group_popularity = compute_group_popularity(successful, transfers_in)
     transfers_out_list = sorted(transfers_out.values(), key=lambda r: -r["count"])
     current_round = determine_current_round(successful, schedule)
+
+    if current_round:
+        print(f"Fetching round {current_round['round']} rider points...")
+        try:
+            round_players = fetch_round_players(current_round["round"])
+            print(f"  Got {len(round_players)} rider entries")
+        except Exception as e:
+            print(f"  [ERROR] Failed to fetch round player points: {e}")
+            round_players = {}
+        attach_round_points(successful, master_riders, round_players)
 
     snapshot = {
         "scraped_at": datetime.now(timezone.utc).isoformat(),
