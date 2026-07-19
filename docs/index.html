@@ -388,7 +388,7 @@ function render(data) {
 
   const round = data.current_round;
   document.getElementById('round-badge').innerHTML = round
-    ? `<span class="round-badge">Round ${round.round}${round.end ? ' · ended ' + new Date(round.end).toLocaleDateString('da-DK') : ''}</span>`
+    ? `<span class="round-badge">Stage ${round.round}</span>`
     : '';
 
   const proTeamAbbr = buildProTeamAbbrMap(data.master_riders);
