@@ -67,6 +67,7 @@
   .roster-list li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); }
   .roster-list li:last-child { border-bottom: none; }
   .captain-tag { font-size: 11px; background: #FAEEDA; color: #854F0B; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+  .unique-tag { font-size: 11px; background: #EDE9FE; color: #6D28D9; padding: 1px 6px; border-radius: 4px; margin-left: 6px; white-space: nowrap; }
   .transfer-tag { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 1px 6px; border-radius: 4px; margin-left: 6px; white-space: nowrap; }
 
   .pts-positive { color: var(--accent); font-weight: 500; }
@@ -145,6 +146,9 @@ function render(data) {
   const popularity = data.group_popularity || [];
   const maxCount = Math.max(1, ...popularity.map(p => p.owned_by_count));
 
+  const ownedByCount = {};
+  for (const p of popularity) ownedByCount[`${p.name}|${p.pro_team}`] = p.owned_by_count;
+
   const mostOwned = popularity[0];
 
   const transfersOut = data.transfers_out || [];
@@ -195,7 +199,7 @@ function render(data) {
             <ul class="roster-list">
               ${roster.map(r => `
                 <li>
-                  <span>${jerseyIcon(r.pro_team, proTeamAbbr)}${r.name}${r.is_captain ? '<span class="captain-tag">Kaptajn</span>' : ''}
+                  <span>${jerseyIcon(r.pro_team, proTeamAbbr)}${r.name}${r.is_captain ? '<span class="captain-tag">Kaptajn</span>' : ''}${ownedByCount[`${r.name}|${r.pro_team}`] === 1 ? '<span class="unique-tag">Unique</span>' : ''}
                     <span style="color:var(--text-muted); font-size:12px;">${r.pro_team || ''}</span>
                   </span>
                   <span>${formatDkk(r.value)}</span>
