@@ -2,9 +2,14 @@ name: Scrape Holdet data
 
 on:
   schedule:
-    # Runs once a day at 20:00 UTC (after most Tour stages have finished
-    # and results have settled). Adjust as needed - see /api/schedules/618
-    # for exact stage end times if you want to fine-tune this.
+    # Team rosters only reflect the current round once that round's trading
+    # window closes (the "Handel lukker" deadline in the Holdet app) - see
+    # /api/schedules/618, each round's "close" timestamp. Across all 21
+    # stages of the 2026 Tour that falls between 09:20 and 15:05 UTC, so we
+    # poll every 30 min through that window to pick up the new rosters
+    # shortly after they unlock, rather than waiting for a single nightly run.
+    - cron: '*/30 8-15 * * *'
+    # Nightly fallback in case an intraday run fails for some reason.
     - cron: '0 20 * * *'
   workflow_dispatch: {}  # lets you trigger a run manually from the Actions tab
 

@@ -12,7 +12,7 @@ full rosters.
   - writes a combined snapshot to `data/latest.json` (and a dated copy in `data/`)
 - `docs/index.html` is a plain HTML/JS page that reads `data/latest.json` and renders it.
   No build step, no framework.
-- `.github/workflows/scrape.yml` runs the scraper once a day and commits the new snapshot.
+- `.github/workflows/scrape.yml` runs the scraper on a schedule and commits the new snapshot.
 
 ## 1. Configure your teams
 
@@ -97,10 +97,12 @@ git push -u origin main
 
 ## 6. Turn on the scraper automation
 
-The GitHub Action in `.github/workflows/scrape.yml` runs automatically once a
-day (20:00 UTC) once it's on GitHub and the `HOLDET_COOKIE` secret is
-set (step 2) — no extra setup needed beyond that, since it uses the built-in
-`GITHUB_TOKEN` to commit back to your repo.
+The GitHub Action in `.github/workflows/scrape.yml` runs automatically every
+30 minutes between 08:00–15:30 UTC (covering when each stage's trading
+window closes and rosters unlock, per `/api/schedules/618`), plus a nightly
+20:00 UTC run as a fallback — once it's on GitHub and the `HOLDET_COOKIE`
+secret is set (step 2). No extra setup needed beyond that, since it uses the
+built-in `GITHUB_TOKEN` to commit back to your repo.
 
 To run it manually (e.g. right after setup, to get real data immediately):
 1. Go to your repo's **Actions** tab
