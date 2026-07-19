@@ -52,18 +52,20 @@
   .bar-fill { height: 100%; background: var(--accent); }
   .bar-count { font-size: 13px; color: var(--text-muted); width: 40px; text-align: right; }
 
-  table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
-  th { color: var(--text-muted); font-weight: 500; font-size: 12px; }
-  tr:last-child td { border-bottom: none; }
-  td.num, th.num { text-align: right; }
-
-  .team-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; }
-  .team-card summary { cursor: pointer; font-weight: 500; font-size: 14px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
-  .team-card summary::-webkit-details-marker { display: none; }
-  .team-card ul { list-style: none; padding: 0; margin: 12px 0 0; }
-  .team-card li { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-  .team-card li:last-child { border-bottom: none; }
+  .standings { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; font-size: 13px; }
+  .standings-header, .standings-row summary { display: grid; grid-template-columns: 28px 1fr 110px 120px; align-items: center; gap: 8px; padding: 10px 12px; }
+  .standings-header { color: var(--text-muted); font-weight: 500; font-size: 12px; border-bottom: 1px solid var(--border); }
+  .standings-header .num, .standings-row .num { text-align: right; }
+  .standings-row { border-bottom: 1px solid var(--border); }
+  .standings-row:last-child { border-bottom: none; }
+  .standings-row summary { cursor: pointer; list-style: none; }
+  .standings-row summary::-webkit-details-marker { display: none; }
+  .standings-row .team-name { display: flex; align-items: center; gap: 6px; font-weight: 500; }
+  .chevron { display: inline-block; color: var(--text-muted); transition: transform 0.15s ease; font-size: 10px; }
+  .standings-row[open] .chevron { transform: rotate(90deg); }
+  .roster-list { list-style: none; margin: 0; padding: 4px 12px 12px 46px; }
+  .roster-list li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .roster-list li:last-child { border-bottom: none; }
   .captain-tag { font-size: 11px; background: #FAEEDA; color: #854F0B; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
   .transfer-tag { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 1px 6px; border-radius: 4px; margin-left: 6px; white-space: nowrap; }
 
@@ -175,42 +177,36 @@ function render(data) {
 
   const standings = [...teams].sort((a, b) => (b.value_summary.total || 0) - (a.value_summary.total || 0));
   const standingsHtml = `
-    <table>
-      <thead><tr>
-        <th>#</th><th>Team</th><th class="num">Latest round pts</th><th class="num">Total value</th>
-      </tr></thead>
-      <tbody>
-        ${standings.map((t, i) => {
-          const latest = t.history && t.history.length ? t.history[t.history.length - 1] : null;
-          return `<tr>
-            <td>${i + 1}</td>
-            <td>${t.header.team_name || t.label}</td>
-            <td class="num">${latest ? formatSignedPts(latest.round_points) : '-'}</td>
-            <td class="num">${formatDkk(t.value_summary.total)}</td>
-          </tr>`;
-        }).join('')}
-      </tbody>
-    </table>
+    <div class="standings">
+      <div class="standings-header">
+        <span>#</span><span>Team</span><span class="num">Latest round pts</span><span class="num">Total value</span>
+      </div>
+      ${standings.map((t, i) => {
+        const latest = t.history && t.history.length ? t.history[t.history.length - 1] : null;
+        const roster = [...t.roster].sort((a, b) => (b.value || 0) - (a.value || 0));
+        return `
+          <details class="standings-row">
+            <summary>
+              <span>${i + 1}</span>
+              <span class="team-name"><span class="chevron">▸</span>${t.header.team_name || t.label}</span>
+              <span class="num">${latest ? formatSignedPts(latest.round_points) : '-'}</span>
+              <span class="num">${formatDkk(t.value_summary.total)}</span>
+            </summary>
+            <ul class="roster-list">
+              ${roster.map(r => `
+                <li>
+                  <span>${jerseyIcon(r.pro_team, proTeamAbbr)}${r.name}${r.is_captain ? '<span class="captain-tag">Kaptajn</span>' : ''}
+                    <span style="color:var(--text-muted); font-size:12px;">${r.pro_team || ''}</span>
+                  </span>
+                  <span>${formatDkk(r.value)}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </details>
+        `;
+      }).join('')}
+    </div>
   `;
-
-  const rosterHtml = teams.map(t => `
-    <details class="team-card">
-      <summary>
-        <span>${t.header.team_name || t.label}</span>
-        <span style="color:var(--text-muted); font-weight:400;">${formatDkk(t.value_summary.total)}</span>
-      </summary>
-      <ul>
-        ${t.roster.map(r => `
-          <li>
-            <span>${jerseyIcon(r.pro_team, proTeamAbbr)}${r.name}${r.is_captain ? '<span class="captain-tag">Kaptajn</span>' : ''}
-              <span style="color:var(--text-muted); font-size:12px;">${r.pro_team || ''}</span>
-            </span>
-            <span>${formatDkk(r.value)}</span>
-          </li>
-        `).join('')}
-      </ul>
-    </details>
-  `).join('');
 
   const failedHtml = (data.failed_team_ids && data.failed_team_ids.length)
     ? `<div class="error" style="margin-bottom:24px;">Failed to fetch ${data.failed_team_ids.length} team(s): ${data.failed_team_ids.join(', ')}. Check the scraper logs.</div>`
@@ -226,10 +222,6 @@ function render(data) {
     <section>
       <h2>Team standings</h2>
       ${standingsHtml}
-    </section>
-    <section>
-      <h2>Team rosters</h2>
-      ${rosterHtml}
     </section>
   `;
 }
