@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fuentes Bagmænd tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
   :root {
     --bg: #f7f7f5;
@@ -28,6 +29,12 @@
   h1 { font-size: 22px; font-weight: 600; margin: 0; }
   .subtitle { color: var(--text-muted); font-size: 13px; }
   .round-badge { display: inline-block; background: var(--accent-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; margin-top: 6px; }
+
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .tabs button { font-size: 14px; font-weight: 500; padding: 10px 16px; border: none; background: none; color: var(--text-muted); cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tabs button.active { color: var(--text); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
   select#round-select { font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); }
 
   .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 32px; }
@@ -53,7 +60,7 @@
   .bar-count { font-size: 13px; color: var(--text-muted); width: 40px; text-align: right; }
 
   .standings { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; font-size: 13px; }
-  .standings-header, .standings-row summary { display: grid; grid-template-columns: 28px 1fr 110px 120px; align-items: center; gap: 8px; padding: 10px 12px; }
+  .standings-header, .standings-row summary { display: grid; grid-template-columns: 28px 1fr 110px 74px 120px; align-items: center; gap: 8px; padding: 10px 12px; }
   .standings-header { color: var(--text-muted); font-weight: 500; font-size: 12px; border-bottom: 1px solid var(--border); }
   .standings-header .num, .standings-row .num { text-align: right; }
   .standings-row { border-bottom: 1px solid var(--border); }
@@ -69,12 +76,28 @@
   .captain-tag { font-size: 11px; background: #FAEEDA; color: #854F0B; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
   .unique-tag { font-size: 11px; background: #EDE9FE; color: #6D28D9; padding: 1px 6px; border-radius: 4px; margin-left: 6px; white-space: nowrap; }
   .transfer-tag { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 1px 6px; border-radius: 4px; margin-left: 6px; white-space: nowrap; }
+  .transfer-pill { display: inline-block; min-width: 20px; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; text-align: center; }
 
   .pts-positive { color: var(--accent); font-weight: 500; }
   .pts-negative { color: var(--negative); font-weight: 500; }
 
   .error { background: #FCEBEB; color: #791F1F; padding: 12px 16px; border-radius: 8px; }
   .loading { color: var(--text-muted); padding: 24px 0; }
+
+  .chart-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
+  .chart-toggle button { font-size: 13px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; font-family: inherit; }
+  .chart-toggle button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .chart-container { position: relative; height: 380px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+
+  .overlap-matrix-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .overlap-matrix { display: grid; gap: 3px; font-size: 12px; align-items: center; }
+  .overlap-row-header { padding-right: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .overlap-col-header { text-align: center; color: var(--text-muted); font-weight: 600; padding-bottom: 4px; }
+  .overlap-cell { height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 600; cursor: pointer; }
+  .overlap-cell.overlap-diag { background: transparent; cursor: default; }
+  .overlap-cell:not(.overlap-diag):hover { outline: 2px solid var(--text); outline-offset: -2px; }
+  .overlap-detail { margin-top: 16px; }
+  .overlap-detail h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
 </style>
 </head>
 <body>
@@ -131,6 +154,228 @@ function jerseyIcon(proTeam, abbrMap) {
   return `<img class="jersey-icon" src="assets/jerseys/${abbr}.png" alt="" onerror="this.remove()">`;
 }
 
+function computeTeamTransferCounts(teams, groupPopularity, transfersOut) {
+  const counts = {};
+  for (const t of teams) counts[t.label] = 0;
+  for (const p of groupPopularity) {
+    for (const label of (p.transferred_in_by_teams || [])) {
+      counts[label] = (counts[label] || 0) + 1;
+    }
+  }
+  for (const p of transfersOut) {
+    for (const label of (p.teams || [])) {
+      counts[label] = (counts[label] || 0) + 1;
+    }
+  }
+  return counts;
+}
+
+function median(nums) {
+  if (!nums.length) return null;
+  const sorted = [...nums].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
+function accentIntensity(ratio) {
+  const light = [225, 245, 238]; // --accent-bg
+  const dark = [29, 158, 117];   // --accent
+  const rgb = light.map((c, i) => Math.round(c + (dark[i] - c) * ratio));
+  const text = ratio > 0.55 ? '#ffffff' : '#0f5c42';
+  return { bg: `rgb(${rgb.join(',')})`, text };
+}
+
+function transferPill(count, maxCount) {
+  const ratio = maxCount > 0 ? count / maxCount : 0;
+  const { bg, text } = accentIntensity(ratio);
+  return `<span class="transfer-pill" style="background:${bg}; color:${text};">${count}</span>`;
+}
+
+function computeOverlapCounts(teams) {
+  const rosterKeys = teams.map(t => new Set(t.roster.map(r => `${r.name}|${r.pro_team}`)));
+  const n = teams.length;
+  const counts = Array.from({ length: n }, () => Array(n).fill(0));
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      if (i === j) continue;
+      let c = 0;
+      for (const key of rosterKeys[i]) if (rosterKeys[j].has(key)) c++;
+      counts[i][j] = c;
+    }
+  }
+  return counts;
+}
+
+function sharedRiders(teamA, teamB) {
+  const bKeys = new Set(teamB.roster.map(r => `${r.name}|${r.pro_team}`));
+  return teamA.roster.filter(r => bKeys.has(`${r.name}|${r.pro_team}`));
+}
+
+function renderOverlapMatrix(standings) {
+  const n = standings.length;
+  const counts = computeOverlapCounts(standings);
+  const maxOverlap = Math.max(0, ...counts.flat());
+
+  let cells = `<div class="overlap-cell overlap-corner"></div>`;
+  for (let j = 0; j < n; j++) {
+    const name = standings[j].header.team_name || standings[j].label;
+    cells += `<div class="overlap-col-header" title="${name}">${j + 1}</div>`;
+  }
+  for (let i = 0; i < n; i++) {
+    const name = standings[i].header.team_name || standings[i].label;
+    cells += `<div class="overlap-row-header">${i + 1}. ${name}</div>`;
+    for (let j = 0; j < n; j++) {
+      if (i === j) {
+        cells += `<div class="overlap-cell overlap-diag"></div>`;
+      } else {
+        const count = counts[i][j];
+        const ratio = maxOverlap > 0 ? count / maxOverlap : 0;
+        const { bg, text } = accentIntensity(ratio);
+        cells += `<div class="overlap-cell" data-row="${i}" data-col="${j}" style="background:${bg}; color:${text};">${count}</div>`;
+      }
+    }
+  }
+
+  return `
+    <div class="overlap-matrix-wrap">
+      <div class="overlap-matrix" style="grid-template-columns: 160px repeat(${n}, 36px);">
+        ${cells}
+      </div>
+    </div>
+    <div id="overlap-detail" class="overlap-detail"></div>
+  `;
+}
+
+const TEAM_COLORS = [
+  '#1D9E75', '#E07A5F', '#3D5A80', '#EE6C4D', '#8338EC',
+  '#C9A227', '#06AED5', '#D62839', '#6A994E', '#B5838D',
+];
+
+function hexToRgba(hex, alpha) {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.substring(0, 2), 16);
+  const g = parseInt(h.substring(2, 4), 16);
+  const b = parseInt(h.substring(4, 6), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function computeGroupRanksByRound(teams) {
+  // rank teams 1-N against each other for each round, by total_value (1 = highest value)
+  const perRound = {};
+  for (const t of teams) {
+    for (const h of t.history || []) {
+      if (!perRound[h.round]) perRound[h.round] = [];
+      perRound[h.round].push({ label: t.label, value: h.total_value });
+    }
+  }
+  const ranks = {};
+  for (const t of teams) ranks[t.label] = {};
+  for (const round of Object.keys(perRound)) {
+    const sorted = perRound[round].slice().sort((a, b) => (b.value || 0) - (a.value || 0));
+    sorted.forEach((entry, i) => { ranks[entry.label][round] = i + 1; });
+  }
+  return ranks;
+}
+
+function buildTrajectoryDatasets(teams, mode) {
+  const roundsSet = new Set();
+  teams.forEach(t => (t.history || []).forEach(h => roundsSet.add(h.round)));
+  const rounds = [...roundsSet].sort((a, b) => a - b);
+
+  const groupRanks = mode === 'group-rank' ? computeGroupRanksByRound(teams) : null;
+
+  const datasets = teams.map((t, i) => {
+    const color = TEAM_COLORS[i % TEAM_COLORS.length];
+    const byRound = {};
+    (t.history || []).forEach(h => { byRound[h.round] = h; });
+    const data = rounds.map(r => {
+      const h = byRound[r];
+      if (mode === 'group-rank') return groupRanks[t.label][r] ?? null;
+      if (!h) return null;
+      if (mode === 'value') return h.total_value;
+      if (mode === 'global-rank') return h.overall_rank;
+      return null;
+    });
+    return {
+      label: t.header.team_name || t.label,
+      data,
+      borderColor: color,
+      backgroundColor: color,
+      _baseColor: color,
+      borderWidth: 2,
+      pointRadius: 2,
+      pointHoverRadius: 4,
+      tension: 0.15,
+      spanGaps: true,
+    };
+  });
+
+  return { rounds, datasets };
+}
+
+let trajectoryChart = null;
+
+function dimOtherDatasets(chart, activeIndex) {
+  chart.data.datasets.forEach((ds, i) => {
+    ds.borderColor = i === activeIndex ? ds._baseColor : hexToRgba(ds._baseColor, 0.1);
+  });
+  chart.update('none');
+}
+
+function resetDatasetColors(chart) {
+  chart.data.datasets.forEach(ds => { ds.borderColor = ds._baseColor; });
+  chart.update('none');
+}
+
+function renderTrajectoryChart(teams, mode) {
+  const canvas = document.getElementById('trajectory-chart');
+  if (!canvas || typeof Chart === 'undefined') return;
+  const { rounds, datasets } = buildTrajectoryDatasets(teams, mode);
+  const isRank = mode !== 'value';
+  const yTitle = mode === 'value' ? 'Total value (DKK)' : mode === 'group-rank' ? 'Rank in group' : 'Holdet overall rank';
+
+  if (trajectoryChart) trajectoryChart.destroy();
+  trajectoryChart = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: { labels: rounds, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'nearest', intersect: true },
+      scales: {
+        x: { title: { display: true, text: 'Round' } },
+        y: {
+          reverse: isRank,
+          title: { display: true, text: yTitle },
+          ticks: mode === 'group-rank' ? { stepSize: 1, precision: 0 } : {},
+        },
+      },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { boxWidth: 10, font: { size: 11 } },
+          onHover: (evt, item, legend) => {
+            if (item.datasetIndex !== undefined) dimOtherDatasets(legend.chart, item.datasetIndex);
+          },
+          onLeave: (evt, item, legend) => resetDatasetColors(legend.chart),
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.dataset.label}: ${mode === 'value' ? formatDkk(ctx.parsed.y) : ctx.parsed.y}`,
+          },
+        },
+      },
+      onHover: (evt, elements, chart) => {
+        if (elements.length) {
+          dimOtherDatasets(chart, elements[0].datasetIndex);
+        } else {
+          resetDatasetColors(chart);
+        }
+      },
+    },
+  });
+}
+
 function render(data) {
   const scrapedDate = new Date(data.scraped_at);
   document.getElementById('scraped-at').textContent =
@@ -161,11 +406,20 @@ function render(data) {
     ? transfersOut.filter(p => p.count === maxTransferOutCount)
     : [];
 
+  const teamTransferCounts = computeTeamTransferCounts(teams, popularity, transfersOut);
+  const transferCountValues = Object.values(teamTransferCounts);
+  const medianTransfers = median(transferCountValues);
+  const avgTransfers = transferCountValues.length
+    ? transferCountValues.reduce((s, n) => s + n, 0) / transferCountValues.length
+    : null;
+  const maxTeamTransferCount = Math.max(0, ...transferCountValues);
+
   const statsHtml = `
     <div class="stats-grid">
       <div class="stat-card stat-card--in"><div class="stat-label stat-arrow-in">Most transferred in this round</div><div class="stat-value">${topTransfersIn.length ? topTransfersIn.map(p => p.name).join(', ') : '-'}</div><div class="stat-sublabel">${topTransfersIn.length ? maxTransferInCount + ' team' + (maxTransferInCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
       <div class="stat-card stat-card--out"><div class="stat-label stat-arrow-out">Most transferred out this round</div><div class="stat-value">${topTransfersOut.length ? topTransfersOut.map(p => p.name).join(', ') : '-'}</div><div class="stat-sublabel">${topTransfersOut.length ? maxTransferOutCount + ' team' + (maxTransferOutCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
       <div class="stat-card"><div class="stat-label">Most owned rider</div><div class="stat-value">${mostOwned ? mostOwned.name : '-'}</div>${mostOwned ? `<div class="stat-sublabel">${mostOwned.owned_by_count}/${teams.length} teams</div>` : ''}</div>
+      <div class="stat-card"><div class="stat-label">Median transfers this round</div><div class="stat-value">${medianTransfers !== null ? medianTransfers : '-'}</div><div class="stat-sublabel">${avgTransfers !== null ? 'avg ' + avgTransfers.toFixed(1) : ''}</div></div>
     </div>
   `;
 
@@ -183,17 +437,19 @@ function render(data) {
   const standingsHtml = `
     <div class="standings">
       <div class="standings-header">
-        <span>#</span><span>Team</span><span class="num">Latest round pts</span><span class="num">Total value</span>
+        <span>#</span><span>Team</span><span class="num">Latest round pts</span><span class="num">Trades</span><span class="num">Total value</span>
       </div>
       ${standings.map((t, i) => {
         const latest = t.history && t.history.length ? t.history[t.history.length - 1] : null;
         const roster = [...t.roster].sort((a, b) => (b.value || 0) - (a.value || 0));
+        const transferCount = teamTransferCounts[t.label] || 0;
         return `
           <details class="standings-row">
             <summary>
               <span>${i + 1}</span>
               <span class="team-name"><span class="chevron">▸</span>${t.header.team_name || t.label}</span>
               <span class="num">${latest ? formatSignedPts(latest.round_points) : '-'}</span>
+              <span class="num">${transferPill(transferCount, maxTeamTransferCount)}</span>
               <span class="num">${formatDkk(t.value_summary.total)}</span>
             </summary>
             <ul class="roster-list">
@@ -215,22 +471,94 @@ function render(data) {
     </div>
   `;
 
+  const overlapHtml = renderOverlapMatrix(standings);
+
   const failedHtml = (data.failed_team_ids && data.failed_team_ids.length)
     ? `<div class="error" style="margin-bottom:24px;">Failed to fetch ${data.failed_team_ids.length} team(s): ${data.failed_team_ids.join(', ')}. Check the scraper logs.</div>`
     : '';
 
   document.getElementById('content').innerHTML = `
     ${failedHtml}
-    ${statsHtml}
-    <section>
-      <h2>Most popular riders in our group</h2>
-      ${popularityHtml || '<p style="color:var(--text-muted)">No data yet.</p>'}
-    </section>
-    <section>
-      <h2>Team standings</h2>
-      ${standingsHtml}
-    </section>
+    <div class="tabs" id="main-tabs">
+      <button data-tab="overview" class="active">Overview</button>
+      <button data-tab="standings">Standings</button>
+      <button data-tab="trends">Trends</button>
+      <button data-tab="head-to-head">Head-to-head</button>
+    </div>
+    <div class="tab-panel active" data-panel="overview">
+      ${statsHtml}
+      <section>
+        <h2>Most popular riders in our group</h2>
+        ${popularityHtml || '<p style="color:var(--text-muted)">No data yet.</p>'}
+      </section>
+    </div>
+    <div class="tab-panel" data-panel="standings">
+      <section>
+        <h2>Team standings</h2>
+        ${standingsHtml}
+      </section>
+    </div>
+    <div class="tab-panel" data-panel="trends">
+      <section>
+        <h2>Team trajectory</h2>
+        <div class="chart-toggle" id="trajectory-toggle">
+          <button data-mode="value" class="active">Value</button>
+          <button data-mode="group-rank">Group rank</button>
+          <button data-mode="global-rank">Global rank</button>
+        </div>
+        <div class="chart-container">
+          <canvas id="trajectory-chart"></canvas>
+        </div>
+      </section>
+    </div>
+    <div class="tab-panel" data-panel="head-to-head">
+      <section>
+        <h2>Ownership overlap</h2>
+        <p class="subtitle" style="margin-bottom:12px;">Riders shared between each pair of teams. Click a cell to see who.</p>
+        ${overlapHtml}
+      </section>
+    </div>
   `;
+
+  document.getElementById('trajectory-toggle').addEventListener('click', (evt) => {
+    const btn = evt.target.closest('button[data-mode]');
+    if (!btn) return;
+    document.querySelectorAll('#trajectory-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTrajectoryChart(teams, btn.dataset.mode);
+  });
+
+  document.getElementById('main-tabs').addEventListener('click', (evt) => {
+    const btn = evt.target.closest('button[data-tab]');
+    if (!btn) return;
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('#main-tabs button').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tab));
+    if (tab === 'trends') {
+      const mode = document.querySelector('#trajectory-toggle .active')?.dataset.mode || 'value';
+      renderTrajectoryChart(teams, mode);
+    }
+  });
+
+  document.querySelector('.overlap-matrix').addEventListener('click', (evt) => {
+    const cell = evt.target.closest('.overlap-cell[data-row]');
+    if (!cell) return;
+    const i = parseInt(cell.dataset.row, 10);
+    const j = parseInt(cell.dataset.col, 10);
+    const teamA = standings[i];
+    const teamB = standings[j];
+    const shared = sharedRiders(teamA, teamB);
+    const nameA = teamA.header.team_name || teamA.label;
+    const nameB = teamB.header.team_name || teamB.label;
+    const detail = document.getElementById('overlap-detail');
+    detail.innerHTML = `
+      <h3>${nameA} ↔ ${nameB} <span style="color:var(--text-muted); font-weight:400;">(${shared.length} shared)</span></h3>
+      ${shared.length ? `<ul class="roster-list">${shared.map(r => `
+        <li><span>${jerseyIcon(r.pro_team, proTeamAbbr)}${r.name} <span style="color:var(--text-muted); font-size:12px;">${r.pro_team || ''}</span></span></li>
+      `).join('')}</ul>` : '<p style="color:var(--text-muted); font-size:13px;">No riders in common.</p>'}
+    `;
+    detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
 }
 
 loadData();
