@@ -50,21 +50,45 @@
   h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
   section { margin-bottom: 36px; }
 
+  .overview-grid { display: grid; grid-template-columns: minmax(0, 1.86fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  @media (max-width: 800px) { .overview-grid { grid-template-columns: 1fr; } }
+
   .popularity-row { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
-  .popularity-row summary { display: grid; grid-template-columns: 1fr 70px auto; align-items: center; gap: 10px; padding: 8px 10px; cursor: pointer; list-style: none; }
+  .popularity-row summary { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; padding: 6px 8px; cursor: pointer; list-style: none; }
   .popularity-row summary::-webkit-details-marker { display: none; }
-  .captain-count { font-size: 13px; color: #854F0B; font-weight: 600; text-align: right; white-space: nowrap; }
-  .popularity-row .rider-name { font-weight: 500; font-size: 14px; }
-  .popularity-row .pro-team { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
+  .popularity-row .rider-name { font-weight: 500; font-size: 13px; }
+  .popularity-row .pro-team { display: none; }
   .jersey-icon { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; vertical-align: middle; margin-right: 6px; background: var(--bg); }
-  .bar-wrap { display: flex; align-items: center; gap: 8px; }
-  .bar-track { width: 120px; height: 6px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+  .bar-wrap { display: flex; align-items: center; gap: 6px; }
+  .bar-track { width: 56px; height: 6px; background: var(--bg); border-radius: 4px; overflow: hidden; }
   .bar-fill { height: 100%; background: var(--accent); }
-  .bar-count { font-size: 13px; color: var(--text-muted); width: 40px; text-align: right; }
+  .bar-count { font-size: 12px; color: var(--text-muted); width: 34px; text-align: right; }
   .owner-list { list-style: none; margin: 0; padding: 4px 12px 10px 32px; }
   .owner-list li { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
   .owner-list li:last-child { border-bottom: none; }
   .new-tag { font-size: 11px; background: var(--accent-bg); color: var(--accent); padding: 1px 6px; border-radius: 4px; margin-left: 6px; white-space: nowrap; }
+  .crown-tag { font-size: 11px; background: #FAEEDA; color: #854F0B; padding: 1px 6px; border-radius: 4px; margin-left: 6px; white-space: nowrap; }
+
+  .activity-module { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .activity-team { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .activity-team:last-child { border-bottom: none; }
+  .activity-team-name { font-weight: 500; font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .trade-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 13px; padding: 4px 0; }
+  .trade-side { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+  .trade-arrow { color: var(--text-muted); }
+  .activity-empty { color: var(--text-muted); font-size: 13px; }
+  .trade-in-tag, .trade-out-tag { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; }
+  .trade-in-tag { background: var(--accent-bg); color: var(--accent); }
+  .trade-out-tag { background: #FCEBEB; color: var(--negative); }
+  .activity-fallback-note { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
+
+  .diff-module { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+  .diff-item { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .diff-item:last-child { border-bottom: none; }
+  .diff-item-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .diff-item-name { display: flex; align-items: center; font-weight: 500; }
+  .diff-item-sub { color: var(--text-muted); font-size: 12px; margin-top: 3px; }
+  .diff-empty { padding: 14px; color: var(--text-muted); font-size: 13px; }
 
   .standings { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; font-size: 13px; }
   .standings-header, .standings-row summary { display: grid; grid-template-columns: 28px 1fr 110px 74px 120px; align-items: center; gap: 8px; padding: 10px 12px; }
@@ -171,6 +195,102 @@ function tagIcon(color) {
 
 function statRiderRows(list, proTeamAbbr) {
   return list.map(p => `<div class="stat-rider-row">${jerseyIcon(p.pro_team, proTeamAbbr)}<span>${p.name}</span></div>`).join('');
+}
+
+function computeTeamTrades(teams, roundBaseline) {
+  // Per team, the riders dropped and added since the round started. Holdet
+  // only gives us set differences (who left, who joined), not slot-level
+  // swap history, so when a team makes more than one change at once there's
+  // no way to know which specific outgoing rider was swapped for which
+  // incoming one - we pair them positionally (both sides sorted by value,
+  // highest first) as a best-effort visual pairing, not a verified one.
+  const baselineByTeamId = {};
+  for (const b of (roundBaseline || [])) baselineByTeamId[b.team_id] = b;
+
+  return teams.map(t => {
+    const baseline = baselineByTeamId[t.team_id];
+    if (!baseline) return { team: t, trades: [] };
+
+    const prevByKey = {};
+    for (const r of baseline.roster) prevByKey[`${r.name}|${r.pro_team}`] = r;
+    const curByKey = {};
+    for (const r of t.roster) curByKey[`${r.name}|${r.pro_team}`] = r;
+
+    const outRiders = Object.keys(prevByKey)
+      .filter(key => !curByKey[key])
+      .map(key => prevByKey[key])
+      .sort((a, b) => (b.value || 0) - (a.value || 0));
+    const inRiders = Object.keys(curByKey)
+      .filter(key => !prevByKey[key])
+      .map(key => curByKey[key])
+      .sort((a, b) => (b.value || 0) - (a.value || 0));
+
+    const trades = [];
+    for (let i = 0; i < Math.max(outRiders.length, inRiders.length); i++) {
+      trades.push({ out: outRiders[i] || null, in: inRiders[i] || null });
+    }
+    return { team: t, trades };
+  });
+}
+
+function renderTransferActivity(teamTrades, proTeamAbbr) {
+  const sorted = [...teamTrades].sort((a, b) => b.trades.length - a.trades.length);
+  return `
+    <div class="activity-module">
+      ${sorted.map(({ team, trades }) => `
+        <div class="activity-team">
+          <div class="activity-team-name">${team.header.team_name || team.label}</div>
+          ${trades.length ? trades.map(({ out, in: inRider }) => `
+            <div class="trade-row">
+              <span class="trade-side">${out ? `<span class="trade-out-tag">OUT</span>${jerseyIcon(out.pro_team, proTeamAbbr)}${out.name}` : ''}</span>
+              ${out && inRider ? '<span class="trade-arrow">→</span>' : ''}
+              <span class="trade-side">${inRider ? `<span class="trade-in-tag">IN</span>${jerseyIcon(inRider.pro_team, proTeamAbbr)}${inRider.name}` : ''}</span>
+            </div>
+          `).join('') : `<div class="activity-empty">No trades this round</div>`}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function buildRoundPointsByRider(teams) {
+  const pointsByRider = {};
+  for (const t of teams) {
+    for (const r of t.roster) {
+      if (r.round_points === null || r.round_points === undefined) continue;
+      const key = `${r.name}|${r.pro_team}`;
+      if (!(key in pointsByRider)) pointsByRider[key] = r.round_points;
+    }
+  }
+  return pointsByRider;
+}
+
+function computeDifferentialWatch(popularity, pointsByRider, maxOwners) {
+  return popularity
+    .filter(p => p.owned_by_count <= maxOwners)
+    .map(p => ({ ...p, round_points: pointsByRider[`${p.name}|${p.pro_team}`] }))
+    .filter(p => p.round_points !== undefined && p.round_points > 0)
+    .sort((a, b) => b.round_points - a.round_points);
+}
+
+function renderDifferentialWatch(list, teamsLength, proTeamAbbr, labelToTeamName, limit) {
+  const rows = list.slice(0, limit);
+  if (!rows.length) {
+    return `<div class="diff-module"><div class="diff-empty">No under-owned riders have gained value this round yet.</div></div>`;
+  }
+  return `
+    <div class="diff-module">
+      ${rows.map(p => `
+        <div class="diff-item">
+          <div class="diff-item-top">
+            <span class="diff-item-name">${jerseyIcon(p.pro_team, proTeamAbbr)}${p.name}</span>
+            <span>${formatSignedPts(p.round_points)}</span>
+          </div>
+          <div class="diff-item-sub">${p.owned_by_count}/${teamsLength} teams · ${p.owned_by_teams.map(l => labelToTeamName[l] || l).join(', ')}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
 }
 
 function computeTeamTransferCounts(teams, groupPopularity) {
@@ -459,8 +579,7 @@ function render(data) {
   const popularityHtml = popularity.map(p => `
     <details class="popularity-row">
       <summary>
-        <div><span class="chevron">▸</span>${jerseyIcon(p.pro_team, proTeamAbbr)}<span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span>${p.transferred_in_count ? `<span class="transfer-tag">+${p.transferred_in_count} this round</span>` : ''}</div>
-        <div class="captain-count">${captainCountByRider[`${p.name}|${p.pro_team}`] > 1 ? `👑 ${captainCountByRider[`${p.name}|${p.pro_team}`]}` : ''}</div>
+        <div><span class="chevron">▸</span>${jerseyIcon(p.pro_team, proTeamAbbr)}<span class="rider-name">${p.name}</span>${p.transferred_in_count ? `<span class="transfer-tag">+${p.transferred_in_count} this round</span>` : ''}${captainCountByRider[`${p.name}|${p.pro_team}`] > 1 ? `<span class="crown-tag">👑 ${captainCountByRider[`${p.name}|${p.pro_team}`]}</span>` : ''}</div>
         <div class="bar-wrap">
           <div class="bar-track"><div class="bar-fill" style="width:${(p.owned_by_count / maxCount * 100).toFixed(0)}%"></div></div>
           <div class="bar-count">${p.owned_by_count}/${teams.length}</div>
@@ -514,6 +633,39 @@ function render(data) {
 
   const overlapHtml = renderOverlapMatrix(standings);
 
+  const teamTrades = computeTeamTrades(teams, data.round_baseline);
+  const totalTradesThisRound = teamTrades.reduce((s, t) => s + t.trades.length, 0);
+  const pointsByRider = buildRoundPointsByRider(teams);
+  const differentialWatch = computeDifferentialWatch(popularity, pointsByRider, 3);
+
+  let transferActivityHtml;
+  if (totalTradesThisRound > 0) {
+    transferActivityHtml = renderTransferActivity(teamTrades, proTeamAbbr);
+  } else {
+    // Nothing to show for trades yet - fall back to who's scoring best this
+    // round regardless of ownership, rather than leaving the module blank.
+    const topScorers = Object.entries(pointsByRider)
+      .filter(([, pts]) => pts > 0)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8)
+      .map(([key, pts]) => {
+        const [name, pro_team] = key.split('|');
+        return { name, pro_team, round_points: pts };
+      });
+    transferActivityHtml = `
+      <p class="activity-fallback-note">No trades yet this round — here's who's scoring best on the road so far.</p>
+      <div class="activity-module">
+        ${topScorers.length ? topScorers.map(p => `
+          <div class="activity-team">
+            <div class="trade-row">${jerseyIcon(p.pro_team, proTeamAbbr)}${p.name}<span style="margin-left:auto;">${formatSignedPts(p.round_points)}</span></div>
+          </div>
+        `).join('') : `<div class="activity-team"><div class="activity-empty">No round data yet.</div></div>`}
+      </div>
+    `;
+  }
+
+  const differentialWatchHtml = renderDifferentialWatch(differentialWatch, teams.length, proTeamAbbr, labelToTeamName, 8);
+
   const failedHtml = (data.failed_team_ids && data.failed_team_ids.length)
     ? `<div class="error" style="margin-bottom:24px;">Failed to fetch ${data.failed_team_ids.length} team(s): ${data.failed_team_ids.join(', ')}. Check the scraper logs.</div>`
     : '';
@@ -528,10 +680,24 @@ function render(data) {
     </div>
     <div class="tab-panel active" data-panel="overview">
       ${statsHtml}
-      <section>
-        <h2>Most popular riders in our group</h2>
-        ${popularityHtml || '<p style="color:var(--text-muted)">No data yet.</p>'}
-      </section>
+      <div class="overview-grid">
+        <div class="overview-main">
+          <section>
+            <h2>Transfer activity</h2>
+            ${transferActivityHtml}
+          </section>
+        </div>
+        <div class="overview-sidebar">
+          <section>
+            <h2>Most popular riders in our group</h2>
+            ${popularityHtml || '<p style="color:var(--text-muted)">No data yet.</p>'}
+          </section>
+          <section>
+            <h2>Differential watch</h2>
+            ${differentialWatchHtml}
+          </section>
+        </div>
+      </div>
     </div>
     <div class="tab-panel" data-panel="standings">
       <section>
