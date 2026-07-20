@@ -24,7 +24,7 @@
     color: var(--text);
     line-height: 1.5;
   }
-  .wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
   header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
   h1 { font-size: 22px; font-weight: 600; margin: 0; }
   .subtitle { color: var(--text-muted); font-size: 13px; }
@@ -41,18 +41,19 @@
   .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; border-left: 3px solid transparent; }
   .stat-card--in { border-left-color: var(--accent); }
   .stat-card--out { border-left-color: var(--negative); }
-  .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
-  .stat-arrow-in::before { content: "↑"; color: var(--accent); font-weight: 700; }
-  .stat-arrow-out::before { content: "↓"; color: var(--negative); font-weight: 700; }
+  .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
   .stat-value { font-size: 22px; font-weight: 600; }
-  .stat-sublabel { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .stat-value--riders { font-size: 15px; font-weight: 600; display: flex; flex-direction: column; gap: 4px; }
+  .stat-rider-row { display: flex; align-items: center; gap: 5px; }
+  .stat-sublabel { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
   h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
   section { margin-bottom: 36px; }
 
   .popularity-row { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
-  .popularity-row summary { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 8px 10px; cursor: pointer; list-style: none; }
+  .popularity-row summary { display: grid; grid-template-columns: 1fr 70px auto; align-items: center; gap: 10px; padding: 8px 10px; cursor: pointer; list-style: none; }
   .popularity-row summary::-webkit-details-marker { display: none; }
+  .captain-count { font-size: 13px; color: #854F0B; font-weight: 600; text-align: right; white-space: nowrap; }
   .popularity-row .rider-name { font-weight: 500; font-size: 14px; }
   .popularity-row .pro-team { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
   .jersey-icon { width: 18px; height: 18px; border-radius: 4px; object-fit: cover; vertical-align: middle; margin-right: 6px; background: var(--bg); }
@@ -158,6 +159,18 @@ function jerseyIcon(proTeam, abbrMap) {
   const abbr = abbrMap[proTeam];
   if (!abbr) return '';
   return `<img class="jersey-icon" src="assets/jerseys/${abbr}.png" alt="" onerror="this.remove()">`;
+}
+
+function cartIcon(color) {
+  return `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>`;
+}
+
+function tagIcon(color) {
+  return `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`;
+}
+
+function statRiderRows(list, proTeamAbbr) {
+  return list.map(p => `<div class="stat-rider-row">${jerseyIcon(p.pro_team, proTeamAbbr)}<span>${p.name}</span></div>`).join('');
 }
 
 function computeTeamTransferCounts(teams, groupPopularity) {
@@ -405,6 +418,15 @@ function render(data) {
   const labelToTeamName = {};
   for (const t of teams) labelToTeamName[t.label] = t.header.team_name || t.label;
 
+  const captainCountByRider = {};
+  for (const t of teams) {
+    for (const r of t.roster) {
+      if (!r.is_captain) continue;
+      const key = `${r.name}|${r.pro_team}`;
+      captainCountByRider[key] = (captainCountByRider[key] || 0) + 1;
+    }
+  }
+
   const mostOwned = popularity[0];
 
   const transfersOut = data.transfers_out || [];
@@ -427,9 +449,9 @@ function render(data) {
 
   const statsHtml = `
     <div class="stats-grid">
-      <div class="stat-card stat-card--in"><div class="stat-label stat-arrow-in">Most transferred in this round</div><div class="stat-value">${topTransfersIn.length ? topTransfersIn.map(p => p.name).join(', ') : '-'}</div><div class="stat-sublabel">${topTransfersIn.length ? maxTransferInCount + ' team' + (maxTransferInCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
-      <div class="stat-card stat-card--out"><div class="stat-label stat-arrow-out">Most transferred out this round</div><div class="stat-value">${topTransfersOut.length ? topTransfersOut.map(p => p.name).join(', ') : '-'}</div><div class="stat-sublabel">${topTransfersOut.length ? maxTransferOutCount + ' team' + (maxTransferOutCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
-      <div class="stat-card"><div class="stat-label">Most owned rider</div><div class="stat-value">${mostOwned ? mostOwned.name : '-'}</div>${mostOwned ? `<div class="stat-sublabel">${mostOwned.owned_by_count}/${teams.length} teams</div>` : ''}</div>
+      <div class="stat-card stat-card--in"><div class="stat-label">${cartIcon('var(--accent)')}Most transferred in this round</div><div class="stat-value stat-value--riders">${topTransfersIn.length ? statRiderRows(topTransfersIn, proTeamAbbr) : '-'}</div><div class="stat-sublabel">${topTransfersIn.length ? maxTransferInCount + ' team' + (maxTransferInCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
+      <div class="stat-card stat-card--out"><div class="stat-label">${tagIcon('var(--negative)')}Most transferred out this round</div><div class="stat-value stat-value--riders">${topTransfersOut.length ? statRiderRows(topTransfersOut, proTeamAbbr) : '-'}</div><div class="stat-sublabel">${topTransfersOut.length ? maxTransferOutCount + ' team' + (maxTransferOutCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
+      <div class="stat-card"><div class="stat-label">Most owned rider</div><div class="stat-value stat-value--riders">${mostOwned ? statRiderRows([mostOwned], proTeamAbbr) : '-'}</div>${mostOwned ? `<div class="stat-sublabel">${mostOwned.owned_by_count}/${teams.length} teams</div>` : ''}</div>
       <div class="stat-card"><div class="stat-label">Median transfers this round</div><div class="stat-value">${medianTransfers !== null ? medianTransfers : '-'}</div><div class="stat-sublabel">${avgTransfers !== null ? 'avg ' + avgTransfers.toFixed(1) : ''}</div></div>
     </div>
   `;
@@ -438,6 +460,7 @@ function render(data) {
     <details class="popularity-row">
       <summary>
         <div><span class="chevron">▸</span>${jerseyIcon(p.pro_team, proTeamAbbr)}<span class="rider-name">${p.name}</span><span class="pro-team">${p.pro_team || ''}</span>${p.transferred_in_count ? `<span class="transfer-tag">+${p.transferred_in_count} this round</span>` : ''}</div>
+        <div class="captain-count">${captainCountByRider[`${p.name}|${p.pro_team}`] > 1 ? `👑 ${captainCountByRider[`${p.name}|${p.pro_team}`]}` : ''}</div>
         <div class="bar-wrap">
           <div class="bar-track"><div class="bar-fill" style="width:${(p.owned_by_count / maxCount * 100).toFixed(0)}%"></div></div>
           <div class="bar-count">${p.owned_by_count}/${teams.length}</div>
