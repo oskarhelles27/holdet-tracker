@@ -165,6 +165,26 @@ def compute_group_popularity(teams_data, transfers_in=None):
     return sorted(counts.values(), key=lambda r: -r["owned_by_count"])
 
 
+def compute_team_transfer_counts(teams_data, transfers_in):
+    """Count riders transferred in per team this round (mirrors the
+    frontend's computeTeamTransferCounts - counting only "in" events already
+    gives the true swap count per team, see that function's docstring)."""
+    counts = {t["label"]: 0 for t in teams_data if t}
+    for entry in transfers_in.values():
+        for label in entry["teams"]:
+            counts[label] = counts.get(label, 0) + 1
+    return counts
+
+
+def median(nums):
+    if not nums:
+        return None
+    s = sorted(nums)
+    n = len(s)
+    mid = n // 2
+    return s[mid] if n % 2 else (s[mid - 1] + s[mid]) / 2
+
+
 def determine_current_round(teams_data, schedule):
     """The most recent round number with recorded history across our teams,
     plus its date window from the schedule. Holdet's schedule array is
@@ -280,6 +300,24 @@ def main():
     group_popularity = compute_group_popularity(successful, transfers_in)
     transfers_out_list = sorted(transfers_out.values(), key=lambda r: -r["count"])
 
+    team_transfer_counts = compute_team_transfer_counts(successful, transfers_in)
+    transfer_count_values = list(team_transfer_counts.values())
+    current_round_transfer_stats = {
+        "round": new_round_num,
+        "median": median(transfer_count_values),
+        "avg": (sum(transfer_count_values) / len(transfer_count_values)) if transfer_count_values else None,
+    }
+
+    # Only refresh "previous round" once the round number actually advances,
+    # same carry-forward approach as round_baseline above - otherwise every
+    # scrape within a round would compare against itself.
+    if previous_snapshot and prev_round_num == new_round_num:
+        previous_round_transfer_stats = previous_snapshot.get("previous_round_transfer_stats")
+    else:
+        previous_round_transfer_stats = (
+            previous_snapshot.get("current_round_transfer_stats") if previous_snapshot else None
+        )
+
     round_baseline_teams = (diff_baseline or {}).get("teams") or successful
     round_baseline = [
         {"team_id": t["team_id"], "roster": t["roster"]}
@@ -305,6 +343,8 @@ def main():
         "transfers_out": transfers_out_list,
         "current_round": current_round,
         "round_baseline": round_baseline,
+        "current_round_transfer_stats": current_round_transfer_stats,
+        "previous_round_transfer_stats": previous_round_transfer_stats,
     }
 
     os.makedirs(DATA_DIR, exist_ok=True)

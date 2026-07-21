@@ -239,7 +239,7 @@ function renderTransferActivity(teamTrades, proTeamAbbr) {
     <div class="activity-module">
       ${sorted.map(({ team, trades }) => `
         <div class="activity-team">
-          <div class="activity-team-name">${team.header.team_name || team.label}</div>
+          <div class="activity-team-name">${team.header.team_name || team.label}<span style="color:var(--text-muted); font-size:12px; font-weight:400;">${trades.length} transfer${trades.length === 1 ? '' : 's'} this round</span></div>
           ${trades.length ? trades.map(({ out, in: inRider }) => `
             <div class="trade-row">
               <span class="trade-side">${out ? `<span class="trade-out-tag">OUT</span>${jerseyIcon(out.pro_team, proTeamAbbr)}${out.name}` : ''}</span>
@@ -567,12 +567,23 @@ function render(data) {
     : null;
   const maxTeamTransferCount = Math.max(0, ...transferCountValues);
 
+  const prevTransferStats = data.previous_round_transfer_stats;
+  let transferCompareHtml = '';
+  if (prevTransferStats && medianTransfers !== null && prevTransferStats.median !== null && prevTransferStats.median !== undefined) {
+    const delta = medianTransfers - prevTransferStats.median;
+    const cls = delta > 0 ? 'pts-positive' : delta < 0 ? 'pts-negative' : '';
+    const arrow = delta > 0 ? '▲' : delta < 0 ? '▼' : '=';
+    const deltaLabel = delta === 0 ? 'same as' : `<span class="${cls}">${arrow} ${Math.abs(delta)}</span> vs`;
+    const avgText = prevTransferStats.avg !== null && prevTransferStats.avg !== undefined ? prevTransferStats.avg.toFixed(1) : '-';
+    transferCompareHtml = `<div class="stat-sublabel">${deltaLabel} stage ${prevTransferStats.round} (median ${prevTransferStats.median}, avg ${avgText})</div>`;
+  }
+
   const statsHtml = `
     <div class="stats-grid">
       <div class="stat-card stat-card--in"><div class="stat-label">${cartIcon('var(--accent)')}Most transferred in this round</div><div class="stat-value stat-value--riders">${topTransfersIn.length ? statRiderRows(topTransfersIn, proTeamAbbr) : '-'}</div><div class="stat-sublabel">${topTransfersIn.length ? maxTransferInCount + ' team' + (maxTransferInCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
       <div class="stat-card stat-card--out"><div class="stat-label">${tagIcon('var(--negative)')}Most transferred out this round</div><div class="stat-value stat-value--riders">${topTransfersOut.length ? statRiderRows(topTransfersOut, proTeamAbbr) : '-'}</div><div class="stat-sublabel">${topTransfersOut.length ? maxTransferOutCount + ' team' + (maxTransferOutCount === 1 ? '' : 's') : 'No transfers yet'}</div></div>
       <div class="stat-card"><div class="stat-label">Most owned rider</div><div class="stat-value stat-value--riders">${mostOwned ? statRiderRows([mostOwned], proTeamAbbr) : '-'}</div>${mostOwned ? `<div class="stat-sublabel">${mostOwned.owned_by_count}/${teams.length} teams</div>` : ''}</div>
-      <div class="stat-card"><div class="stat-label">Median transfers this round</div><div class="stat-value">${medianTransfers !== null ? medianTransfers : '-'}</div><div class="stat-sublabel">${avgTransfers !== null ? 'avg ' + avgTransfers.toFixed(1) : ''}</div></div>
+      <div class="stat-card"><div class="stat-label">Median transfers this round</div><div class="stat-value">${medianTransfers !== null ? medianTransfers : '-'}</div><div class="stat-sublabel">${avgTransfers !== null ? 'avg ' + avgTransfers.toFixed(1) : ''}</div>${transferCompareHtml}</div>
     </div>
   `;
 
@@ -683,14 +694,14 @@ function render(data) {
       <div class="overview-grid">
         <div class="overview-main">
           <section>
-            <h2>Transfer activity</h2>
-            ${transferActivityHtml}
+            <h2>Rider selection in our group</h2>
+            ${popularityHtml || '<p style="color:var(--text-muted)">No data yet.</p>'}
           </section>
         </div>
         <div class="overview-sidebar">
           <section>
-            <h2>Most popular riders in our group</h2>
-            ${popularityHtml || '<p style="color:var(--text-muted)">No data yet.</p>'}
+            <h2>Transfer activity</h2>
+            ${transferActivityHtml}
           </section>
           <section>
             <h2>Differential watch</h2>
