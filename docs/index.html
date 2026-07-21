@@ -29,7 +29,7 @@
   .title-row { display: flex; align-items: center; gap: 10px; }
   h1 { font-size: 22px; font-weight: 600; margin: 0; }
   .subtitle { color: var(--text-muted); font-size: 13px; }
-  .round-badge { display: inline-block; background: var(--accent-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+  .round-badge { display: inline-block; background: #E3EFFC; color: #1D64B0; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
 
   .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
   .tabs button { font-size: 14px; font-weight: 500; padding: 10px 16px; border: none; background: none; color: var(--text-muted); cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px; }
@@ -75,14 +75,13 @@
   .activity-team { padding: 12px 16px; border-bottom: 1px solid var(--border); }
   .activity-team:last-child { border-bottom: none; }
   .activity-team-name { font-weight: 500; font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-  .trade-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 13px; padding: 4px 0; }
-  .trade-side { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-  .trade-side .jersey-icon { margin-right: 0; }
-  .trade-arrow { color: var(--text-muted); }
+  .trade-header-row { display: grid; grid-template-columns: 1fr 20px 1fr; column-gap: 10px; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; padding-bottom: 6px; margin-bottom: 4px; border-bottom: 1px solid var(--border); }
+  .trade-row { display: grid; grid-template-columns: 1fr 20px 1fr; column-gap: 10px; align-items: center; font-size: 13px; padding: 4px 0; }
+  .trade-rider { display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .trade-rider .jersey-icon { margin-right: 0; flex-shrink: 0; }
+  .trade-rider span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .trade-arrow { color: var(--text-muted); text-align: center; }
   .activity-empty { color: var(--text-muted); font-size: 13px; }
-  .trade-in-tag, .trade-out-tag { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; }
-  .trade-in-tag { background: var(--accent-bg); color: var(--accent); }
-  .trade-out-tag { background: #FCEBEB; color: var(--negative); }
   .activity-fallback-note { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
 
   .diff-module { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
@@ -245,13 +244,16 @@ function renderTransferActivity(teamTrades, proTeamAbbr) {
       ${sorted.map(({ team, trades }) => `
         <div class="activity-team">
           <div class="activity-team-name">${team.header.team_name || team.label}<span style="color:var(--text-muted); font-size:12px; font-weight:400;">${trades.length} transfer${trades.length === 1 ? '' : 's'} this round</span></div>
-          ${trades.length ? trades.map(({ out, in: inRider }) => `
-            <div class="trade-row">
-              <span class="trade-side">${out ? `<span class="trade-out-tag">OUT</span>${jerseyIcon(out.pro_team, proTeamAbbr)}${out.name}` : ''}</span>
-              ${out && inRider ? '<span class="trade-arrow">→</span>' : ''}
-              <span class="trade-side">${inRider ? `<span class="trade-in-tag">IN</span>${jerseyIcon(inRider.pro_team, proTeamAbbr)}${inRider.name}` : ''}</span>
-            </div>
-          `).join('') : `<div class="activity-empty">No trades this round</div>`}
+          ${trades.length ? `
+            <div class="trade-header-row"><span style="color:var(--negative);">Out</span><span></span><span style="color:var(--accent);">In</span></div>
+            ${trades.map(({ out, in: inRider }) => `
+              <div class="trade-row">
+                <span class="trade-rider">${out ? `${jerseyIcon(out.pro_team, proTeamAbbr)}<span>${out.name}</span>` : ''}</span>
+                <span class="trade-arrow">${out && inRider ? '→' : ''}</span>
+                <span class="trade-rider">${inRider ? `${jerseyIcon(inRider.pro_team, proTeamAbbr)}<span>${inRider.name}</span>` : ''}</span>
+              </div>
+            `).join('')}
+          ` : `<div class="activity-empty">No trades this round</div>`}
         </div>
       `).join('')}
     </div>
