@@ -25,10 +25,11 @@
     line-height: 1.5;
   }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
-  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .title-row { display: flex; align-items: center; gap: 10px; }
   h1 { font-size: 22px; font-weight: 600; margin: 0; }
   .subtitle { color: var(--text-muted); font-size: 13px; }
-  .round-badge { display: inline-block; background: var(--accent-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; margin-top: 6px; }
+  .round-badge { display: inline-block; background: var(--accent-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
 
   .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
   .tabs button { font-size: 14px; font-weight: 500; padding: 10px 16px; border: none; background: none; color: var(--text-muted); cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px; }
@@ -44,7 +45,8 @@
   .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
   .stat-value { font-size: 22px; font-weight: 600; }
   .stat-value--riders { font-size: 15px; font-weight: 600; display: flex; flex-direction: column; gap: 4px; }
-  .stat-rider-row { display: flex; align-items: center; gap: 5px; }
+  .stat-rider-row { display: flex; align-items: center; gap: 6px; }
+  .stat-rider-row .jersey-icon { margin-right: 0; }
   .stat-sublabel { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
   h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px; }
@@ -74,7 +76,8 @@
   .activity-team:last-child { border-bottom: none; }
   .activity-team-name { font-weight: 500; font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
   .trade-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 13px; padding: 4px 0; }
-  .trade-side { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+  .trade-side { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .trade-side .jersey-icon { margin-right: 0; }
   .trade-arrow { color: var(--text-muted); }
   .activity-empty { color: var(--text-muted); font-size: 13px; }
   .trade-in-tag, .trade-out-tag { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; }
@@ -135,9 +138,11 @@
 <div class="wrap">
   <header>
     <div>
-      <h1>Fuentes Bagmænd tracker</h1>
+      <div class="title-row">
+        <h1>Fuentes Bagmænd tracker</h1>
+        <div id="round-badge"></div>
+      </div>
       <div class="subtitle" id="scraped-at">Loading...</div>
-      <div id="round-badge"></div>
     </div>
   </header>
 
@@ -600,7 +605,7 @@ function render(data) {
       </summary>
       <ul class="owner-list">
         ${p.owned_by_teams.map(label => `
-          <li>${labelToTeamName[label] || label}${captainTeamsByRider[`${p.name}|${p.pro_team}`]?.has(label) ? '<span class="captain-tag">Kaptajn</span>' : ''}${(p.transferred_in_by_teams || []).includes(label) ? '<span class="new-tag">New</span>' : ''}</li>
+          <li><span>${labelToTeamName[label] || label}${captainTeamsByRider[`${p.name}|${p.pro_team}`]?.has(label) ? '<span class="captain-tag">Kaptajn</span>' : ''}</span>${(p.transferred_in_by_teams || []).includes(label) ? '<span class="new-tag">New</span>' : ''}</li>
         `).join('')}
       </ul>
     </details>
