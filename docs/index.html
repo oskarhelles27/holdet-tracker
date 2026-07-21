@@ -183,13 +183,13 @@
   .overlap-cell:not(.overlap-diag):hover { outline: 2px solid var(--text); outline-offset: -2px; }
   .rider-grid-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
   .rider-grid { display: grid; gap: 2px; font-size: 12px; }
-  .rider-grid-corner { background: transparent; }
   .rider-grid-col-header { position: relative; }
   .rider-grid-col-header span { position: absolute; bottom: 6px; left: 16px; transform: rotate(-45deg); transform-origin: left bottom; white-space: nowrap; font-size: 11px; font-weight: 600; color: var(--text-muted); }
   .rider-grid-row-header { display: flex; align-items: center; gap: 6px; padding-right: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .rider-grid-cell { height: 30px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: var(--bg); }
   .rider-grid-cell.rider-grid-owned { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); font-weight: 700; }
   .rider-grid-cell.rider-grid-captain { background: color-mix(in srgb, #d4a017 22%, transparent); font-size: 13px; }
+  .rider-grid-cell.rider-grid-corner { background: transparent; }
   .overlap-detail { margin-top: 16px; }
   .overlap-detail h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
 </style>
@@ -522,9 +522,16 @@ function sharedRiders(teamA, teamB) {
   return teamA.roster.filter(r => bKeys.has(`${r.name}|${r.pro_team}`));
 }
 
-function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider) {
+function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, sortMode) {
   const n = standings.length;
-  const rows = [...popularity].sort((a, b) => b.owned_by_count - a.owned_by_count || a.name.localeCompare(b.name));
+  const rows = [...popularity].sort((a, b) => {
+    if (sortMode === 'price') {
+      const pa = priceByRider[`${a.name}|${a.pro_team}`] || 0;
+      const pb = priceByRider[`${b.name}|${b.pro_team}`] || 0;
+      return pb - pa || a.name.localeCompare(b.name);
+    }
+    return b.owned_by_count - a.owned_by_count || a.name.localeCompare(b.name);
+  });
 
   let cells = `<div class="rider-grid-cell rider-grid-corner"></div>`;
   for (let j = 0; j < n; j++) {
@@ -860,7 +867,11 @@ function render(data) {
   `;
 
   const overlapHtml = renderOverlapMatrix(standings);
-  const riderGridHtml = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider);
+  const priceByRider = {};
+  for (const r of Object.values(data.master_riders || {})) {
+    priceByRider[`${r.name}|${r.pro_team}`] = r.price;
+  }
+  const riderGridHtml = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, 'ownership');
 
   const teamTrades = computeTeamTrades(teams, data.round_baseline);
   const totalTradesThisRound = teamTrades.reduce((s, t) => s + t.trades.length, 0);
@@ -961,7 +972,11 @@ function render(data) {
       <section>
         <h2>Rider grid</h2>
         <p class="subtitle" style="margin-bottom:12px;">Every rider owned in the group, and which teams have them.</p>
-        ${riderGridHtml}
+        <div class="chart-toggle" id="rider-grid-sort">
+          <button data-sort="ownership" class="active">Ownership</button>
+          <button data-sort="price">Price</button>
+        </div>
+        <div id="rider-grid-container">${riderGridHtml}</div>
       </section>
     </div>
   `;
@@ -972,6 +987,14 @@ function render(data) {
     document.querySelectorAll('#trajectory-toggle button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderTrajectoryChart(teams, btn.dataset.mode);
+  });
+
+  document.getElementById('rider-grid-sort').addEventListener('click', (evt) => {
+    const btn = evt.target.closest('button[data-sort]');
+    if (!btn) return;
+    document.querySelectorAll('#rider-grid-sort button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('rider-grid-container').innerHTML = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, btn.dataset.sort);
   });
 
   document.getElementById('main-tabs').addEventListener('click', (evt) => {
