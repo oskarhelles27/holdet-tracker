@@ -220,6 +220,15 @@ def attach_round_points(teams_data, master_riders, round_players):
     if not round_players:
         return
     name_to_id = {f"{r['name']}|{r['pro_team']}": rid for rid, r in master_riders.items()}
+
+    # Also stamp every rider in the master list, not just those on a current
+    # roster - round_players already covers the whole game, so this is how a
+    # rider dropped by every team in our group still has this round's price
+    # change available for e.g. a transfer-value comparison.
+    for rid, r in master_riders.items():
+        entry = round_players.get(rid)
+        r["round_points"] = entry["price_change"] if entry else None
+
     for team in teams_data:
         if not team:
             continue
