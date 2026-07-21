@@ -190,6 +190,11 @@
   .rider-grid-cell.rider-grid-owned { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); font-weight: 700; }
   .rider-grid-cell.rider-grid-captain { background: color-mix(in srgb, #d4a017 22%, transparent); font-size: 13px; }
   .rider-grid-cell.rider-grid-corner { background: transparent; }
+  .rider-grid-cell.rider-grid-fixed-header { height: 100%; background: transparent; align-items: flex-end; justify-content: flex-start; padding-bottom: 8px; font-weight: 600; color: var(--text-muted); font-size: 11px; }
+  .rider-grid-cell.rider-grid-sortable { cursor: pointer; user-select: none; }
+  .rider-grid-cell.rider-grid-sortable:hover { color: var(--text); }
+  .rider-grid-sort-arrow { color: var(--accent); }
+  .rider-grid-cell.rider-grid-value { color: var(--text-muted); font-variant-numeric: tabular-nums; }
   .overlap-detail { margin-top: 16px; }
   .overlap-detail h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
 </style>
@@ -533,7 +538,10 @@ function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider
     return b.owned_by_count - a.owned_by_count || a.name.localeCompare(b.name);
   });
 
-  let cells = `<div class="rider-grid-cell rider-grid-corner"></div>`;
+  const arrow = ' <span class="rider-grid-sort-arrow">▾</span>';
+  let cells = `<div class="rider-grid-cell rider-grid-corner rider-grid-fixed-header">Rider</div>`;
+  cells += `<div class="rider-grid-cell rider-grid-fixed-header rider-grid-sortable" data-sort="price">Price${sortMode === 'price' ? arrow : ''}</div>`;
+  cells += `<div class="rider-grid-cell rider-grid-fixed-header rider-grid-sortable" data-sort="ownership">Own.${sortMode === 'ownership' ? arrow : ''}</div>`;
   for (let j = 0; j < n; j++) {
     const name = standings[j].header.team_name || standings[j].label;
     cells += `<div class="rider-grid-col-header"><span title="${name}">${name}</span></div>`;
@@ -542,7 +550,10 @@ function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider
     const key = `${p.name}|${p.pro_team}`;
     const owners = new Set(p.owned_by_teams);
     const captains = captainTeamsByRider[key];
+    const price = priceByRider[key];
     cells += `<div class="rider-grid-row-header">${jerseyIcon(p.pro_team, proTeamAbbr)}<span>${p.name}</span></div>`;
+    cells += `<div class="rider-grid-cell rider-grid-value">${price != null ? formatDkk(price) : '-'}</div>`;
+    cells += `<div class="rider-grid-cell rider-grid-value">${p.owned_by_count}/${n}</div>`;
     for (let j = 0; j < n; j++) {
       const label = standings[j].label;
       if (!owners.has(label)) {
@@ -557,7 +568,7 @@ function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider
 
   return `
     <div class="rider-grid-wrap">
-      <div class="rider-grid" style="grid-template-columns: 170px repeat(${n}, 34px); grid-template-rows: 100px repeat(${rows.length}, 30px);">
+      <div class="rider-grid" style="grid-template-columns: 170px 76px 54px repeat(${n}, 34px); grid-template-rows: 100px repeat(${rows.length}, 30px);">
         ${cells}
       </div>
     </div>
@@ -971,11 +982,7 @@ function render(data) {
     <div class="tab-panel" data-panel="rider-grid">
       <section>
         <h2>Rider grid</h2>
-        <p class="subtitle" style="margin-bottom:12px;">Every rider owned in the group, and which teams have them.</p>
-        <div class="chart-toggle" id="rider-grid-sort">
-          <button data-sort="ownership" class="active">Ownership</button>
-          <button data-sort="price">Price</button>
-        </div>
+        <p class="subtitle" style="margin-bottom:12px;">Every rider owned in the group, and which teams have them. Click Price or Own. to sort.</p>
         <div id="rider-grid-container">${riderGridHtml}</div>
       </section>
     </div>
@@ -989,12 +996,10 @@ function render(data) {
     renderTrajectoryChart(teams, btn.dataset.mode);
   });
 
-  document.getElementById('rider-grid-sort').addEventListener('click', (evt) => {
-    const btn = evt.target.closest('button[data-sort]');
-    if (!btn) return;
-    document.querySelectorAll('#rider-grid-sort button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('rider-grid-container').innerHTML = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, btn.dataset.sort);
+  document.getElementById('rider-grid-container').addEventListener('click', (evt) => {
+    const header = evt.target.closest('[data-sort]');
+    if (!header) return;
+    document.getElementById('rider-grid-container').innerHTML = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, header.dataset.sort);
   });
 
   document.getElementById('main-tabs').addEventListener('click', (evt) => {
