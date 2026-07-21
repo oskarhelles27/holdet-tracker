@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fuentes Bagmænd tracker</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<script>
+  (function () {
+    var theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
   :root {
@@ -16,6 +26,16 @@
     --accent-bg: #E1F5EE;
     --negative: #D85A30;
   }
+  :root[data-theme="dark"] {
+    --bg: #15171a;
+    --surface: #1c1f24;
+    --border: #2d3138;
+    --text: #eaeaea;
+    --text-muted: #9a9da3;
+    --accent: #2ED9A0;
+    --accent-bg: #16362C;
+    --negative: #E2725A;
+  }
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -23,6 +43,7 @@
     background: var(--bg);
     color: var(--text);
     line-height: 1.5;
+    transition: background 0.15s ease, color 0.15s ease;
   }
   .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
   header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
@@ -30,6 +51,11 @@
   h1 { font-size: 22px; font-weight: 600; margin: 0; }
   .subtitle { color: var(--text-muted); font-size: 13px; }
   .round-badge { display: inline-block; background: #E3EFFC; color: #1D64B0; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+  :root[data-theme="dark"] .round-badge { background: #1C3A5C; color: #82BBEF; }
+  .theme-toggle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; flex-shrink: 0; }
+  .theme-toggle:hover { color: var(--text); }
+  .theme-toggle svg { width: 16px; height: 16px; }
+  .about-footer { color: var(--text-muted); font-size: 12px; margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); max-width: 640px; }
 
   .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
   .tabs button { font-size: 14px; font-weight: 500; padding: 10px 16px; border: none; background: none; color: var(--text-muted); cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px; }
@@ -143,14 +169,39 @@
       </div>
       <div class="subtitle" id="scraped-at">Loading...</div>
     </div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode"></button>
   </header>
 
   <div id="content">
     <div class="loading">Loading data...</div>
   </div>
+
+  <div class="about-footer">
+    This is an unofficial personal project for a private Holdet fantasy cycling league — not affiliated with or endorsed by Holdet. Built for fun by the group.
+  </div>
 </div>
 
 <script>
+const THEME_ICONS = {
+  sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>',
+  moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>',
+};
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.innerHTML = theme === 'dark' ? THEME_ICONS.sun : THEME_ICONS.moon;
+}
+
+(function initThemeToggle() {
+  const initial = document.documentElement.getAttribute('data-theme') || 'light';
+  applyTheme(initial);
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+})();
+
 async function loadData() {
   const contentEl = document.getElementById('content');
   try {
