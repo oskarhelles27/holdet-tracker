@@ -115,8 +115,12 @@
   .trade-arrow { color: var(--text-muted); text-align: center; }
   .activity-empty { color: var(--text-muted); font-size: 13px; }
   .activity-fallback-note { color: var(--text-muted); font-size: 13px; margin-bottom: 12px; }
-  .value-summary { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .value-summary-verdict { font-weight: 600; margin-left: auto; }
+  .value-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .value-term { white-space: nowrap; }
+  .value-op { color: var(--text-muted); opacity: 0.6; }
+  .value-pill { font-weight: 600; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .value-pill.pill-positive { color: var(--accent); background: color-mix(in srgb, var(--accent) 15%, transparent); }
+  .value-pill.pill-negative { color: var(--negative); background: color-mix(in srgb, var(--negative) 15%, transparent); }
   .value-summary-note { font-size: 11px; color: var(--text-muted); font-style: italic; margin: -4px 0 8px; }
 
   .diff-module { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
@@ -242,6 +246,11 @@ function formatSignedKr(n) {
   return `<span class="${cls}">${sign}${Math.abs(Math.round(n)).toLocaleString('da-DK')} kr</span>`;
 }
 
+function formatKr(n) {
+  if (n === null || n === undefined) return '-';
+  return `${Math.round(Math.abs(n)).toLocaleString('da-DK')} kr`;
+}
+
 function buildProTeamAbbrMap(masterRiders) {
   const map = {};
   for (const rider of Object.values(masterRiders || {})) {
@@ -347,11 +356,13 @@ function renderTransferActivity(teamTrades, proTeamAbbr, globalRoundPoints) {
           <div class="activity-team-name">${team.header.team_name || team.label}<span style="color:var(--text-muted); font-size:12px; font-weight:400;">${trades.length} transfer${trades.length === 1 ? '' : 's'} this round</span></div>
           ${trades.length ? `
             <div class="value-summary">
-              <span>Fee ${formatSignedKr(-value.cost)}</span>
-              <span>New riders ${formatSignedKr(value.gained)}</span>
-              <span>Old riders ${formatSignedKr(value.lost)}</span>
-              <span>Net ${formatSignedKr(value.net)}</span>
-              <span class="value-summary-verdict ${value.net > 0 ? 'pts-positive' : value.net < 0 ? 'pts-negative' : ''}">${value.net > 0 ? 'Worth it ✓' : value.net < 0 ? 'Not worth it ✗' : 'Break even'}</span>
+              <span class="value-term">New riders <span class="pts-positive">${formatKr(value.gained)}</span></span>
+              <span class="value-op">&minus;</span>
+              <span class="value-term">Old riders <span class="pts-negative">${formatKr(value.lost)}</span></span>
+              <span class="value-op">&minus;</span>
+              <span class="value-term">Fee <span class="pts-negative">${formatKr(value.cost)}</span></span>
+              <span class="value-op">=</span>
+              <span class="value-pill ${value.net > 0 ? 'pill-positive' : value.net < 0 ? 'pill-negative' : ''}">Net ${formatSignedKr(value.net)}${value.net > 0 ? ' ✓' : value.net < 0 ? ' ✗' : ''}</span>
             </div>
             ${value.missingCount ? `<div class="value-summary-note">Round data unavailable for ${value.missingCount} rider${value.missingCount === 1 ? '' : 's'} in this calc.</div>` : ''}
             <div class="trade-header-row"><span style="color:var(--negative);">Out</span><span></span><span style="color:var(--accent);">In</span></div>
