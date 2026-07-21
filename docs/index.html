@@ -63,8 +63,9 @@
   .about-footer { color: var(--text-muted); font-size: 12px; margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); }
 
   .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
-  .tabs button { font-size: 14px; font-weight: 500; padding: 10px 16px; border: none; background: none; color: var(--text-muted); cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tabs button { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; padding: 10px 16px; border: none; background: none; color: var(--text-muted); cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px; }
   .tabs button.active { color: var(--text); border-bottom-color: var(--accent); }
+  .tab-icon { flex-shrink: 0; }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
   select#round-select { font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); }
@@ -180,6 +181,15 @@
   .overlap-cell { height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 600; cursor: pointer; }
   .overlap-cell.overlap-diag { background: transparent; cursor: default; }
   .overlap-cell:not(.overlap-diag):hover { outline: 2px solid var(--text); outline-offset: -2px; }
+  .rider-grid-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .rider-grid { display: grid; gap: 2px; font-size: 12px; }
+  .rider-grid-corner { background: transparent; }
+  .rider-grid-col-header { position: relative; }
+  .rider-grid-col-header span { position: absolute; bottom: 6px; left: 16px; transform: rotate(-45deg); transform-origin: left bottom; white-space: nowrap; font-size: 11px; font-weight: 600; color: var(--text-muted); }
+  .rider-grid-row-header { display: flex; align-items: center; gap: 6px; padding-right: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rider-grid-cell { height: 30px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: var(--bg); }
+  .rider-grid-cell.rider-grid-owned { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); font-weight: 700; }
+  .rider-grid-cell.rider-grid-captain { background: color-mix(in srgb, #d4a017 22%, transparent); font-size: 13px; }
   .overlap-detail { margin-top: 16px; }
   .overlap-detail h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
 </style>
@@ -283,6 +293,26 @@ function cartIcon(color) {
 
 function tagIcon(color) {
   return `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>`;
+}
+
+function overviewIcon() {
+  return `<svg class="tab-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>`;
+}
+
+function standingsIcon() {
+  return `<svg class="tab-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="9" x2="9" y2="20"></line><line x1="15" y1="9" x2="15" y2="20"></line></svg>`;
+}
+
+function trendsIcon() {
+  return `<svg class="tab-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>`;
+}
+
+function headToHeadIcon() {
+  return `<svg class="tab-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="12" x2="10" y2="12"></line><polyline points="7 9 10 12 7 15"></polyline><line x1="22" y1="12" x2="14" y2="12"></line><polyline points="17 9 14 12 17 15"></polyline></svg>`;
+}
+
+function riderGridIcon() {
+  return `<svg class="tab-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 8 9 4"></polyline><line x1="13" y1="6" x2="21" y2="6"></line><polyline points="3 12 5 14 9 10"></polyline><line x1="13" y1="12" x2="21" y2="12"></line><polyline points="3 18 5 20 9 16"></polyline><line x1="13" y1="18" x2="21" y2="18"></line></svg>`;
 }
 
 function statRiderRows(list, proTeamAbbr) {
@@ -490,6 +520,41 @@ function computeOverlapCounts(teams) {
 function sharedRiders(teamA, teamB) {
   const bKeys = new Set(teamB.roster.map(r => `${r.name}|${r.pro_team}`));
   return teamA.roster.filter(r => bKeys.has(`${r.name}|${r.pro_team}`));
+}
+
+function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider) {
+  const n = standings.length;
+  const rows = [...popularity].sort((a, b) => b.owned_by_count - a.owned_by_count || a.name.localeCompare(b.name));
+
+  let cells = `<div class="rider-grid-cell rider-grid-corner"></div>`;
+  for (let j = 0; j < n; j++) {
+    const name = standings[j].header.team_name || standings[j].label;
+    cells += `<div class="rider-grid-col-header"><span title="${name}">${name}</span></div>`;
+  }
+  for (const p of rows) {
+    const key = `${p.name}|${p.pro_team}`;
+    const owners = new Set(p.owned_by_teams);
+    const captains = captainTeamsByRider[key];
+    cells += `<div class="rider-grid-row-header">${jerseyIcon(p.pro_team, proTeamAbbr)}<span>${p.name}</span></div>`;
+    for (let j = 0; j < n; j++) {
+      const label = standings[j].label;
+      if (!owners.has(label)) {
+        cells += `<div class="rider-grid-cell"></div>`;
+      } else if (captains?.has(label)) {
+        cells += `<div class="rider-grid-cell rider-grid-owned rider-grid-captain" title="Captain">👑</div>`;
+      } else {
+        cells += `<div class="rider-grid-cell rider-grid-owned">✓</div>`;
+      }
+    }
+  }
+
+  return `
+    <div class="rider-grid-wrap">
+      <div class="rider-grid" style="grid-template-columns: 170px repeat(${n}, 34px); grid-template-rows: 100px repeat(${rows.length}, 30px);">
+        ${cells}
+      </div>
+    </div>
+  `;
 }
 
 function renderOverlapMatrix(standings) {
@@ -795,6 +860,7 @@ function render(data) {
   `;
 
   const overlapHtml = renderOverlapMatrix(standings);
+  const riderGridHtml = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider);
 
   const teamTrades = computeTeamTrades(teams, data.round_baseline);
   const totalTradesThisRound = teamTrades.reduce((s, t) => s + t.trades.length, 0);
@@ -837,10 +903,11 @@ function render(data) {
   document.getElementById('content').innerHTML = `
     ${failedHtml}
     <div class="tabs" id="main-tabs">
-      <button data-tab="overview" class="active">Overview</button>
-      <button data-tab="standings">Standings</button>
-      <button data-tab="trends">Trends</button>
-      <button data-tab="head-to-head">Head-to-head</button>
+      <button data-tab="overview" class="active">${overviewIcon()}Overview</button>
+      <button data-tab="standings">${standingsIcon()}Standings</button>
+      <button data-tab="trends">${trendsIcon()}Trends</button>
+      <button data-tab="head-to-head">${headToHeadIcon()}Head-to-head</button>
+      <button data-tab="rider-grid">${riderGridIcon()}Rider grid</button>
     </div>
     <div class="tab-panel active" data-panel="overview">
       ${statsHtml}
@@ -888,6 +955,13 @@ function render(data) {
         <h2>Ownership overlap</h2>
         <p class="subtitle" style="margin-bottom:12px;">Riders shared between each pair of teams. Click a cell to see who.</p>
         ${overlapHtml}
+      </section>
+    </div>
+    <div class="tab-panel" data-panel="rider-grid">
+      <section>
+        <h2>Rider grid</h2>
+        <p class="subtitle" style="margin-bottom:12px;">Every rider owned in the group, and which teams have them.</p>
+        ${riderGridHtml}
       </section>
     </div>
   `;
