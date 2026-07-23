@@ -1,5 +1,5 @@
 {
-  "scraped_at": "2026-07-23T22:14:28.019196+00:00",
+  "scraped_at": "2026-07-23T23:16:29.147850+00:00",
   "master_riders": {
     "50719": {
       "rider_id": 50719,
@@ -10,7 +10,7 @@
       "price": 3930000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.03180828670636705,
+      "global_popularity": 0.03179029559397657,
       "is_out": false,
       "round_points": -33000
     },
@@ -49,7 +49,7 @@
       "price": 3193000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.02750841084504255,
+      "global_popularity": 0.027526401957433028,
       "is_out": false,
       "round_points": -33000
     },
@@ -62,7 +62,7 @@
       "price": 3014000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.19540147167299354,
+      "global_popularity": 0.19763236960941294,
       "is_out": false,
       "round_points": 9000
     },
@@ -75,7 +75,7 @@
       "price": 11322000,
       "start_price": 10500000,
       "points": 0,
-      "global_popularity": 0.014824676609754782,
+      "global_popularity": 0.014788694384973823,
       "is_out": false,
       "round_points": -90000
     },
@@ -101,7 +101,7 @@
       "price": 6777000,
       "start_price": 7000000,
       "points": 0,
-      "global_popularity": 0.0038680891639530073,
+      "global_popularity": 0.0039220625011244445,
       "is_out": false,
       "round_points": -12000
     },
@@ -114,7 +114,7 @@
       "price": 13746000,
       "start_price": 11500000,
       "points": 0,
-      "global_popularity": 0.1219977331198388,
+      "global_popularity": 0.12253746649155317,
       "is_out": false,
       "round_points": 58000
     },
@@ -127,7 +127,7 @@
       "price": 2861000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.004533760322400734,
+      "global_popularity": 0.004551751434791213,
       "is_out": false,
       "round_points": -90000
     },
@@ -166,7 +166,7 @@
       "price": 5007000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.025583361819261286,
+      "global_popularity": 0.025205548459061224,
       "is_out": false,
       "round_points": -33000
     },
@@ -179,7 +179,7 @@
       "price": 5998000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.03718762931112031,
+      "global_popularity": 0.03707968263677743,
       "is_out": false,
       "round_points": -90000
     },
@@ -270,7 +270,7 @@
       "price": 3278000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0018710756886098268,
+      "global_popularity": 0.0018890668010003058,
       "is_out": false,
       "round_points": -90000
     },
@@ -296,7 +296,7 @@
       "price": 4520000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.0050914848065055866,
+      "global_popularity": 0.0050734936941151075,
       "is_out": false,
       "round_points": -42000
     },
@@ -309,7 +309,7 @@
       "price": 1747000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.1694582876059227,
+      "global_popularity": 0.16942230538114172,
       "is_out": false,
       "round_points": -90000
     },
@@ -322,7 +322,7 @@
       "price": 1678000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.03679182483852977,
+      "global_popularity": 0.03689977151287264,
       "is_out": false,
       "round_points": -90000
     },
@@ -361,7 +361,7 @@
       "price": 6957000,
       "start_price": 7000000,
       "points": 0,
-      "global_popularity": 0.0076282316535631394,
+      "global_popularity": 0.007574258316391702,
       "is_out": false,
       "round_points": -90000
     },
@@ -374,7 +374,7 @@
       "price": 3646000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.004048000287857798,
+      "global_popularity": 0.004065991400248277,
       "is_out": false,
       "round_points": -39000
     },
@@ -400,7 +400,7 @@
       "price": 2409000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.05674396847957109,
+      "global_popularity": 0.05620423510785672,
       "is_out": false,
       "round_points": -90000
     },
@@ -439,7 +439,7 @@
       "price": 4068000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0058111293021247505,
+      "global_popularity": 0.00582912041451523,
       "is_out": false,
       "round_points": -51000
     },
@@ -452,7 +452,7 @@
       "price": 2436000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.00600903153842002,
+      "global_popularity": 0.006063004875591458,
       "is_out": false,
       "round_points": -24000
     },
@@ -478,7 +478,7 @@
       "price": 3607000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.013331414281345015,
+      "global_popularity": 0.013385387618516454,
       "is_out": false,
       "round_points": -18000
     },
@@ -491,7 +491,7 @@
       "price": 9121000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.235485670078981,
+      "global_popularity": 0.23406437220013313,
       "is_out": false,
       "round_points": 521000
     },
@@ -504,7 +504,7 @@
       "price": 2947000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.10828850547829372,
+      "global_popularity": 0.10823453214112229,
       "is_out": false,
       "round_points": 9000
     },
@@ -517,7 +517,7 @@
       "price": 3619000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.07176654732562114,
+      "global_popularity": 0.07165860065127827,
       "is_out": false,
       "round_points": 36000
     },
@@ -530,7 +530,7 @@
       "price": 3180000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.10226148282748322,
+      "global_popularity": 0.10224349171509274,
       "is_out": false,
       "round_points": 12000
     },
@@ -543,7 +543,7 @@
       "price": 3303000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.005739164852562834,
+      "global_popularity": 0.005721173740172355,
       "is_out": false,
       "round_points": -30000
     },
@@ -556,7 +556,7 @@
       "price": 5537000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.02844394868934746,
+      "global_popularity": 0.02847993091412842,
       "is_out": false,
       "round_points": 18000
     },
@@ -569,7 +569,7 @@
       "price": 5624000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.10258532285051185,
+      "global_popularity": 0.10236942950182609,
       "is_out": false,
       "round_points": 30000
     },
@@ -582,7 +582,7 @@
       "price": 1836000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.03198819783027185,
+      "global_popularity": 0.0320241800550528,
       "is_out": false,
       "round_points": -30000
     },
@@ -595,7 +595,7 @@
       "price": 2425000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.00782613388985841,
+      "global_popularity": 0.007844125002248889,
       "is_out": false,
       "round_points": -36000
     },
@@ -608,7 +608,7 @@
       "price": 9063000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.043214651961930806,
+      "global_popularity": 0.04389831423276901,
       "is_out": false,
       "round_points": 151000
     },
@@ -621,7 +621,7 @@
       "price": 1762000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.01547235665581203,
+      "global_popularity": 0.015544321105373946,
       "is_out": false,
       "round_points": -90000
     },
@@ -634,7 +634,7 @@
       "price": 7053000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.008977565082849073,
+      "global_popularity": 0.008815645071334761,
       "is_out": false,
       "round_points": -66000
     },
@@ -647,7 +647,7 @@
       "price": 2904000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.03067484662576687,
+      "global_popularity": 0.030638864400985913,
       "is_out": false,
       "round_points": -90000
     },
@@ -686,7 +686,7 @@
       "price": 1642000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.04470791429034057,
+      "global_popularity": 0.04495978986380728,
       "is_out": false,
       "round_points": -90000
     },
@@ -712,7 +712,7 @@
       "price": 1899000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.06451612903225806,
+      "global_popularity": 0.06455211125703902,
       "is_out": false,
       "round_points": -90000
     },
@@ -738,7 +738,7 @@
       "price": 2911000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.015364409981469155,
+      "global_popularity": 0.015400392206250113,
       "is_out": false,
       "round_points": -90000
     },
@@ -751,7 +751,7 @@
       "price": 3681000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.042009247431768704,
+      "global_popularity": 0.04195527409459727,
       "is_out": false,
       "round_points": -54000
     },
@@ -764,7 +764,7 @@
       "price": 2567000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.0152384721947358,
+      "global_popularity": 0.015256463307126279,
       "is_out": false,
       "round_points": -54000
     },
@@ -777,7 +777,7 @@
       "price": 4822000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.10792868323048414,
+      "global_popularity": 0.10785671878092222,
       "is_out": false,
       "round_points": -18000
     },
@@ -803,7 +803,7 @@
       "price": 5155000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.24669413309824947,
+      "global_popularity": 0.24568663080438263,
       "is_out": false,
       "round_points": 267000
     },
@@ -816,7 +816,7 @@
       "price": 13401000,
       "start_price": 12500000,
       "points": 0,
-      "global_popularity": 0.01624597448860263,
+      "global_popularity": 0.01622798337621215,
       "is_out": true,
       "round_points": -100000
     },
@@ -842,7 +842,7 @@
       "price": 7712000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.04299875861324506,
+      "global_popularity": 0.04280085637694979,
       "is_out": false,
       "round_points": 270000
     },
@@ -855,7 +855,7 @@
       "price": 6620000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.118813306226724,
+      "global_popularity": 0.12014464854361945,
       "is_out": false,
       "round_points": -19000
     },
@@ -868,7 +868,7 @@
       "price": 4806000,
       "start_price": 5000000,
       "points": 0,
-      "global_popularity": 0.013925120990230825,
+      "global_popularity": 0.013853156540668909,
       "is_out": false,
       "round_points": -19000
     },
@@ -881,7 +881,7 @@
       "price": 2985000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.08837234406203336,
+      "global_popularity": 0.08828238850008097,
       "is_out": false,
       "round_points": -70000
     },
@@ -894,7 +894,7 @@
       "price": 16106000,
       "start_price": 14000000,
       "points": 0,
-      "global_popularity": 0.17983915945522913,
+      "global_popularity": 0.17969523055610528,
       "is_out": true,
       "round_points": -100000
     },
@@ -920,7 +920,7 @@
       "price": 3704000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.07977259233938434,
+      "global_popularity": 0.07953870787830812,
       "is_out": false,
       "round_points": -70000
     },
@@ -933,7 +933,7 @@
       "price": 6159000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.044833852077073924,
+      "global_popularity": 0.04476188762751201,
       "is_out": false,
       "round_points": -55000
     },
@@ -946,7 +946,7 @@
       "price": 3102000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.03963442059622546,
+      "global_popularity": 0.039580447259054026,
       "is_out": false,
       "round_points": -70000
     },
@@ -972,7 +972,7 @@
       "price": 3101000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.04254898080348308,
+      "global_popularity": 0.04256697191587356,
       "is_out": false,
       "round_points": -90000
     },
@@ -998,7 +998,7 @@
       "price": 2571000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.016407894500116944,
+      "global_popularity": 0.016353921162945505,
       "is_out": false,
       "round_points": -90000
     },
@@ -1024,7 +1024,7 @@
       "price": 6283000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.011532303042297106,
+      "global_popularity": 0.01144234748034471,
       "is_out": false,
       "round_points": -90000
     },
@@ -1037,7 +1037,7 @@
       "price": 2828000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.015022578846050051,
+      "global_popularity": 0.01504056995844053,
       "is_out": false,
       "round_points": -90000
     },
@@ -1089,7 +1089,7 @@
       "price": 2301000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.04879189680297933,
+      "global_popularity": 0.048845870140150766,
       "is_out": false,
       "round_points": -60000
     },
@@ -1115,7 +1115,7 @@
       "price": 5017000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.008383858373963262,
+      "global_popularity": 0.008311893924401346,
       "is_out": false,
       "round_points": -90000
     },
@@ -1128,7 +1128,7 @@
       "price": 2358000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.02387420614216577,
+      "global_popularity": 0.02385621502977529,
       "is_out": false,
       "round_points": -60000
     },
@@ -1141,7 +1141,7 @@
       "price": 1792000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.010362880736915964,
+      "global_popularity": 0.010542791860820754,
       "is_out": false,
       "round_points": -60000
     },
@@ -1167,7 +1167,7 @@
       "price": 7345000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.0036342047028767787,
+      "global_popularity": 0.0037241602648291744,
       "is_out": false,
       "round_points": -15000
     },
@@ -1180,7 +1180,7 @@
       "price": 4133000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.12572189338466797,
+      "global_popularity": 0.12557796448554415,
       "is_out": false,
       "round_points": -9000
     },
@@ -1193,7 +1193,7 @@
       "price": 3351000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.016443876724897902,
+      "global_popularity": 0.016713743410755086,
       "is_out": false,
       "round_points": -15000
     },
@@ -1206,7 +1206,7 @@
       "price": 2964000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.013187485382221182,
+      "global_popularity": 0.013169494269830703,
       "is_out": false,
       "round_points": -66000
     },
@@ -1245,7 +1245,7 @@
       "price": 11705000,
       "start_price": 9500000,
       "points": 0,
-      "global_popularity": 0.2279833762121512,
+      "global_popularity": 0.2276415450767321,
       "is_out": false,
       "round_points": 43000
     },
@@ -1258,7 +1258,7 @@
       "price": 4967000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.2261842649731033,
+      "global_popularity": 0.22294586474281705,
       "is_out": false,
       "round_points": -15000
     },
@@ -1271,7 +1271,7 @@
       "price": 10934000,
       "start_price": 9000000,
       "points": 0,
-      "global_popularity": 0.07459115197092636,
+      "global_popularity": 0.07471708975765971,
       "is_out": false,
       "round_points": 118000
     },
@@ -1284,7 +1284,7 @@
       "price": 9413000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.2501484266772214,
+      "global_popularity": 0.25187557346670747,
       "is_out": false,
       "round_points": 77000
     },
@@ -1297,7 +1297,7 @@
       "price": 6498000,
       "start_price": 7000000,
       "points": 0,
-      "global_popularity": 0.004839609233038879,
+      "global_popularity": 0.004803627008257921,
       "is_out": false,
       "round_points": -60000
     },
@@ -1336,7 +1336,7 @@
       "price": 3690000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.02644693521400428,
+      "global_popularity": 0.026428944101613804,
       "is_out": false,
       "round_points": -48000
     },
@@ -1349,7 +1349,7 @@
       "price": 7379000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.038662900527139596,
+      "global_popularity": 0.038393033841282405,
       "is_out": false,
       "round_points": -36000
     },
@@ -1362,7 +1362,7 @@
       "price": 7622000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.006836622708382059,
+      "global_popularity": 0.006782649371210622,
       "is_out": false,
       "round_points": -90000
     },
@@ -1375,7 +1375,7 @@
       "price": 8233000,
       "start_price": 8500000,
       "points": 0,
-      "global_popularity": 0.019934152528650845,
+      "global_popularity": 0.019844196966698452,
       "is_out": false,
       "round_points": -90000
     },
@@ -1388,7 +1388,7 @@
       "price": 2972000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.10528398970908372,
+      "global_popularity": 0.10515805192235037,
       "is_out": false,
       "round_points": -60000
     },
@@ -1401,7 +1401,7 @@
       "price": 7517000,
       "start_price": 7500000,
       "points": 0,
-      "global_popularity": 0.05319971933864671,
+      "global_popularity": 0.05312775488908479,
       "is_out": false,
       "round_points": -51000
     },
@@ -1427,7 +1427,7 @@
       "price": 1773000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.010956587445801774,
+      "global_popularity": 0.010974578558192253,
       "is_out": false,
       "round_points": -90000
     },
@@ -1440,7 +1440,7 @@
       "price": 4158000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.03938254502275876,
+      "global_popularity": 0.03927459834841588,
       "is_out": false,
       "round_points": 140000
     },
@@ -1479,7 +1479,7 @@
       "price": 5220000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.015796196678840652,
+      "global_popularity": 0.01585017001601209,
       "is_out": false,
       "round_points": -42000
     },
@@ -1505,7 +1505,7 @@
       "price": 4574000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.005865102639296188,
+      "global_popularity": 0.005847111526905709,
       "is_out": false,
       "round_points": 163000
     },
@@ -1531,7 +1531,7 @@
       "price": 3938000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.020437903675584262,
+      "global_popularity": 0.020383930338412824,
       "is_out": false,
       "round_points": -54000
     },
@@ -1557,7 +1557,7 @@
       "price": 2328000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.002734649083352824,
+      "global_popularity": 0.0026986668585718657,
       "is_out": false,
       "round_points": -72000
     },
@@ -1570,7 +1570,7 @@
       "price": 4456000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.015310436644297718,
+      "global_popularity": 0.015292445531907237,
       "is_out": false,
       "round_points": -51000
     },
@@ -1596,7 +1596,7 @@
       "price": 4959000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.16881060755986543,
+      "global_popularity": 0.1699440476404656,
       "is_out": false,
       "round_points": 96000
     },
@@ -1622,7 +1622,7 @@
       "price": 2688000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.006746667146429664,
+      "global_popularity": 0.006854613820772538,
       "is_out": false,
       "round_points": -12000
     },
@@ -1635,7 +1635,7 @@
       "price": 2541000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.0030225068816004895,
+      "global_popularity": 0.0030404979939909686,
       "is_out": false,
       "round_points": -42000
     },
@@ -1648,7 +1648,7 @@
       "price": 2651000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.012144000863573395,
+      "global_popularity": 0.012503823111382976,
       "is_out": false,
       "round_points": 42000
     },
@@ -1674,7 +1674,7 @@
       "price": 5661000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.021895183779213068,
+      "global_popularity": 0.02185920155443211,
       "is_out": false,
       "round_points": -12000
     },
@@ -1687,7 +1687,7 @@
       "price": 1888000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.05480092834139935,
+      "global_popularity": 0.05485490167857079,
       "is_out": false,
       "round_points": -45000
     },
@@ -1700,7 +1700,7 @@
       "price": 6592000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.011928107514887645,
+      "global_popularity": 0.011910116402497166,
       "is_out": false,
       "round_points": -6000
     },
@@ -1726,7 +1726,7 @@
       "price": 5109000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.013313423168954536,
+      "global_popularity": 0.013295432056564057,
       "is_out": false,
       "round_points": -60000
     },
@@ -1739,7 +1739,7 @@
       "price": 6165000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.03434503355342461,
+      "global_popularity": 0.0340931579799579,
       "is_out": false,
       "round_points": 357000
     },
@@ -1765,7 +1765,7 @@
       "price": 3456000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.0030584891063814477,
+      "global_popularity": 0.00300451576921001,
       "is_out": true,
       "round_points": -100000
     },
@@ -1778,7 +1778,7 @@
       "price": 1695000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.009805156252811111,
+      "global_popularity": 0.009787165140420632,
       "is_out": true,
       "round_points": -100000
     },
@@ -1791,7 +1791,7 @@
       "price": 2304000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.006512782685353435,
+      "global_popularity": 0.006476800460572477,
       "is_out": false,
       "round_points": -90000
     },
@@ -1817,7 +1817,7 @@
       "price": 1723000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.051994314808484605,
+      "global_popularity": 0.05203029703326557,
       "is_out": false,
       "round_points": -90000
     },
@@ -1869,7 +1869,7 @@
       "price": 10633000,
       "start_price": 9500000,
       "points": 0,
-      "global_popularity": 0.039688393933396904,
+      "global_popularity": 0.039562456146663545,
       "is_out": true,
       "round_points": -100000
     },
@@ -1895,7 +1895,7 @@
       "price": 2550000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.10852238993936995,
+      "global_popularity": 0.10855837216415092,
       "is_out": false,
       "round_points": -66000
     },
@@ -1908,7 +1908,7 @@
       "price": 3342000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.016785707860317002,
+      "global_popularity": 0.016911645647050357,
       "is_out": false,
       "round_points": -24000
     },
@@ -1921,7 +1921,7 @@
       "price": 3041000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.01619200115143119,
+      "global_popularity": 0.016263965600993108,
       "is_out": false,
       "round_points": -66000
     },
@@ -1973,7 +1973,7 @@
       "price": 13574000,
       "start_price": 10500000,
       "points": 0,
-      "global_popularity": 0.3354982638576543,
+      "global_popularity": 0.3365957217134735,
       "is_out": false,
       "round_points": 190000
     },
@@ -1999,7 +1999,7 @@
       "price": 6470000,
       "start_price": 6500000,
       "points": 0,
-      "global_popularity": 0.03787129158195851,
+      "global_popularity": 0.037259593760682226,
       "is_out": false,
       "round_points": -18000
     },
@@ -2012,7 +2012,7 @@
       "price": 3304000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.022219023802241694,
+      "global_popularity": 0.02223701491463217,
       "is_out": false,
       "round_points": -90000
     },
@@ -2025,7 +2025,7 @@
       "price": 22017000,
       "start_price": 17000000,
       "points": 0,
-      "global_popularity": 0.6753323858014141,
+      "global_popularity": 0.6754943058129285,
       "is_out": false,
       "round_points": 190000
     },
@@ -2038,7 +2038,7 @@
       "price": 5970000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.01881870356044114,
+      "global_popularity": 0.01865678354892683,
       "is_out": true,
       "round_points": -50000
     },
@@ -2051,7 +2051,7 @@
       "price": 2921000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.22965654966446575,
+      "global_popularity": 0.22989043412554197,
       "is_out": false,
       "round_points": -57000
     },
@@ -2064,7 +2064,7 @@
       "price": 3698000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.06813234262274437,
+      "global_popularity": 0.06854613820772539,
       "is_out": false,
       "round_points": -24000
     },
@@ -2077,7 +2077,7 @@
       "price": 4599000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.04875591457819837,
+      "global_popularity": 0.04870194124102693,
       "is_out": false,
       "round_points": -90000
     },
@@ -2090,7 +2090,7 @@
       "price": 6399000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.05794937300973319,
+      "global_popularity": 0.057877408560171276,
       "is_out": false,
       "round_points": -84000
     },
@@ -2116,7 +2116,7 @@
       "price": 12604000,
       "start_price": 9500000,
       "points": 0,
-      "global_popularity": 0.18726948887249698,
+      "global_popularity": 0.18825900005397334,
       "is_out": false,
       "round_points": 83000
     },
@@ -2129,7 +2129,7 @@
       "price": 3073000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.011874134177716208,
+      "global_popularity": 0.01183815195293525,
       "is_out": false,
       "round_points": -51000
     },
@@ -2142,7 +2142,7 @@
       "price": 2938000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.008491805048306137,
+      "global_popularity": 0.008455822823525179,
       "is_out": false,
       "round_points": -51000
     },
@@ -2155,7 +2155,7 @@
       "price": 2321000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.002914560207257615,
+      "global_popularity": 0.0028965690948671357,
       "is_out": true,
       "round_points": -100000
     },
@@ -2181,7 +2181,7 @@
       "price": 1698000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.01970026806757462,
+      "global_popularity": 0.019718259179965097,
       "is_out": false,
       "round_points": -90000
     },
@@ -2194,7 +2194,7 @@
       "price": 3369000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.002122951262076534,
+      "global_popularity": 0.0021409423744670132,
       "is_out": false,
       "round_points": -90000
     },
@@ -2207,7 +2207,7 @@
       "price": 2920000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.001745137901876473,
+      "global_popularity": 0.0017631290142669522,
       "is_out": false,
       "round_points": -90000
     },
@@ -2220,7 +2220,7 @@
       "price": 8932000,
       "start_price": 8000000,
       "points": 0,
-      "global_popularity": 0.036072180342910605,
+      "global_popularity": 0.03598222478095821,
       "is_out": false,
       "round_points": -90000
     },
@@ -2246,7 +2246,7 @@
       "price": 3129000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.002788622420524261,
+      "global_popularity": 0.002770631308133782,
       "is_out": false,
       "round_points": -90000
     },
@@ -2259,7 +2259,7 @@
       "price": 1919000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.12158393753485779,
+      "global_popularity": 0.12152996419768634,
       "is_out": false,
       "round_points": -90000
     },
@@ -2272,7 +2272,7 @@
       "price": 11138000,
       "start_price": 11000000,
       "points": 0,
-      "global_popularity": 0.027976179767195006,
+      "global_popularity": 0.02788622420524261,
       "is_out": false,
       "round_points": -75000
     },
@@ -2285,7 +2285,7 @@
       "price": 13021000,
       "start_price": 11500000,
       "points": 0,
-      "global_popularity": 0.04398826979472141,
+      "global_popularity": 0.043916305345159494,
       "is_out": false,
       "round_points": -90000
     },
@@ -2298,7 +2298,7 @@
       "price": 1853000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.03454293578971988,
+      "global_popularity": 0.03457891801450084,
       "is_out": false,
       "round_points": -90000
     },
@@ -2311,7 +2311,7 @@
       "price": 4328000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.0035442491409243835,
+      "global_popularity": 0.0035262580285339044,
       "is_out": true,
       "round_points": -100000
     },
@@ -2350,7 +2350,7 @@
       "price": 2023000,
       "start_price": 2500000,
       "points": 0,
-      "global_popularity": 0.08432434377417555,
+      "global_popularity": 0.08439630822373748,
       "is_out": false,
       "round_points": -54000
     },
@@ -2363,7 +2363,7 @@
       "price": 2433000,
       "start_price": 3000000,
       "points": 0,
-      "global_popularity": 0.0879945307018333,
+      "global_popularity": 0.08808448626378569,
       "is_out": false,
       "round_points": -66000
     },
@@ -2389,7 +2389,7 @@
       "price": 5805000,
       "start_price": 5500000,
       "points": 0,
-      "global_popularity": 0.03193422449310041,
+      "global_popularity": 0.03191623338070993,
       "is_out": false,
       "round_points": -75000
     },
@@ -2415,7 +2415,7 @@
       "price": 9315000,
       "start_price": 8500000,
       "points": 0,
-      "global_popularity": 0.09493910008455823,
+      "global_popularity": 0.09326592663224367,
       "is_out": false,
       "round_points": 212000
     },
@@ -2441,7 +2441,7 @@
       "price": 3978000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.1324145871939262,
+      "global_popularity": 0.13227065829480236,
       "is_out": false,
       "round_points": -48000
     },
@@ -2467,7 +2467,7 @@
       "price": 4008000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.006458809348181998,
+      "global_popularity": 0.006404836011010561,
       "is_out": false,
       "round_points": -45000
     },
@@ -2532,7 +2532,7 @@
       "price": 5322000,
       "start_price": 6000000,
       "points": 0,
-      "global_popularity": 0.008545778385477574,
+      "global_popularity": 0.008527787273087095,
       "is_out": false,
       "round_points": -48000
     },
@@ -2558,7 +2558,7 @@
       "price": 4016000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.21010021049601496,
+      "global_popularity": 0.21062195275533888,
       "is_out": false,
       "round_points": -12000
     },
@@ -2571,7 +2571,7 @@
       "price": 4502000,
       "start_price": 4500000,
       "points": 0,
-      "global_popularity": 0.0037061691524386954,
+      "global_popularity": 0.0036881780400482163,
       "is_out": false,
       "round_points": -66000
     },
@@ -2610,7 +2610,7 @@
       "price": 3417000,
       "start_price": 4000000,
       "points": 0,
-      "global_popularity": 0.01345735206807837,
+      "global_popularity": 0.013421369843297412,
       "is_out": false,
       "round_points": -90000
     },
@@ -2649,7 +2649,7 @@
       "price": 9676000,
       "start_price": 8500000,
       "points": 0,
-      "global_popularity": 0.04130759404854002,
+      "global_popularity": 0.041451522947663855,
       "is_out": false,
       "round_points": 119000
     },
@@ -2662,7 +2662,7 @@
       "price": 3150000,
       "start_price": 3500000,
       "points": 0,
-      "global_popularity": 0.0068905960455534964,
+      "global_popularity": 0.006872604933163017,
       "is_out": false,
       "round_points": -48000
     },
