@@ -190,6 +190,19 @@
   .compare-select { font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: inherit; max-width: 220px; }
   .compare-vs { color: var(--text-muted); font-size: 13px; }
 
+  .trajectory-controls { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .trajectory-controls .chart-toggle { margin-bottom: 0; }
+  .team-filter { position: relative; }
+  .team-filter-toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; font-family: inherit; }
+  .team-filter-toggle:hover { color: var(--text); }
+  .team-filter-panel { position: absolute; top: calc(100% + 6px); right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px; width: 220px; max-height: 280px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.18); z-index: 20; }
+  .team-filter-panel[hidden] { display: none; }
+  .team-filter-actions { display: flex; gap: 8px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .team-filter-actions button { font-size: 12px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); color: var(--text-muted); cursor: pointer; font-family: inherit; }
+  .team-filter-actions button:hover { color: var(--text); }
+  .team-filter-item { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 5px 2px; cursor: pointer; }
+  .team-filter-item input { accent-color: var(--accent); }
+
   .overlap-matrix-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
   .overlap-matrix { display: grid; gap: 3px; font-size: 12px; align-items: center; }
   .overlap-row-header { padding-right: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -211,8 +224,12 @@
   .rider-grid-cell.rider-grid-sortable:hover { color: var(--text); }
   .rider-grid-sort-arrow { color: var(--accent); }
   .rider-grid-cell.rider-grid-value { color: var(--text-muted); font-variant-numeric: tabular-nums; }
-  .overlap-detail { margin-top: 16px; }
+  .overlap-layout { display: flex; align-items: flex-start; gap: 16px; }
+  .overlap-layout .overlap-matrix-wrap { flex: 0 0 auto; }
+  .overlap-detail { flex: 1 1 auto; min-width: 220px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
   .overlap-detail h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+  .overlap-detail-placeholder { color: var(--text-muted); font-size: 13px; }
+  @media (max-width: 800px) { .overlap-layout { flex-direction: column; } }
 </style>
 </head>
 <body>
@@ -672,12 +689,14 @@ function renderOverlapMatrix(standings) {
   }
 
   return `
-    <div class="overlap-matrix-wrap">
-      <div class="overlap-matrix" style="grid-template-columns: 160px repeat(${n}, 36px);">
-        ${cells}
+    <div class="overlap-layout">
+      <div class="overlap-matrix-wrap">
+        <div class="overlap-matrix" style="grid-template-columns: 160px repeat(${n}, 36px);">
+          ${cells}
+        </div>
       </div>
+      <div id="overlap-detail" class="overlap-detail"><p class="overlap-detail-placeholder">Click a cell to see which riders two teams share.</p></div>
     </div>
-    <div id="overlap-detail" class="overlap-detail"></div>
   `;
 }
 
@@ -712,26 +731,31 @@ function computeGroupRanksByRound(teams) {
   return ranks;
 }
 
-function buildTrajectoryDatasets(teams, mode) {
+function buildTrajectoryDatasets(teams, mode, selectedIndices) {
   const roundsSet = new Set();
   teams.forEach(t => (t.history || []).forEach(h => roundsSet.add(h.round)));
   const rounds = [...roundsSet].sort((a, b) => a - b);
 
   const groupRanks = mode === 'group-rank' ? computeGroupRanksByRound(teams) : null;
 
-  const datasets = teams.map((t, i) => {
+  const byRoundAll = teams.map(t => {
+    const m = {};
+    (t.history || []).forEach(h => { m[h.round] = h; });
+    return m;
+  });
+
+  const datasets = [];
+  teams.forEach((t, i) => {
+    if (selectedIndices && !selectedIndices.has(i)) return;
     const color = TEAM_COLORS[i % TEAM_COLORS.length];
-    const byRound = {};
-    (t.history || []).forEach(h => { byRound[h.round] = h; });
+    const byRound = byRoundAll[i];
     const data = rounds.map(r => {
-      const h = byRound[r];
       if (mode === 'group-rank') return groupRanks[t.label][r] ?? null;
+      const h = byRound[r];
       if (!h) return null;
-      if (mode === 'value') return h.total_value;
-      if (mode === 'global-rank') return h.overall_rank;
-      return null;
+      return h.round_points;
     });
-    return {
+    datasets.push({
       label: t.header.team_name || t.label,
       data,
       borderColor: color,
@@ -742,8 +766,33 @@ function buildTrajectoryDatasets(teams, mode) {
       pointHoverRadius: 4,
       tension: 0.15,
       spanGaps: true,
-    };
+    });
   });
+
+  if (mode === 'round-points') {
+    const avgData = rounds.map(r => {
+      const vals = byRoundAll
+        .map(m => m[r])
+        .filter(h => h && h.round_points !== null && h.round_points !== undefined)
+        .map(h => h.round_points);
+      if (!vals.length) return null;
+      return vals.reduce((s, v) => s + v, 0) / vals.length;
+    });
+    const muted = cssVar('--text-muted') || '#6b6b66';
+    datasets.push({
+      label: 'Group average',
+      data: avgData,
+      borderColor: muted,
+      backgroundColor: muted,
+      _baseColor: muted,
+      borderWidth: 2,
+      borderDash: [6, 4],
+      pointRadius: 0,
+      pointHoverRadius: 3,
+      tension: 0.15,
+      spanGaps: true,
+    });
+  }
 
   return { rounds, datasets };
 }
@@ -762,12 +811,12 @@ function resetDatasetColors(chart) {
   chart.update('none');
 }
 
-function renderTrajectoryChart(teams, mode) {
+function renderTrajectoryChart(teams, mode, selectedIndices) {
   const canvas = document.getElementById('trajectory-chart');
   if (!canvas || typeof Chart === 'undefined') return;
-  const { rounds, datasets } = buildTrajectoryDatasets(teams, mode);
-  const isRank = mode !== 'value';
-  const yTitle = mode === 'value' ? 'Total value (DKK)' : mode === 'group-rank' ? 'Rank in group' : 'Holdet overall rank';
+  const { rounds, datasets } = buildTrajectoryDatasets(teams, mode, selectedIndices);
+  const isRank = mode === 'group-rank';
+  const yTitle = mode === 'group-rank' ? 'Rank in group' : 'Round points (DKK)';
 
   if (trajectoryChart) trajectoryChart.destroy();
   trajectoryChart = new Chart(canvas.getContext('2d'), {
@@ -796,7 +845,7 @@ function renderTrajectoryChart(teams, mode) {
         },
         tooltip: {
           callbacks: {
-            label: (ctx) => `${ctx.dataset.label}: ${mode === 'value' ? formatDkk(ctx.parsed.y) : ctx.parsed.y}`,
+            label: (ctx) => `${ctx.dataset.label}: ${mode === 'round-points' ? formatDkk(ctx.parsed.y) : ctx.parsed.y}`,
           },
         },
       },
@@ -1134,10 +1183,29 @@ function render(data) {
     <div class="tab-panel" data-panel="trends">
       <section>
         <h2>Team trajectory</h2>
-        <div class="chart-toggle" id="trajectory-toggle">
-          <button data-mode="value" class="active">Value</button>
-          <button data-mode="group-rank">Group rank</button>
-          <button data-mode="global-rank">Global rank</button>
+        <div class="trajectory-controls">
+          <div class="chart-toggle" id="trajectory-toggle">
+            <button data-mode="group-rank" class="active">Group rank</button>
+            <button data-mode="round-points">Round points</button>
+          </div>
+          <div class="team-filter" id="team-filter">
+            <button type="button" class="team-filter-toggle" id="team-filter-toggle">
+              Teams <span id="team-filter-count">${teams.length}/${teams.length}</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="team-filter-panel" id="team-filter-panel" hidden>
+              <div class="team-filter-actions">
+                <button type="button" data-action="all">All</button>
+                <button type="button" data-action="none">None</button>
+              </div>
+              ${teams.map((t, i) => `
+                <label class="team-filter-item">
+                  <input type="checkbox" data-team-index="${i}" checked>
+                  <span>${t.header.team_name || t.label}</span>
+                </label>
+              `).join('')}
+            </div>
+          </div>
         </div>
         <div class="chart-container">
           <canvas id="trajectory-chart"></canvas>
@@ -1172,12 +1240,49 @@ function render(data) {
     </div>
   `;
 
+  let selectedTeamIndices = new Set(teams.map((_, i) => i));
+
   document.getElementById('trajectory-toggle').addEventListener('click', (evt) => {
     const btn = evt.target.closest('button[data-mode]');
     if (!btn) return;
     document.querySelectorAll('#trajectory-toggle button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    renderTrajectoryChart(teams, btn.dataset.mode);
+    renderTrajectoryChart(teams, btn.dataset.mode, selectedTeamIndices);
+  });
+
+  document.getElementById('team-filter-toggle').addEventListener('click', (evt) => {
+    evt.stopPropagation();
+    const panel = document.getElementById('team-filter-panel');
+    panel.hidden = !panel.hidden;
+  });
+  document.addEventListener('click', (evt) => {
+    const filter = document.getElementById('team-filter');
+    const panel = document.getElementById('team-filter-panel');
+    if (filter && panel && !filter.contains(evt.target)) panel.hidden = true;
+  });
+  function updateTeamFilterCount() {
+    document.getElementById('team-filter-count').textContent = `${selectedTeamIndices.size}/${teams.length}`;
+  }
+  document.getElementById('team-filter-panel').addEventListener('click', (evt) => {
+    const actionBtn = evt.target.closest('[data-action]');
+    if (!actionBtn) return;
+    if (actionBtn.dataset.action === 'all') selectedTeamIndices = new Set(teams.map((_, i) => i));
+    if (actionBtn.dataset.action === 'none') selectedTeamIndices = new Set();
+    document.querySelectorAll('#team-filter-panel input[type=checkbox]').forEach(cb => {
+      cb.checked = selectedTeamIndices.has(parseInt(cb.dataset.teamIndex, 10));
+    });
+    updateTeamFilterCount();
+    const mode = document.querySelector('#trajectory-toggle .active')?.dataset.mode || 'group-rank';
+    renderTrajectoryChart(teams, mode, selectedTeamIndices);
+  });
+  document.getElementById('team-filter-panel').addEventListener('change', (evt) => {
+    const cb = evt.target.closest('input[type=checkbox]');
+    if (!cb) return;
+    const idx = parseInt(cb.dataset.teamIndex, 10);
+    if (cb.checked) selectedTeamIndices.add(idx); else selectedTeamIndices.delete(idx);
+    updateTeamFilterCount();
+    const mode = document.querySelector('#trajectory-toggle .active')?.dataset.mode || 'group-rank';
+    renderTrajectoryChart(teams, mode, selectedTeamIndices);
   });
 
   populateCompareSelects(standings);
@@ -1197,8 +1302,8 @@ function render(data) {
     document.querySelectorAll('#main-tabs button').forEach(b => b.classList.toggle('active', b === btn));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tab));
     if (tab === 'trends') {
-      const mode = document.querySelector('#trajectory-toggle .active')?.dataset.mode || 'value';
-      renderTrajectoryChart(teams, mode);
+      const mode = document.querySelector('#trajectory-toggle .active')?.dataset.mode || 'group-rank';
+      renderTrajectoryChart(teams, mode, selectedTeamIndices);
       renderCompareChart(standings);
     }
   });
@@ -1220,7 +1325,6 @@ function render(data) {
         <li><span>${jerseyIcon(r.pro_team, proTeamAbbr)}${r.name} <span style="color:var(--text-muted); font-size:12px;">${r.pro_team || ''}</span></span></li>
       `).join('')}</ul>` : '<p style="color:var(--text-muted); font-size:13px;">No riders in common.</p>'}
     `;
-    detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 }
 
