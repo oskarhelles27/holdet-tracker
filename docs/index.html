@@ -135,6 +135,12 @@
   .value-tooltip { visibility: hidden; opacity: 0; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 11px; font-weight: 400; line-height: 1.4; padding: 8px 10px; border-radius: 6px; width: 230px; box-shadow: 0 6px 16px rgba(0,0,0,0.18); transition: opacity .15s ease; z-index: 10; text-align: left; white-space: normal; pointer-events: none; }
   .value-pill-wrap:hover .value-tooltip { visibility: visible; opacity: 1; }
   .value-summary-note { font-size: 11px; color: var(--text-muted); font-style: italic; margin: -4px 0 8px; }
+  .pending-badge { font-size: 11px; font-weight: 600; background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  :root[data-theme="dark"] .pending-badge { background: #4A3B14; color: #FBBF24; }
+  .transfer-detail summary { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; list-style: none; }
+  .transfer-detail summary::-webkit-details-marker { display: none; }
+  .transfer-detail summary .value-summary { margin-bottom: 0; padding-bottom: 0; border-bottom: none; flex: 1; }
+  .transfer-detail[open] summary { margin-bottom: 8px; }
 
   .diff-module { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
   .diff-item { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
@@ -173,6 +179,9 @@
   .chart-toggle button { font-size: 13px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; font-family: inherit; }
   .chart-toggle button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
   .chart-container { position: relative; height: 380px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .compare-controls { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .compare-select { font-size: 14px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-family: inherit; max-width: 220px; }
+  .compare-vs { color: var(--text-muted); font-size: 13px; }
 
   .overlap-matrix-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
   .overlap-matrix { display: grid; gap: 3px; font-size: 12px; align-items: center; }
@@ -392,38 +401,62 @@ function computeTransferValue(trades, globalRoundPoints) {
   return { cost, gained, lost, net, missingCount };
 }
 
-function renderTransferActivity(teamTrades, proTeamAbbr, globalRoundPoints) {
+function isRoundResultsPending(masterRiders) {
+  // Prices only move once Holdet has processed a round's results - until
+  // then every rider's round_points (== price change) comes back 0/null,
+  // which would otherwise render as a misleading "New riders 0 kr" line.
+  const values = Object.values(masterRiders || {}).map(r => r.round_points);
+  return values.length > 0 && values.every(v => !v);
+}
+
+function renderTransferActivity(teamTrades, proTeamAbbr, globalRoundPoints, resultsPending) {
   const sorted = [...teamTrades].sort((a, b) => b.trades.length - a.trades.length);
   return `
     <div class="activity-module">
       ${sorted.map(({ team, trades }) => {
         const value = computeTransferValue(trades, globalRoundPoints);
+        const tradeRowsHtml = `
+          <div class="trade-header-row"><span style="color:var(--negative);">Out</span><span></span><span style="color:var(--accent);">In</span></div>
+          ${trades.map(({ out, in: inRider }) => `
+            <div class="trade-row">
+              <span class="trade-rider">${out ? `${jerseyIcon(out.pro_team, proTeamAbbr)}<span>${out.name}</span>` : ''}</span>
+              <span class="trade-arrow">${out && inRider ? '→' : ''}</span>
+              <span class="trade-rider">${inRider ? `${jerseyIcon(inRider.pro_team, proTeamAbbr)}<span>${inRider.name}</span>` : ''}</span>
+            </div>
+          `).join('')}
+        `;
+        const pendingHtml = `
+          <div class="value-summary">
+            <span class="pending-badge">⏳ Results pending</span>
+            <span class="value-term">Fee <span class="pts-negative">${formatKr(value.cost)}</span></span>
+          </div>
+          ${tradeRowsHtml}
+        `;
+        const settledHtml = `
+          <details class="transfer-detail">
+            <summary>
+              <span class="chevron">▸</span>
+              <div class="value-summary">
+                <span class="value-term">New riders <span class="pts-positive">${formatKr(value.gained)}</span></span>
+                <span class="value-op">&minus;</span>
+                <span class="value-term">Old riders <span class="pts-negative">${formatKr(value.lost)}</span></span>
+                <span class="value-op">&minus;</span>
+                <span class="value-term">Fee <span class="pts-negative">${formatKr(value.cost)}</span></span>
+                <span class="value-op">=</span>
+                <span class="value-pill-wrap">
+                  <span class="value-pill ${value.net > 0 ? 'pill-positive' : value.net < 0 ? 'pill-negative' : ''}">Net ${formatSignedKr(value.net)}${value.net > 0 ? ' ✓' : value.net < 0 ? ' ✗' : ''}</span>
+                  <span class="value-tooltip">New riders' value gained since being drafted, minus what the old riders would have gained had they stayed, minus the 1% transfer fee on each incoming rider. Positive means these trades added more value than they cost.</span>
+                </span>
+              </div>
+            </summary>
+            ${value.missingCount ? `<div class="value-summary-note">Round data unavailable for ${value.missingCount} rider${value.missingCount === 1 ? '' : 's'} in this calc.</div>` : ''}
+            ${tradeRowsHtml}
+          </details>
+        `;
         return `
         <div class="activity-team">
           <div class="activity-team-name">${team.header.team_name || team.label}<span style="color:var(--text-muted); font-size:12px; font-weight:400;">${trades.length} transfer${trades.length === 1 ? '' : 's'} this round</span></div>
-          ${trades.length ? `
-            <div class="value-summary">
-              <span class="value-term">New riders <span class="pts-positive">${formatKr(value.gained)}</span></span>
-              <span class="value-op">&minus;</span>
-              <span class="value-term">Old riders <span class="pts-negative">${formatKr(value.lost)}</span></span>
-              <span class="value-op">&minus;</span>
-              <span class="value-term">Fee <span class="pts-negative">${formatKr(value.cost)}</span></span>
-              <span class="value-op">=</span>
-              <span class="value-pill-wrap">
-                <span class="value-pill ${value.net > 0 ? 'pill-positive' : value.net < 0 ? 'pill-negative' : ''}">Net ${formatSignedKr(value.net)}${value.net > 0 ? ' ✓' : value.net < 0 ? ' ✗' : ''}</span>
-                <span class="value-tooltip">New riders' value gained since being drafted, minus what the old riders would have gained had they stayed, minus the 1% transfer fee on each incoming rider. Positive means these trades added more value than they cost.</span>
-              </span>
-            </div>
-            ${value.missingCount ? `<div class="value-summary-note">Round data unavailable for ${value.missingCount} rider${value.missingCount === 1 ? '' : 's'} in this calc.</div>` : ''}
-            <div class="trade-header-row"><span style="color:var(--negative);">Out</span><span></span><span style="color:var(--accent);">In</span></div>
-            ${trades.map(({ out, in: inRider }) => `
-              <div class="trade-row">
-                <span class="trade-rider">${out ? `${jerseyIcon(out.pro_team, proTeamAbbr)}<span>${out.name}</span>` : ''}</span>
-                <span class="trade-arrow">${out && inRider ? '→' : ''}</span>
-                <span class="trade-rider">${inRider ? `${jerseyIcon(inRider.pro_team, proTeamAbbr)}<span>${inRider.name}</span>` : ''}</span>
-              </div>
-            `).join('')}
-          ` : `<div class="activity-empty">No trades this round</div>`}
+          ${trades.length ? (resultsPending ? pendingHtml : settledHtml) : `<div class="activity-empty">No trades this round</div>`}
         </div>
       `;
       }).join('')}
@@ -740,6 +773,105 @@ function renderTrajectoryChart(teams, mode) {
   });
 }
 
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function buildTeamDiffDataset(teamA, teamB) {
+  const roundsSet = new Set();
+  (teamA.history || []).forEach(h => roundsSet.add(h.round));
+  (teamB.history || []).forEach(h => roundsSet.add(h.round));
+  const rounds = [...roundsSet].sort((a, b) => a - b);
+  const byRoundA = {}; (teamA.history || []).forEach(h => { byRoundA[h.round] = h; });
+  const byRoundB = {}; (teamB.history || []).forEach(h => { byRoundB[h.round] = h; });
+  const data = rounds.map(r => {
+    const a = byRoundA[r], b = byRoundB[r];
+    if (!a || !b) return null;
+    return (a.total_value || 0) - (b.total_value || 0);
+  });
+  return { rounds, data };
+}
+
+let compareChart = null;
+
+function populateCompareSelects(standings) {
+  const optionsHtml = standings.map((t, i) => `<option value="${i}">${t.header.team_name || t.label}</option>`).join('');
+  const selA = document.getElementById('compare-team-a');
+  const selB = document.getElementById('compare-team-b');
+  if (!selA || !selB) return;
+  selA.innerHTML = optionsHtml;
+  selB.innerHTML = optionsHtml;
+  selA.value = 0;
+  selB.value = standings.length > 1 ? 1 : 0;
+}
+
+function renderCompareChart(standings) {
+  const canvas = document.getElementById('compare-chart');
+  if (!canvas || typeof Chart === 'undefined') return;
+  const selA = document.getElementById('compare-team-a');
+  const selB = document.getElementById('compare-team-b');
+  const teamA = standings[parseInt(selA.value, 10)];
+  const teamB = standings[parseInt(selB.value, 10)];
+  if (!teamA || !teamB) return;
+  const nameA = teamA.header.team_name || teamA.label;
+  const nameB = teamB.header.team_name || teamB.label;
+  const { rounds, data } = buildTeamDiffDataset(teamA, teamB);
+
+  const positive = cssVar('--accent') || '#1D9E75';
+  const negative = cssVar('--negative') || '#D85A30';
+  const neutral = cssVar('--text-muted') || '#6b6b66';
+
+  if (compareChart) compareChart.destroy();
+  compareChart = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: rounds,
+      datasets: [{
+        label: `${nameA} vs ${nameB}`,
+        data,
+        borderWidth: 2,
+        pointRadius: 3,
+        pointBackgroundColor: (ctx) => {
+          const v = ctx.parsed ? ctx.parsed.y : null;
+          return v == null ? 'transparent' : (v >= 0 ? positive : negative);
+        },
+        segment: {
+          borderColor: (ctx) => {
+            const y0 = ctx.p0.parsed.y, y1 = ctx.p1.parsed.y;
+            if (y0 >= 0 && y1 >= 0) return positive;
+            if (y0 < 0 && y1 < 0) return negative;
+            return neutral;
+          },
+        },
+        fill: { target: { value: 0 }, above: hexToRgba(positive, 0.12), below: hexToRgba(negative, 0.12) },
+        spanGaps: true,
+        tension: 0.15,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { title: { display: true, text: 'Round' } },
+        y: { title: { display: true, text: 'Value difference (DKK)' } },
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const v = ctx.parsed.y;
+              if (v === null || v === undefined) return 'No data for this round';
+              const leader = v >= 0 ? nameA : nameB;
+              return `${leader} ahead by ${formatDkk(Math.abs(v))}`;
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
 function render(data) {
   const scrapedDate = new Date(data.scraped_at);
   document.getElementById('scraped-at').textContent =
@@ -890,9 +1022,11 @@ function render(data) {
   const globalRoundPoints = buildGlobalRoundPointsByRider(data.master_riders);
   const differentialWatch = computeDifferentialWatch(popularity, pointsByRider, 3);
 
+  const resultsPending = isRoundResultsPending(data.master_riders);
+
   let transferActivityHtml;
   if (totalTradesThisRound > 0) {
-    transferActivityHtml = renderTransferActivity(teamTrades, proTeamAbbr, globalRoundPoints);
+    transferActivityHtml = renderTransferActivity(teamTrades, proTeamAbbr, globalRoundPoints, resultsPending);
   } else {
     // Nothing to show for trades yet - fall back to who's scoring best this
     // round regardless of ownership, rather than leaving the module blank.
@@ -971,6 +1105,18 @@ function render(data) {
           <canvas id="trajectory-chart"></canvas>
         </div>
       </section>
+      <section>
+        <h2>Compare two teams</h2>
+        <p class="section-subhead">How the total value gap between two teams has evolved round by round.</p>
+        <div class="compare-controls">
+          <select class="compare-select" id="compare-team-a"></select>
+          <span class="compare-vs">vs</span>
+          <select class="compare-select" id="compare-team-b"></select>
+        </div>
+        <div class="chart-container">
+          <canvas id="compare-chart"></canvas>
+        </div>
+      </section>
     </div>
     <div class="tab-panel" data-panel="head-to-head">
       <section>
@@ -996,6 +1142,10 @@ function render(data) {
     renderTrajectoryChart(teams, btn.dataset.mode);
   });
 
+  populateCompareSelects(standings);
+  document.getElementById('compare-team-a').addEventListener('change', () => renderCompareChart(standings));
+  document.getElementById('compare-team-b').addEventListener('change', () => renderCompareChart(standings));
+
   document.getElementById('rider-grid-container').addEventListener('click', (evt) => {
     const header = evt.target.closest('[data-sort]');
     if (!header) return;
@@ -1011,6 +1161,7 @@ function render(data) {
     if (tab === 'trends') {
       const mode = document.querySelector('#trajectory-toggle .active')?.dataset.mode || 'value';
       renderTrajectoryChart(teams, mode);
+      renderCompareChart(standings);
     }
   });
 
