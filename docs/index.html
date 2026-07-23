@@ -210,8 +210,14 @@
   .overlap-cell { height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 600; cursor: pointer; }
   .overlap-cell.overlap-diag { background: transparent; cursor: default; }
   .overlap-cell:not(.overlap-diag):hover { outline: 2px solid var(--text); outline-offset: -2px; }
-  .rider-grid-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
-  .rider-grid { display: grid; gap: 2px; font-size: 12px; }
+  .rider-grid-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .rider-grid-legend { position: absolute; top: 2px; left: 2px; display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--text-muted); }
+  .rider-grid-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .rider-grid-legend .legend-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 4px; font-weight: 700; font-size: 10px; }
+  .rider-grid-legend .legend-owned { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); }
+  .rider-grid-legend .legend-captain { background: color-mix(in srgb, #d4a017 22%, transparent); font-size: 11px; }
+  .rider-grid-scroll { overflow-x: auto; }
+  .rider-grid { display: grid; gap: 2px; font-size: 12px; position: relative; }
   .rider-grid-col-header { position: relative; }
   .rider-grid-col-header span { position: absolute; bottom: 6px; left: 16px; transform: rotate(-45deg); transform-origin: left bottom; white-space: nowrap; font-size: 11px; font-weight: 600; color: var(--text-muted); }
   .rider-grid-row-header { display: flex; align-items: center; gap: 6px; padding-right: 8px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -615,7 +621,19 @@ function sharedRiders(teamA, teamB) {
   return teamA.roster.filter(r => bKeys.has(`${r.name}|${r.pro_team}`));
 }
 
-function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, sortMode) {
+function buildAddedRidersByTeam(teamTrades) {
+  const map = {};
+  for (const { team, trades } of teamTrades) {
+    const set = new Set();
+    for (const { in: inRider } of trades) {
+      if (inRider) set.add(`${inRider.name}|${inRider.pro_team}`);
+    }
+    map[team.label] = set;
+  }
+  return map;
+}
+
+function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, sortMode, addedRidersByTeam) {
   const n = standings.length;
   const rows = [...popularity].sort((a, b) => {
     if (sortMode === 'price') {
@@ -629,6 +647,7 @@ function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider
   const arrow = ' <span class="rider-grid-sort-arrow">▾</span>';
   let cells = `<div class="rider-grid-cell rider-grid-corner rider-grid-fixed-header">Rider</div>`;
   cells += `<div class="rider-grid-cell rider-grid-fixed-header rider-grid-sortable" data-sort="price">Price${sortMode === 'price' ? arrow : ''}</div>`;
+  cells += `<div class="rider-grid-cell rider-grid-fixed-header" title="Teams that added this rider this round">New</div>`;
   cells += `<div class="rider-grid-cell rider-grid-fixed-header rider-grid-sortable" data-sort="ownership">Own.${sortMode === 'ownership' ? arrow : ''}</div>`;
   for (let j = 0; j < n; j++) {
     const name = standings[j].header.team_name || standings[j].label;
@@ -639,15 +658,20 @@ function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider
     const owners = new Set(p.owned_by_teams);
     const captains = captainTeamsByRider[key];
     const price = priceByRider[key];
+    const newCount = standings.filter(s => addedRidersByTeam?.[s.label]?.has(key)).length;
     cells += `<div class="rider-grid-row-header">${jerseyIcon(p.pro_team, proTeamAbbr)}<span>${p.name}</span></div>`;
     cells += `<div class="rider-grid-cell rider-grid-value">${price != null ? formatDkk(price) : '-'}</div>`;
+    cells += `<div class="rider-grid-cell rider-grid-value">${newCount ? `<span class="pts-positive">+${newCount}</span>` : '-'}</div>`;
     cells += `<div class="rider-grid-cell rider-grid-value">${p.owned_by_count}/${n}</div>`;
     for (let j = 0; j < n; j++) {
       const label = standings[j].label;
+      const addedThisRound = addedRidersByTeam?.[label]?.has(key);
       if (!owners.has(label)) {
         cells += `<div class="rider-grid-cell"></div>`;
       } else if (captains?.has(label)) {
         cells += `<div class="rider-grid-cell rider-grid-owned rider-grid-captain" title="Captain">👑</div>`;
+      } else if (addedThisRound) {
+        cells += `<div class="rider-grid-cell rider-grid-owned" title="Added this round">+</div>`;
       } else {
         cells += `<div class="rider-grid-cell rider-grid-owned">✓</div>`;
       }
@@ -656,8 +680,15 @@ function renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider
 
   return `
     <div class="rider-grid-wrap">
-      <div class="rider-grid" style="grid-template-columns: 170px 76px 54px repeat(${n}, 34px); grid-template-rows: 100px repeat(${rows.length}, 30px);">
-        ${cells}
+      <div class="rider-grid-scroll">
+        <div class="rider-grid" style="grid-template-columns: 200px 76px 54px 54px repeat(${n}, 34px); grid-template-rows: 100px repeat(${rows.length}, 30px);">
+          <div class="rider-grid-legend">
+            <span><span class="legend-icon legend-owned">✓</span>Owned</span>
+            <span><span class="legend-icon legend-owned">+</span>Added this round</span>
+            <span><span class="legend-icon legend-captain">👑</span>Captain</span>
+          </div>
+          ${cells}
+        </div>
       </div>
     </div>
   `;
@@ -1101,9 +1132,10 @@ function render(data) {
   for (const r of Object.values(data.master_riders || {})) {
     priceByRider[`${r.name}|${r.pro_team}`] = r.price;
   }
-  const riderGridHtml = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, 'ownership');
-
   const teamTrades = computeTeamTrades(teams, data.round_baseline);
+  const addedRidersByTeam = buildAddedRidersByTeam(teamTrades);
+  const riderGridHtml = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, 'ownership', addedRidersByTeam);
+
   const totalTradesThisRound = teamTrades.reduce((s, t) => s + t.trades.length, 0);
   const pointsByRider = buildRoundPointsByRider(teams);
   const globalRoundPoints = buildGlobalRoundPointsByRider(data.master_riders);
@@ -1292,7 +1324,7 @@ function render(data) {
   document.getElementById('rider-grid-container').addEventListener('click', (evt) => {
     const header = evt.target.closest('[data-sort]');
     if (!header) return;
-    document.getElementById('rider-grid-container').innerHTML = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, header.dataset.sort);
+    document.getElementById('rider-grid-container').innerHTML = renderRiderGrid(standings, popularity, proTeamAbbr, captainTeamsByRider, priceByRider, header.dataset.sort, addedRidersByTeam);
   });
 
   document.getElementById('main-tabs').addEventListener('click', (evt) => {
