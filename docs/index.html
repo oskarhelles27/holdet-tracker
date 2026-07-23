@@ -135,6 +135,13 @@
   .value-tooltip { visibility: hidden; opacity: 0; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 11px; font-weight: 400; line-height: 1.4; padding: 8px 10px; border-radius: 6px; width: 230px; box-shadow: 0 6px 16px rgba(0,0,0,0.18); transition: opacity .15s ease; z-index: 10; text-align: left; white-space: normal; pointer-events: none; }
   .value-pill-wrap:hover .value-tooltip { visibility: visible; opacity: 1; }
   .value-summary-note { font-size: 11px; color: var(--text-muted); font-style: italic; margin: -4px 0 8px; }
+  .value-term.value-pill-wrap { cursor: default; border-bottom: 1px dotted var(--text-muted); }
+  .breakdown-tooltip { width: 230px; text-align: left; }
+  .breakdown-title { font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .breakdown-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 2px 0; }
+  .breakdown-name { display: flex; align-items: center; gap: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+  .breakdown-row > span:last-child { white-space: nowrap; flex-shrink: 0; }
+  .breakdown-empty { color: var(--text-muted); }
   .pending-badge { font-size: 11px; font-weight: 600; background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
   :root[data-theme="dark"] .pending-badge { background: #4A3B14; color: #FBBF24; }
   .transfer-detail summary { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; list-style: none; }
@@ -386,19 +393,32 @@ function computeTransferValue(trades, globalRoundPoints) {
   // dropped by every team in the group no longer appears on any roster but
   // still has this round's price change recorded game-wide.
   let cost = 0, gained = 0, lost = 0, missingCount = 0;
+  const gainedBreakdown = [], lostBreakdown = [], feeBreakdown = [];
   for (const { out, in: inRider } of trades) {
     if (inRider) {
-      cost += (inRider.value || 0) * 0.01;
+      const fee = (inRider.value || 0) * 0.01;
+      cost += fee;
+      feeBreakdown.push({ name: inRider.name, pro_team: inRider.pro_team, amount: fee });
       const g = globalRoundPoints[`${inRider.name}|${inRider.pro_team}`];
-      if (g === undefined) missingCount++; else gained += g;
+      if (g === undefined) missingCount++; else { gained += g; gainedBreakdown.push({ name: inRider.name, pro_team: inRider.pro_team, amount: g }); }
     }
     if (out) {
       const l = globalRoundPoints[`${out.name}|${out.pro_team}`];
-      if (l === undefined) missingCount++; else lost += l;
+      if (l === undefined) missingCount++; else { lost += l; lostBreakdown.push({ name: out.name, pro_team: out.pro_team, amount: l }); }
     }
   }
   const net = trades.length ? gained - lost - cost : null;
-  return { cost, gained, lost, net, missingCount };
+  return { cost, gained, lost, net, missingCount, gainedBreakdown, lostBreakdown, feeBreakdown };
+}
+
+function breakdownTooltipRows(list, proTeamAbbr, signed) {
+  if (!list.length) return '<div class="breakdown-empty">No data</div>';
+  return [...list].sort((a, b) => Math.abs(b.amount) - Math.abs(a.amount)).map(r => `
+    <div class="breakdown-row">
+      <span class="breakdown-name">${jerseyIcon(r.pro_team, proTeamAbbr)}<span>${r.name}</span></span>
+      <span>${signed ? formatSignedKr(r.amount) : formatKr(r.amount)}</span>
+    </div>
+  `).join('');
 }
 
 function isRoundResultsPending(masterRiders) {
@@ -425,10 +445,18 @@ function renderTransferActivity(teamTrades, proTeamAbbr, globalRoundPoints, resu
             </div>
           `).join('')}
         `;
+        const feeTermHtml = `
+          <span class="value-term value-pill-wrap">Fee <span class="pts-negative">${formatKr(value.cost)}</span>
+            <span class="value-tooltip breakdown-tooltip">
+              <div class="breakdown-title">1% fee per incoming rider</div>
+              ${breakdownTooltipRows(value.feeBreakdown, proTeamAbbr, false)}
+            </span>
+          </span>
+        `;
         const pendingHtml = `
           <div class="value-summary">
             <span class="pending-badge">⏳ Results pending</span>
-            <span class="value-term">Fee <span class="pts-negative">${formatKr(value.cost)}</span></span>
+            ${feeTermHtml}
           </div>
           ${tradeRowsHtml}
         `;
@@ -437,15 +465,25 @@ function renderTransferActivity(teamTrades, proTeamAbbr, globalRoundPoints, resu
             <summary>
               <span class="chevron">▸</span>
               <div class="value-summary">
-                <span class="value-term">New riders <span class="pts-positive">${formatKr(value.gained)}</span></span>
+                <span class="value-term value-pill-wrap">New riders ${formatSignedKr(value.gained)}
+                  <span class="value-tooltip breakdown-tooltip">
+                    <div class="breakdown-title">New riders' round value change</div>
+                    ${breakdownTooltipRows(value.gainedBreakdown, proTeamAbbr, true)}
+                  </span>
+                </span>
                 <span class="value-op">&minus;</span>
-                <span class="value-term">Old riders <span class="pts-negative">${formatKr(value.lost)}</span></span>
+                <span class="value-term value-pill-wrap">Old riders ${formatSignedKr(value.lost)}
+                  <span class="value-tooltip breakdown-tooltip">
+                    <div class="breakdown-title">Old riders' round value change</div>
+                    ${breakdownTooltipRows(value.lostBreakdown, proTeamAbbr, true)}
+                  </span>
+                </span>
                 <span class="value-op">&minus;</span>
-                <span class="value-term">Fee <span class="pts-negative">${formatKr(value.cost)}</span></span>
+                ${feeTermHtml}
                 <span class="value-op">=</span>
                 <span class="value-pill-wrap">
                   <span class="value-pill ${value.net > 0 ? 'pill-positive' : value.net < 0 ? 'pill-negative' : ''}">Net ${formatSignedKr(value.net)}${value.net > 0 ? ' ✓' : value.net < 0 ? ' ✗' : ''}</span>
-                  <span class="value-tooltip">New riders' value gained since being drafted, minus what the old riders would have gained had they stayed, minus the 1% transfer fee on each incoming rider. Positive means these trades added more value than they cost.</span>
+                  <span class="value-tooltip">How much value the new riders gained this round, minus how much the old riders gained (or lost) this round, minus the 1% transfer fee on each incoming rider. If "Old riders" is negative, they lost value this round, so subtracting that negative number adds to your net - dropping them was good. Positive net means these trades added more value than they cost.</span>
                 </span>
               </div>
             </summary>
