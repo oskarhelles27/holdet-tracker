@@ -8,7 +8,8 @@ on:
     # stages of the 2026 Tour that falls between 09:20 and 15:05 UTC, so we
     # poll every 30 min through that window to pick up the new rosters
     # shortly after they unlock, rather than waiting for a single nightly run.
-    - cron: '*/30 8-15 * * *'
+    # Extended to 19:00 UTC since scoring is sometimes posted late.
+    - cron: '*/30 8-19 * * *'
     # Nightly fallback in case an intraday run fails for some reason.
     - cron: '0 20 * * *'
   workflow_dispatch: {}  # lets you trigger a run manually from the Actions tab
